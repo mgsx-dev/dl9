@@ -1,0 +1,78 @@
+buildscript {
+	repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    
+    apply from: "${sourceFile.parent}/common.gradle"
+    
+}
+
+apply plugin: 'java'
+
+task inkscapeAvailable(type: Exec){
+	commandLine 'inkscape', '-V'
+}
+
+def inkscapeEdit(src){
+	task "inkscapeEdit_${src}"(type: Exec, dependsOn: inkscapeAvailable, group: "gdx") {
+	  	description = "Edit SVG file"
+	  	commandLine 'inkscape', "$projectDir/$src"
+   	} 
+}
+
+def inkscapeExport(src, dst){
+	task "inkscapeExport_${src}"(type: Exec, dependsOn: inkscapeAvailable, group: "gdx") {
+	  	description = "Export SVG to PNG"
+	  	def inFile = new File("$projectDir/$src")
+	  	def name = inFile.name.take(inFile.name.lastIndexOf('.'))
+	  	def outFile = new File("$dst/${name}.png")
+		commandLine 'inkscape', '-z', "-e=$outFile", "$inFile"
+		outputs.upToDateWhen { outFile.exists() && inFile.lastModified() < outFile.lastModified() }
+   	} 
+}
+
+def inkscapeExportLayers(src, dst, layers){
+	task "inkscapeExportLayers_$dst"(type: Exec, dependsOn: inkscapeAvailable, group: "gdx") {
+		description = "Export SVG layers to PNG"
+	  	def inFile = new File("$projectDir/$src")
+	  	def name = inFile.name.take(inFile.name.lastIndexOf('.'))
+	  	def outFile = new File("$dst")
+	  	
+	  	def tmpFile = new File("$buildDir/tmp.svg")
+	  	
+	  	doFirst{
+	  	    outFile.getParentFile().mkdirs()
+	  	    
+	  	    def xml = new XmlParser().parse(inFile)
+	  	
+		  	def svg_ns = new groovy.xml.Namespace("http://www.w3.org/2000/svg",'svg')
+		  	def inkscape_ns = new groovy.xml.Namespace("http://www.inkscape.org/namespaces/inkscape", 'inkscape')
+		  	
+		  	// remove other layers
+		  	xml."**".findAll { node->
+		  		if(node.name() == svg_ns.g && 
+		  			node.attributes()[inkscape_ns.groupmode] == "layer" &&
+		  			!(node.attributes()[inkscape_ns.label] in layers) &&
+		  			node.parent() != null){
+		  			node.parent().remove(node)
+		  	    }
+		  	}
+		  	
+		  	// remove layers we want to keep
+		  	
+		  	new XmlNodePrinter(new PrintWriter(new FileWriter(tmpFile))).print(xml)
+	  	}
+	  	
+		commandLine 'inkscape', '-z', "-e=$outFile", "$tmpFile"
+		outputs.upToDateWhen { outFile.exists() && inFile.lastModified() < outFile.lastModified() }
+   	} 
+}
+
+ext {
+    inkscapeEdit = this.&inkscapeEdit
+    inkscapeExport = this.&inkscapeExport
+    inkscapeExportLayers = this.&inkscapeExportLayers
+}
+
+

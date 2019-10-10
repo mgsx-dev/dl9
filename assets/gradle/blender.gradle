@@ -1,0 +1,49 @@
+buildscript {
+	repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    
+    apply from: "${sourceFile.parent}/common.gradle"
+    
+}
+
+apply plugin: 'java'
+
+task blenderAvailable(type: Exec){
+	commandLine "blender", "-b", "-v"
+}
+
+def blenderRenderFrame(src, frame, dst){
+
+	task "blenderRenderFrame_$dst"(type: Exec, group: 'gdx'){
+		def inFile = new File(src)
+		def outFile = new File(dst)
+		doFirst{
+			outFile.delete()
+		}
+		commandLine 'blender', '-b', "$projectDir/$src", '-o', "$dst#", '-f', "$frame"
+		doLast{
+			new File("${dst}${frame}.png").renameTo(dst)
+		}
+		// outputs.upToDateWhen { outFile.exists() && inFile.lastModified() < outFile.lastModified() }
+	}
+
+}
+
+def blenderRenderAnimation(src, dst){
+	task "blenderRenderAnimation_$dst"(type: Exec, group: 'gdx'){
+		// note that the suffix "_#" is required for texture atlas frames recognition.
+		commandLine 'blender', '-b', "$projectDir/$src", '-o', "${dst}_#", '-a'
+		// TODO outputs.upToDateWhen { outFile.exists() && inFile.lastModified() < outFile.lastModified() }
+	}
+
+}
+
+
+ext {
+    blenderRenderFrame = this.&blenderRenderFrame
+    blenderRenderAnimation = this.&blenderRenderAnimation
+}
+
+

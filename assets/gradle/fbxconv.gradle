@@ -1,0 +1,44 @@
+buildscript {
+	repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    
+    apply from: "${sourceFile.parent}/common.gradle"
+    
+}
+/**
+
+fbx-conv -o G3DJ -v $src.fbx $dst.g3dj
+fbx-conv -o G3DB -v $src.fbx $dst.g3db
+
+fbx-conv -o FBX -v $src.g3dj $dst.g3dj
+fbx-conv -o FBX -v $src.g3db $dst.g3dj
+
+*/
+
+
+
+apply plugin: 'base'
+
+def fbxConvTask(src, dst, binary = false){
+	task "fbxConv_${dst}"(type: Exec, group: "gdx") {
+	  	description = "Convert FBX to G3D using fbx-conv"
+	  	def inFile = new File("$projectDir/$src") // TODO src may be in $buildDir (typical) so don't use $projectDir reference
+	  	def name = inFile.name.take(inFile.name.lastIndexOf('.'))
+	  	def outFile = new File("$projectDir/$dst")
+	  	def type = binary ? 'G3DB' : 'G3DJ'
+	  	doFirst{
+	  	    outFile.getParentFile().mkdirs()
+	  	}
+	  	// -f option to flip V texture coordinates from blender
+		commandLine 'fbx-conv', '-f', '-o', type, '-v', "$inFile", "$outFile"
+		outputs.upToDateWhen { outFile.exists() && inFile.lastModified() < outFile.lastModified() }
+   	} 
+}
+
+ext {
+    fbxConvTask = this.&fbxConvTask
+}
+
+

@@ -1,0 +1,79 @@
+buildscript {
+	repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    
+    apply from: "${sourceFile.parent}/common.gradle"
+}
+
+apply plugin: 'base'
+
+
+def gimpExport(src, dst){
+
+	def t = task "gimpExport_$src"(type: Exec){
+		commandLine 'gimp', '-i', '--batch-interpreter=python-fu-eval', '-b', '-'
+		def script = """\
+import gimpfu
+
+infile = "$projectDir/$src"
+outfile = "$dst"
+
+img = pdb.gimp_file_load(infile, infile)
+
+new_image = pdb.gimp_image_duplicate(img)
+layer = pdb.gimp_image_merge_visible_layers(new_image, CLIP_TO_IMAGE)
+pdb.gimp_file_save(new_image, layer, outfile, outfile)
+
+pdb.gimp_image_delete(new_image)
+pdb.gimp_image_delete(img)
+pdb.gimp_quit(1)
+"""
+		standardInput = new ByteArrayInputStream(script.getBytes())
+	}
+	
+	t.doFirst { 
+		new File(dst).parent.mkdirs()
+	}
+
+
+	return t
+
+}
+
+
+def gimpExportLayers(src, dst){
+
+	def t = task "gimpExportLayers_$src"(type: Exec){
+		commandLine 'gimp', '-i', '--batch-interpreter=python-fu-eval', '-b', '-'
+		def script = """\
+import gimpfu
+
+filename = "$projectDir/$src"
+outdir = "$dst"
+			
+img = pdb.gimp_file_load(filename, filename)
+			
+for layer in img.layers:
+	new_name = outdir + "/" + layer.name + ".png"
+	pdb.gimp_file_save(img, layer, new_name, new_name)
+			
+pdb.gimp_image_delete(img)
+pdb.gimp_quit(1)
+"""
+		standardInput = new ByteArrayInputStream(script.getBytes())
+	}
+	
+	t.doFirst { 
+		new File(dst).mkdirs()
+	}
+
+
+	return t
+}
+
+ext {
+	gimpExport = this.&gimpExport
+    gimpExportLayers = this.&gimpExportLayers
+}

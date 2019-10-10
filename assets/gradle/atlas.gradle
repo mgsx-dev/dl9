@@ -1,0 +1,42 @@
+buildscript {
+	repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    
+    apply from: "${sourceFile.parent}/common.gradle"
+    
+    dependencies {
+    	classpath "com.badlogicgames.gdx:gdx-tools:$gdxToolingVersion"
+    }
+}
+
+apply plugin: 'java'
+
+
+def gdxAtlasPack(src, dst){
+	def srcDir = new File(src)
+	def dstFile = new File("$projectDir/$dst")
+	def dstDir = dstFile.parent
+	def dstName = dstFile.name
+	def copyTask = task "gdxAtlasCopy_$dst"(type: Copy, group: "gdx"){
+		from(src){
+			include "*.fnt"
+		}
+		into dstDir
+	}
+	task "gdxAtlasPack_$dst"(group: "gdx"){
+		doLast{
+			new File(dstDir).mkdirs()
+			com.badlogic.gdx.tools.texturepacker.TexturePacker.process("$srcDir/", "$dstDir/", "$dstName")
+			copyTask.execute()
+		}
+		// TODO update when : compare all files in src and atlas 
+	}
+}
+
+ext {
+    gdxAtlasPack = this.&gdxAtlasPack
+}
+
+

@@ -1,0 +1,30 @@
+buildscript {
+	repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    
+    apply from: "${sourceFile.parent}/common.gradle"
+    
+    dependencies {
+    	classpath "com.badlogicgames.gdx:gdx-tools:$gdxToolingVersion"
+    	classpath "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxToolingVersion"
+    	classpath "com.badlogicgames.gdx:gdx-platform:$gdxToolingVersion:natives-desktop"
+    }
+}
+
+apply plugin: 'java'
+
+def tiledMapPacker(src, dst){
+
+	task "tiledMapPacker_$src"(type: JavaExec){
+		classpath = buildscript.configurations.classpath
+		main = 'com.badlogic.gdx.tiledmappacker.TiledMapPacker'
+		args = ["$projectDir/$src", dst, "--strip-unused", "--combine-tilesets", "-v"]
+	}
+
+}
+
+ext {
+    tiledMapPacker = this.&tiledMapPacker
+}

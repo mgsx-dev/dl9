@@ -1,0 +1,59 @@
+buildscript {
+	repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    
+    apply from: "${sourceFile.parent}/common.gradle"
+    
+    dependencies {
+    	classpath "com.badlogicgames.gdx:gdx-tools:$gdxToolingVersion"
+    	classpath "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxToolingVersion"
+    	classpath "com.badlogicgames.gdx:gdx-platform:$gdxToolingVersion:natives-desktop"
+    }
+}
+
+apply plugin: 'java'
+
+def gdxHieroLocalPath(){
+	return System.getProperty('user.home') + "/runnable-hiero.jar"
+}
+
+// TODO download locally with precise version if possible
+task gdxHieroDownload(type: Exec, group: 'gdx') {
+	def tmpFile = gdxHieroLocalPath()
+	commandLine 'wget', '-O', tmpFile, 'https://libgdx.badlogicgames.com/nightlies/runnables/runnable-hiero.jar'
+	outputs.upToDateWhen { new File(tmpFile).exists() }
+}
+
+task gdxHieroRun(type: Exec, dependsOn: gdxHieroDownload, group: 'gdx') {
+	commandLine 'java', '-jar', gdxHieroLocalPath()
+}
+
+def gdxHieroEdit(src){
+	task "gdxHieroEdit_$src"(type: Exec, dependsOn: gdxHieroDownload, group: 'gdx'){
+		commandLine 'java', '-jar', gdxHieroLocalPath(), "-i", src
+	}
+}
+
+def gdxHieroExport(src, dst){
+	gdxHieroEdit(src)
+	task "gdxHieroExport_$src"(type: Exec, dependsOn: gdxHieroDownload, group: 'gdx'){
+		def inFile = new File(src)
+		def name = inFile.name.take(inFile.name.lastIndexOf('.'))
+		def outFile1 = new File("$dst/$name" + ".png")
+		def outFile2 = new File("$dst/$name" + ".fnt")
+		doFirst{
+			new File(dst).mkdirs()
+		}
+		commandLine 'java', '-jar', gdxHieroLocalPath(), '-b', '-i', inFile, '-o', "$dst/$name"
+		outputs.upToDateWhen { outFile1.exists() && inFile.lastModified() < outFile1.lastModified() && outFile2.exists() && inFile.lastModified() < outFile2.lastModified() }
+	}
+}
+
+ext {
+    gdxHieroEdit = this.&gdxHieroEdit
+    gdxHieroExport = this.&gdxHieroExport
+}
+
+
