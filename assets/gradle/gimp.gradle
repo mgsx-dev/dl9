@@ -43,7 +43,7 @@ pdb.gimp_quit(1)
 }
 
 
-def gimpExportLayers(src, dst){
+def gimpExportLayers(src, dst, def ext = ".png"){
 
 	def t = task "gimpExportLayers_$src"(type: Exec){
 		commandLine 'gimp', '-i', '--batch-interpreter=python-fu-eval', '-b', '-'
@@ -54,10 +54,17 @@ filename = "$projectDir/$src"
 outdir = "$dst"
 			
 img = pdb.gimp_file_load(filename, filename)
-			
-for layer in img.layers:
-	new_name = outdir + "/" + layer.name + ".png"
-	pdb.gimp_file_save(img, layer, new_name, new_name)
+
+def exportLayersRecursive(img, parent):
+	for layer in parent.layers:
+		print(layer.name)
+		if layer.name.endswith(".png"):
+			new_name = outdir + "/" + layer.name + "$ext"
+			pdb.gimp_file_save(img, layer, new_name, new_name)
+		else:
+			exportLayersRecursive(img,layer)
+
+exportLayersRecursive(img, img)
 			
 pdb.gimp_image_delete(img)
 pdb.gimp_quit(1)
