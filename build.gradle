@@ -29,7 +29,7 @@ allprojects {
         aiVersion = '1.8.0'
         junitVersion = '4.12'
         gltfVersion = 'master-SNAPSHOT'
-        pieMenuVersion = '2d3a1a7379'
+        pieMenuVersion = '3.0.0-rc1'
     }
 
     repositories {
