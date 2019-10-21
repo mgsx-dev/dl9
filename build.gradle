@@ -28,7 +28,7 @@ allprojects {
         ashleyVersion = '1.7.3'
         aiVersion = '1.8.0'
         junitVersion = '4.12'
-        gltfVersion = 'master-SNAPSHOT'
+        gltfVersion = '995d966b49' // 'master-SNAPSHOT'
         pieMenuVersion = '3.0.0-rc1'
     }
 

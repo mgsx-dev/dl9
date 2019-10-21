@@ -1,0 +1,210 @@
+{
+    "asset" : {
+        "copyright" : "mgsx",
+        "generator" : "Khronos glTF Blender I/O v0.9.36",
+        "version" : "2.0"
+    },
+    "scene" : 0,
+    "scenes" : [
+        {
+            "extras" : {
+                "glTF2ExportSettings" : {
+                    "export_apply" : 1,
+                    "export_cameras" : 1,
+                    "export_copyright" : "mgsx",
+                    "export_current_frame" : 1,
+                    "export_extras" : 1,
+                    "export_format" : "GLTF_SEPARATE",
+                    "export_lights" : 1,
+                    "export_selected" : 1,
+                    "export_tangents" : 1
+                }
+            },
+            "name" : "Scene",
+            "nodes" : [
+                0
+            ]
+        }
+    ],
+    "nodes" : [
+        {
+            "mesh" : 0,
+            "name" : "mob full",
+            "translation" : [
+                19.406644821166992,
+                0.0028082653880119324,
+                13.852466583251953
+            ]
+        }
+    ],
+    "materials" : [
+        {
+            "doubleSided" : true,
+            "emissiveFactor" : [
+                1,
+                1,
+                1
+            ],
+            "emissiveTexture" : {
+                "index" : 0,
+                "texCoord" : 0
+            },
+            "name" : "Mob",
+            "normalTexture" : {
+                "index" : 1,
+                "texCoord" : 0
+            },
+            "pbrMetallicRoughness" : {
+                "baseColorTexture" : {
+                    "index" : 2,
+                    "texCoord" : 0
+                },
+                "metallicFactor" : 0,
+                "metallicRoughnessTexture" : {
+                    "index" : 3,
+                    "texCoord" : 0
+                }
+            }
+        }
+    ],
+    "meshes" : [
+        {
+            "name" : "Cube.021",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 0,
+                        "NORMAL" : 1,
+                        "TANGENT" : 2,
+                        "TEXCOORD_0" : 3,
+                        "COLOR_0" : 4
+                    },
+                    "indices" : 5,
+                    "material" : 0
+                }
+            ]
+        }
+    ],
+    "textures" : [
+        {
+            "source" : 0
+        },
+        {
+            "source" : 1
+        },
+        {
+            "source" : 2
+        },
+        {
+            "source" : 3
+        }
+    ],
+    "images" : [
+        {
+            "mimeType" : "image/png",
+            "name" : "BackedMat Emissive Color",
+            "uri" : "BackedMat Emissive Color.png"
+        },
+        {
+            "mimeType" : "image/png",
+            "name" : "Mob Normal",
+            "uri" : "Mob Normal.png"
+        },
+        {
+            "mimeType" : "image/png",
+            "name" : "Mob Base Color",
+            "uri" : "Mob Base Color.png"
+        },
+        {
+            "mimeType" : "image/png",
+            "name" : "Mob Roughness",
+            "uri" : "Mob Roughness.png"
+        }
+    ],
+    "accessors" : [
+        {
+            "bufferView" : 0,
+            "componentType" : 5126,
+            "count" : 2763,
+            "max" : [
+                0.26857832074165344,
+                1.8854678869247437,
+                0.36144742369651794
+            ],
+            "min" : [
+                -0.23927387595176697,
+                -0.012118889950215816,
+                -0.35704728960990906
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 1,
+            "componentType" : 5126,
+            "count" : 2763,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 2,
+            "componentType" : 5126,
+            "count" : 2763,
+            "type" : "VEC4"
+        },
+        {
+            "bufferView" : 3,
+            "componentType" : 5126,
+            "count" : 2763,
+            "type" : "VEC2"
+        },
+        {
+            "bufferView" : 4,
+            "componentType" : 5126,
+            "count" : 2763,
+            "type" : "VEC4"
+        },
+        {
+            "bufferView" : 5,
+            "componentType" : 5123,
+            "count" : 8154,
+            "type" : "SCALAR"
+        }
+    ],
+    "bufferViews" : [
+        {
+            "buffer" : 0,
+            "byteLength" : 33156,
+            "byteOffset" : 0
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 33156,
+            "byteOffset" : 33156
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 44208,
+            "byteOffset" : 66312
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 22104,
+            "byteOffset" : 110520
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 44208,
+            "byteOffset" : 132624
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 16308,
+            "byteOffset" : 176832
+        }
+    ],
+    "buffers" : [
+        {
+            "byteLength" : 193140,
+            "uri" : "mob.bin"
+        }
+    ]
+}
