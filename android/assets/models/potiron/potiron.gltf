@@ -1,0 +1,258 @@
+{
+    "asset" : {
+        "copyright" : "mgsx",
+        "generator" : "Khronos glTF Blender I/O v0.9.36",
+        "version" : "2.0"
+    },
+    "scene" : 0,
+    "scenes" : [
+        {
+            "extras" : {
+                "glTF2ExportSettings" : {
+                    "export_apply" : 1,
+                    "export_copyright" : "mgsx",
+                    "export_extras" : 1,
+                    "export_format" : "GLTF_SEPARATE",
+                    "export_morph" : 1,
+                    "export_morph_tangent" : 1,
+                    "export_selected" : 1,
+                    "export_skins" : 0,
+                    "export_tangents" : 1
+                }
+            },
+            "name" : "Scene",
+            "nodes" : [
+                0
+            ]
+        }
+    ],
+    "nodes" : [
+        {
+            "mesh" : 0,
+            "name" : "Sphere.005",
+            "translation" : [
+                0,
+                0.1328861266374588,
+                0
+            ]
+        }
+    ],
+    "materials" : [
+        {
+            "emissiveFactor" : [
+                1,
+                1,
+                1
+            ],
+            "emissiveTexture" : {
+                "index" : 0,
+                "texCoord" : 0
+            },
+            "name" : "potiron LP",
+            "normalTexture" : {
+                "index" : 1,
+                "texCoord" : 0
+            },
+            "pbrMetallicRoughness" : {
+                "baseColorTexture" : {
+                    "index" : 2,
+                    "texCoord" : 0
+                },
+                "metallicFactor" : 0,
+                "roughnessFactor" : 0.4681818187236786
+            }
+        }
+    ],
+    "meshes" : [
+        {
+            "extras" : {
+                "targetNames" : [
+                    "Key 1",
+                    "Key 2"
+                ]
+            },
+            "name" : "Sphere.005",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 0,
+                        "NORMAL" : 1,
+                        "TEXCOORD_0" : 2
+                    },
+                    "indices" : 3,
+                    "material" : 0,
+                    "targets" : [
+                        {
+                            "POSITION" : 4,
+                            "NORMAL" : 5
+                        },
+                        {
+                            "POSITION" : 6,
+                            "NORMAL" : 7
+                        }
+                    ]
+                }
+            ],
+            "weights" : [
+                0,
+                0
+            ]
+        }
+    ],
+    "textures" : [
+        {
+            "source" : 0
+        },
+        {
+            "source" : 1
+        },
+        {
+            "source" : 2
+        }
+    ],
+    "images" : [
+        {
+            "mimeType" : "image/png",
+            "name" : "potiron LP Emi",
+            "uri" : "potiron LP Emi.png"
+        },
+        {
+            "mimeType" : "image/png",
+            "name" : "potiron LP Normal",
+            "uri" : "potiron LP Normal.png"
+        },
+        {
+            "mimeType" : "image/png",
+            "name" : "potiron Base Color",
+            "uri" : "potiron Base Color.png"
+        }
+    ],
+    "accessors" : [
+        {
+            "bufferView" : 0,
+            "componentType" : 5126,
+            "count" : 707,
+            "max" : [
+                0.21937143802642822,
+                0.22930166125297546,
+                0.21543356776237488
+            ],
+            "min" : [
+                -0.21937142312526703,
+                -0.1288069486618042,
+                -0.2194695919752121
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 1,
+            "componentType" : 5126,
+            "count" : 707,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 2,
+            "componentType" : 5126,
+            "count" : 707,
+            "type" : "VEC2"
+        },
+        {
+            "bufferView" : 3,
+            "componentType" : 5123,
+            "count" : 2142,
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 4,
+            "componentType" : 5126,
+            "count" : 707,
+            "max" : [
+                0,
+                0.056108057498931885,
+                0.013427600264549255
+            ],
+            "min" : [
+                -0.002200514078140259,
+                -0.025692351162433624,
+                0
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 5,
+            "componentType" : 5126,
+            "count" : 707,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 6,
+            "componentType" : 5126,
+            "count" : 707,
+            "max" : [
+                0,
+                0.025090521201491356,
+                0.00012916326522827148
+            ],
+            "min" : [
+                -0.002200514078140259,
+                -0.019643843173980713,
+                0
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 7,
+            "componentType" : 5126,
+            "count" : 707,
+            "type" : "VEC3"
+        }
+    ],
+    "bufferViews" : [
+        {
+            "buffer" : 0,
+            "byteLength" : 8484,
+            "byteOffset" : 0
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 8484,
+            "byteOffset" : 8484
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 5656,
+            "byteOffset" : 16968
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 4284,
+            "byteOffset" : 22624
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 8484,
+            "byteOffset" : 26908
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 8484,
+            "byteOffset" : 35392
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 8484,
+            "byteOffset" : 43876
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 8484,
+            "byteOffset" : 52360
+        }
+    ],
+    "buffers" : [
+        {
+            "byteLength" : 60844,
+            "uri" : "potiron.bin"
+        }
+    ]
+}

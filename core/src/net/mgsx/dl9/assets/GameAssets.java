@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import net.mgsx.dl9.audio.SoundSet;
+import net.mgsx.gltf.loaders.gltf.GLTFLoader;
+import net.mgsx.gltf.scene3d.scene.SceneAsset;
 
 public class GameAssets {
 	public static GameAssets i;
@@ -18,6 +20,9 @@ public class GameAssets {
 	public Sound sfxWindowOpen2;
 	public Sound sfxWindowClose1;
 	public Sound sfxWindowClose2;
+	public Sound sfxDeath;
+	public Sound sfxZombiAttack;
+	public Sound sfxChurch;
 
 	public Cursor cursorShoot;
 	public Cursor cursorReload;
@@ -31,7 +36,11 @@ public class GameAssets {
 	public SoundSet soundSetLaser;
 	public SoundSet soundSetMobShooted;
 	
-	public Music musicWitchIntro, musicWitch;
+	public Music musicWitchIntro, musicWitch, musicAction, musicAction2, musicCinematic1, musicCinematic2;
+	
+	public SceneAsset assetPotiron;
+
+	public SoundSet soundSetRandomThings;
 
 	public GameAssets(){
 		
@@ -47,6 +56,10 @@ public class GameAssets {
 		sfxWindowClose1 = Gdx.audio.newSound(Gdx.files.internal("sfx/windowclose1.wav"));
 		sfxWindowClose2 = Gdx.audio.newSound(Gdx.files.internal("sfx/windowclose2.wav"));
 		
+		sfxDeath = Gdx.audio.newSound(Gdx.files.internal("sfx/youdie.wav"));
+		sfxZombiAttack = Gdx.audio.newSound(Gdx.files.internal("sfx/zombieattack.wav"));
+		sfxChurch = Gdx.audio.newSound(Gdx.files.internal("sfx/church.wav"));
+		
 		soundSetSteps = loadSoundSet("foot-steps", 8);
 		soundSetHeartBeat = loadSoundSet("heart-beat", 2);
 		soundSetGunShots = loadSoundSet("gun-shot", 6);
@@ -57,12 +70,31 @@ public class GameAssets {
 		
 		musicWitchIntro = Gdx.audio.newMusic(Gdx.files.internal("music/introwitchtheme.mp3"));
 		musicWitch = Gdx.audio.newMusic(Gdx.files.internal("music/witchtheme.mp3"));
+		
+		musicAction = Gdx.audio.newMusic(Gdx.files.internal("music/themeaction-1.mp3"));
+		musicAction2 = Gdx.audio.newMusic(Gdx.files.internal("music/themeaction-2.mp3"));
+		musicCinematic1 = Gdx.audio.newMusic(Gdx.files.internal("music/themecinematic-1.mp3"));
+		musicCinematic2 = Gdx.audio.newMusic(Gdx.files.internal("music/themecinematic-2.mp3"));
+
+		
+		assetPotiron = new GLTFLoader().load(Gdx.files.internal("models/potiron/potiron.gltf"));
+		
+		soundSetRandomThings = loadSoundSet("baby-1", "dog-1", "dog-2", "church-shot", "strangefx", "wolf-1", "wolf-2");
+		soundSetRandomThings.durations.add(1f);
+		soundSetRandomThings.durations.add(3f);
+		soundSetRandomThings.durations.add(4f);
+		soundSetRandomThings.durations.add(9f);
+		soundSetRandomThings.durations.add(9f);
+		soundSetRandomThings.durations.add(8f);
+		soundSetRandomThings.durations.add(6f);
 	}
 	
-	private SoundSet loadSoundSet(String name) {
+	private SoundSet loadSoundSet(String ... names) {
 		SoundSet set = new SoundSet();
-		Sound snd = Gdx.audio.newSound(Gdx.files.internal("sfx").child(name + ".wav"));
-		set.sounds.add(snd);
+		for(String name : names){
+			Sound snd = Gdx.audio.newSound(Gdx.files.internal("sfx").child(name + ".wav"));
+			set.sounds.add(snd);
+		}
 		return set;
 	}
 

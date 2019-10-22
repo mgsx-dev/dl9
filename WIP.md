@@ -21,3 +21,5 @@ Models:
 * lights are not so intense as in Blender
 * no metallic baking: needs to fake it using roughness slot (too complicated with complex shaders)
 
+* vertex group without armature cause vertex weight/join export.. (bug GLTF ?)
+  solution: disable skinning when exporting

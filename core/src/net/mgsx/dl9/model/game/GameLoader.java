@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
 
 import net.mgsx.dl9.GameConfig;
@@ -29,6 +30,8 @@ public class GameLoader {
 		
 		Scene scene = gameLevel.scene = new Scene(asset.scene);
 		
+		Array<Node> toRemove = new Array<Node>();
+		
 		for(Node node : scene.modelInstance.nodes){
 			if(node.id.equals("mob full")){
 				// XXX gameLevel.mobNode = node;
@@ -44,10 +47,14 @@ public class GameLoader {
 				emitter.direction.set(Vector3.Y).rot(emitter.node.globalTransform).nor();
 				emitter.up.set(Vector3.X).rot(emitter.node.globalTransform).nor();
 
+				toRemove.add(node);
 				
 				gameLevel.emitters.add(emitter);
 			}
 		}
+		
+		// remove empties from scene
+		scene.modelInstance.nodes.removeAll(toRemove, true);
 		
 		gameLevel.mobNode = loadMob();
 		

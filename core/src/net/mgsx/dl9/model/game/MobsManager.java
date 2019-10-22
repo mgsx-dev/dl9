@@ -1,5 +1,6 @@
 package net.mgsx.dl9.model.game;
 
+import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
@@ -34,12 +35,16 @@ public class MobsManager {
 	}
 	
 	public Array<GameMob> spawnMobs(Array<MobEmitter> emitters){
+		return spawnMobs(emitters, level.mobNode);
+	}
+	
+	public Array<GameMob> spawnMobs(Array<MobEmitter> emitters, Node node){
 		Array<GameMob> mobs = new Array<GameMob>();
 		
 		for(int i=0 ; i<emitters.size ; i++){
 			MobEmitter emitter = emitters.get(i);
 			if(emitter.mob == null){
-				GameMob mob = emitter.mob = spawn(emitter);
+				GameMob mob = emitter.mob = spawn(emitter, node);
 				mobs.add(mob);
 			}
 		}
@@ -73,8 +78,11 @@ public class MobsManager {
 		}
 	}
 	
-	private GameMob spawn(MobEmitter emitter){
-		GameMob mob = new GameMob(level.mobNode.copy());
+	public GameMob spawn(MobEmitter emitter){
+		return spawn(emitter, level.mobNode);
+	}
+	public GameMob spawn(MobEmitter emitter, Node node){
+		GameMob mob = new GameMob(node.copy());
 		mob.position.set(emitter.position);
 		mob.direction.set(emitter.direction);
 		mob.up.set(emitter.up);
@@ -103,6 +111,9 @@ public class MobsManager {
 			// XXX mob.emitter.mob = null;
 		}
 	}
+	public void removeMobs(Array<GameMob> mobs) {
+		for(GameMob mob : mobs) removeMob(mob);
+	}
 
 	public GameMob spawnMobAt(Vector3 position) {
 		GameMob mob = new GameMob(level.mobNode.copy());
@@ -111,5 +122,7 @@ public class MobsManager {
 		level.mobs.add(mob);
 		return mob;
 	}
+
+	
 	
 }

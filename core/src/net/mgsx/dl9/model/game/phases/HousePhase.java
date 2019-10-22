@@ -130,6 +130,18 @@ public class HousePhase extends BaseActionPhase {
 	}
 	
 	@Override
+	public void finished() {
+		super.finished();
+		// cleanup 
+		for(WindowSpawn ws : windows){
+			if(ws.mob != null){
+				level.mobManager.removeMob(ws.mob);
+				ws.mob = null;
+			}
+		}
+	}
+	
+	@Override
 	public void update(float utime, float delta) {
 		this.time += delta;
 		

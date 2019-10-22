@@ -6,6 +6,8 @@ public class GameConfig {
 	public static final boolean DEBUG = true;
 	public static final boolean ALLOW_PAUSE = DEBUG;
 	public static final boolean DEBUG_NATIVE_CAMERA = false;
+	public static final boolean DEBUG_INVINCIBLE = true;
+	
 	
 	// Gameplay
 	public static final int MAX_BULLETS = 6;
@@ -27,5 +29,13 @@ public class GameConfig {
 	public static final float FOG_NEAR = .1f;
 	public static final float FOG_FAR = 20f;
 	public static final float FOG_EXP = 1f;
+	
+	// Options
+	public static final boolean ALLOW_FULLSCREEN = true;
+	public static final int WINDOW_WIDTH = 640;
+	public static final int WINDOW_HEIGHT = 480;
+	public static boolean DEFAULT_FULLSCREEN = false;
+	public static final boolean USE_VSYNC = false;
+	public static boolean FORCE_VSYNC = true;
 	
 }

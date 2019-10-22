@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import net.mgsx.dl9.assets.GameAssets;
 import net.mgsx.dl9.model.game.GameLevel;
 import net.mgsx.dl9.model.game.GameMob;
 import net.mgsx.dl9.model.game.MobLogic;
@@ -14,8 +15,8 @@ public class MobInFront extends MobLogic
 	private float time;
 	private float t;
 	
-	public float attackTimeout = 3f;
-	private float attackTime;
+	public float attackTimeout = 2f;
+	private float attackTime = 1f; // first attack happens sooner
 	
 	@Override
 	public void update(GameLevel level, GameMob mob, float delta) {
@@ -52,5 +53,10 @@ public class MobInFront extends MobLogic
 			level.mobShoot(mob);
 			attackTime = 0;
 		}
+	}
+	
+	@Override
+	public void shooting() {
+		GameAssets.i.sfxZombiAttack.play();
 	}
 }

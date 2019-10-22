@@ -14,7 +14,7 @@ public class ToBossPhase extends BaseCinematicPhase {
 	@Override
 	public void started() {
 		super.started();
-		GameAudio.i.playMusic(GameAssets.i.musicWitchIntro);
+		GameAudio.i.playMusic(GameAssets.i.musicAction);
 	}
 
 }

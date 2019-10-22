@@ -7,7 +7,7 @@ public class SoundPlayer {
 	
 	private float time;
 	private int index;
-
+	
 	public float volume = 1f;
 
 	public SoundPlayer(SoundSet soundSet) {

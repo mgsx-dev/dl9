@@ -25,6 +25,7 @@ public class EyeUI extends Group
 	
 	@Override
 	protected void drawChildren(Batch batch, float parentAlpha) {
+		batch.setColor(1, 1, 1, parentAlpha);
 		batch.draw(white, getX(), getY(), getWidth(), getHeight());
 		TextureRegion region = red;
 		batch.draw(region.getTexture(), 

@@ -15,7 +15,7 @@ public class BossPhase extends BaseActionPhase
 	@Override
 	public void started() {
 		super.started();
-		GameAudio.i.playMusic(GameAssets.i.musicWitch);
+		GameAudio.i.playMusic(GameAssets.i.musicAction2);
 	}
 
 }

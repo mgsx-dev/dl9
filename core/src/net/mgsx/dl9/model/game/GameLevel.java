@@ -6,9 +6,9 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
 
 import net.mgsx.dl9.GameConfig;
-import net.mgsx.dl9.assets.GameAssets;
 import net.mgsx.dl9.core.QueueSequence;
 import net.mgsx.dl9.core.SceneSequencer;
 import net.mgsx.dl9.core.collisions.ScreenRay;
@@ -33,7 +33,7 @@ import net.mgsx.dl9.vfx.CameraTrauma;
 import net.mgsx.gltf.scene3d.scene.Scene;
 import net.mgsx.gltf.scene3d.scene.SceneAsset;
 
-public class GameLevel {
+public class GameLevel implements Disposable {
 	public final Array<GameListener> listeners = new Array<GameListener>();
 	
 	private ScreenRay screenRay;
@@ -109,6 +109,12 @@ public class GameLevel {
 		sequencer.add(queue);
 	}
 	
+	@Override
+	public void dispose() {
+		asset.dispose();
+		screenRay.dispose();
+	}
+	
 	public void setActionPhase() {
 		actionPhase = true;
 		for(GameListener l : listeners){
@@ -127,10 +133,7 @@ public class GameLevel {
 		
 		if(GameConfig.DEBUG){
 			if(Gdx.input.isKeyJustPressed(Input.Keys.N)){
-				queue.next();
-			}
-			if(Gdx.input.isKeyJustPressed(Input.Keys.B)){
-				start();
+				if(queue != null) queue.next();
 			}
 			if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
 				setDead();
@@ -221,24 +224,29 @@ public class GameLevel {
 	private void mobShooted(GameMob mob, float depth) {
 		// TODO anim and such
 		mob.shooted = true;
+		mob.logic.onShooted();
 		mobManager.removeMob(mob);
-		
-		GameAssets.i.soundSetMobShooted.sounds.get(1).play();
 	}
 
 	public void mobShoot(GameMob mob) {
 		// TODO ensure one shoot at a time
 		Vector3 p = new Vector3(mob.position).add(0, .5f, 0); // TODO eye position
 		
+		mob.logic.shooting();
+		
 		trauma.traumatize();
 		
-		GameAssets.i.soundSetLaser.sounds.get(1).play();
-		
-		heroLife--;
+		if(heroLife > 0){
+			heroLife--;
+			if(GameConfig.DEBUG_INVINCIBLE){
+				heroLife = Math.max(1, heroLife);
+			}
+		}
 		
 		for(GameListener l : listeners){
 			l.onMobShoot(p);
 		}
+		
 		
 		if(heroLife <= 0){
 			setDead();

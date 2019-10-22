@@ -1,4 +1,9 @@
 
+# Game Hotkeys
+
+F11 or ALT+ENTER - toggle fullscreen / windowed mode
+ESCAPE - quit game
+
 # Debug Hotkeys
 
 S - enable/disable Stats
@@ -13,3 +18,4 @@ P - pause
 
 K - insta depth
 W - insta win
+

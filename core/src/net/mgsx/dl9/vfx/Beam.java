@@ -7,9 +7,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
-public class Beam {
+public class Beam implements Disposable {
 
 	private ShaderProgram beamShaderLight;
 	private ShaderProgram beamShaderDark;
@@ -44,6 +45,15 @@ public class Beam {
 		if(!burstShaderDark.isCompiled()) throw new GdxRuntimeException(burstShaderDark.getLog());
 		
 		shapeRenderer = new ImmediateModeRenderer20(4, false, true, 1, beamShaderLight);
+	}
+	
+	@Override
+	public void dispose() {
+		beamShaderLight.dispose();
+		beamShaderDark.dispose();
+		burstShaderLight.dispose();
+		burstShaderDark.dispose();
+		shapeRenderer.dispose();
 	}
 	
 	public void update(float delta){
@@ -151,6 +161,5 @@ public class Beam {
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		
 	}
-
 	
 }

@@ -15,6 +15,7 @@ public class GameAudio {
 	public final SoundPlayer playerGunReload;
 	public final SoundPlayer playerLaser;
 	public final SoundPlayer playerMobShooted;
+	public final SoundPlayerQueue playerRandomThings;
 	
 	private Music currentMusic;
 
@@ -25,6 +26,12 @@ public class GameAudio {
 		playerHeartBeat = new SoundPlayer(GameAssets.i.soundSetHeartBeat);
 		playerLaser = new SoundPlayer(GameAssets.i.soundSetLaser);
 		playerMobShooted = new SoundPlayer(GameAssets.i.soundSetMobShooted);
+		playerRandomThings = new SoundPlayerQueue(GameAssets.i.soundSetRandomThings);
+		
+		playerRandomThings.volume.set(.5f, 1f);
+		playerRandomThings.pan.set(-1, 1);
+		playerRandomThings.delay.set(-1, 0f); // XXX pre
+		
 	}
 	
 	public void update(){

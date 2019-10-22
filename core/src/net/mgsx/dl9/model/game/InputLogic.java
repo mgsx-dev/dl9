@@ -10,7 +10,7 @@ public class InputLogic {
 	private final GameLevel level;
 	private boolean reloading;
 	private float timeout;
-
+	
 	public InputLogic(GameLevel level) {
 		super();
 		this.level = level;
@@ -21,13 +21,19 @@ public class InputLogic {
 		level.listeners.add(new GameListener(){
 			@Override
 			public void onActionPhase() {
-				level.reload(); // XXX reload auto on action
-				reloading = false;
-				CursorManager.i.setLoaded();
+				// restore previous state if it was cinematic
+				if(!reloading){
+					if(level.bullets <= 0){
+						CursorManager.i.setReloadNeeded();
+					}else{
+						CursorManager.i.setLoaded();
+					}
+				}
 			}
 			@Override
 			public void onCinematicPhase() {
 				reloading = false;
+				level.reload(); // XXX reload auto 
 				CursorManager.i.setIdle();
 			}
 		});

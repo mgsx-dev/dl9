@@ -2,7 +2,9 @@ package net.mgsx.dl9;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.Collections;
 
 import net.mgsx.dl9.assets.GameAssets;
@@ -47,6 +49,23 @@ public class DL9Game extends Game {
 	@Override
 	public void render() {
 		float delta = paused ? 0 : Gdx.graphics.getDeltaTime();
+		if(GameConfig.ALLOW_FULLSCREEN){
+			boolean alt = Gdx.input.isKeyPressed(Input.Keys.ALT_LEFT) || Gdx.input.isKeyPressed(Input.Keys.ALT_RIGHT);
+			boolean altEnter = alt && Gdx.input.isKeyJustPressed(Input.Keys.ENTER);
+			boolean f11 = Gdx.input.isKeyJustPressed(Input.Keys.F11);
+			boolean toggleFullscreen = altEnter || f11;
+			if(toggleFullscreen){
+				if(Gdx.graphics.isFullscreen()){
+					Gdx.graphics.setWindowedMode(GameConfig.WINDOW_WIDTH, GameConfig.WINDOW_HEIGHT);
+				}else{
+					DisplayMode displayMode = Gdx.graphics.getDisplayMode();
+					Gdx.graphics.setFullscreenMode(displayMode);
+				}
+			}
+		}
+		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+			Gdx.app.exit();
+		}
 		if(GameConfig.ALLOW_PAUSE){
 			if(Gdx.input.isKeyJustPressed(Input.Keys.P)) paused = !paused;
 		}
@@ -68,6 +87,19 @@ public class DL9Game extends Game {
 		GameAudio.i.update();
 		if (screen != null) screen.render(delta);
 		stats.update();
+	}
+	
+	@Override
+	public void setScreen(Screen screen) {
+		if (this.screen != null){
+			this.screen.hide();
+			this.screen.dispose();
+		}
+		this.screen = screen;
+		if (this.screen != null) {
+			this.screen.show();
+			this.screen.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		}
 	}
 
 	public void gotoIntro() {

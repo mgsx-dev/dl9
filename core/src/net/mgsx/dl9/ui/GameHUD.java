@@ -31,7 +31,7 @@ public class GameHUD extends Table
 		
 		for(int i=0 ; i<GameConfig.MAX_BULLETS ; i++){
 			Image bullet = new Image(skin, "bullet");
-			bullet.setVisible(false);
+			setBulletVisibility(bullet, false);
 			bulletTable.add(bullet).size(50 * s, 128 * s).pad(6);
 		}
 		
@@ -75,8 +75,14 @@ public class GameHUD extends Table
 	public void setBulletCount(int n){
 		SnapshotArray<Actor> bullets = bulletTable.getChildren();
 		for(int i=0 ; i<bullets.size ; i++){
-			bullets.get(i).setVisible(bullets.size-1 - i < n);
+			boolean visible = bullets.size-1 - i < n;
+			setBulletVisibility(bullets.get(i), visible);
 		}
+	}
+	
+	private void setBulletVisibility(Actor bullet, boolean visible){
+		// bullets.get(i).setVisible(bullets.size-1 - i < n);
+		bullet.getColor().a = visible ? 1 : .3f;
 	}
 	
 	public void setLife(float life){

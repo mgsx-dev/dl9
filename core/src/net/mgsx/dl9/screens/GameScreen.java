@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector3;
 
 import net.mgsx.dl9.DL9Game;
 import net.mgsx.dl9.GameConfig;
+import net.mgsx.dl9.audio.GameAudio;
 import net.mgsx.dl9.model.game.GameLevel;
 import net.mgsx.dl9.model.game.GameListener;
 import net.mgsx.dl9.model.game.GameLoader;
@@ -23,6 +24,8 @@ import net.mgsx.gltf.scene3d.attributes.FogAttribute;
 import net.mgsx.gltf.scene3d.attributes.PBRCubemapAttribute;
 import net.mgsx.gltf.scene3d.scene.SceneManager;
 import net.mgsx.gltf.scene3d.scene.SceneSkybox;
+import net.mgsx.gltf.scene3d.shaders.PBRShaderConfig;
+import net.mgsx.gltf.scene3d.shaders.PBRShaderProvider;
 import net.mgsx.gltf.scene3d.utils.EnvironmentUtil;
 
 /**
@@ -59,7 +62,15 @@ public class GameScreen extends BaseScreen
 		level.cameraAnimator = new SimpleCameraAnimator(level);
 		// level.cameraAnimator = new SplineCameraAnimator(level);
 		
-		sceneManager = new SceneManager();
+		int maxBones = 12; // TODO config
+		
+		PBRShaderConfig cfg = PBRShaderProvider.defaultConfig();
+		cfg.fragmentShader = Gdx.files.classpath("net/mgsx/dl9/shaders/gdx-pbr.fs.glsl").readString();
+		
+		sceneManager = new SceneManager(
+				new PBRShaderProvider(cfg), 
+				PBRShaderProvider.createDepthShaderProvider(maxBones));
+		
 		sceneManager.addScene(level.scene);
 		sceneManager.setCamera(level.camera);
 		sceneManager.setAmbientLight(.2f); // XXX .01f);
@@ -134,6 +145,15 @@ public class GameScreen extends BaseScreen
 	}
 	
 	@Override
+	public void dispose() {
+		super.dispose();
+		beam.dispose();
+		level.dispose();
+		sceneManager.dispose();
+		skyBox.dispose();
+	}
+	
+	@Override
 	public void show() {
 		Gdx.input.setInputProcessor(new InputAdapter(){
 			@Override
@@ -146,7 +166,6 @@ public class GameScreen extends BaseScreen
 				return true;
 			}
 		});
-		
 	}
 	
 	@Override
@@ -162,6 +181,9 @@ public class GameScreen extends BaseScreen
 	
 	@Override
 	public void render(float delta) {
+		
+		// audio
+		GameAudio.i.playerRandomThings.update(delta);
 		
 		// updates
 		time += delta;
@@ -185,7 +207,12 @@ public class GameScreen extends BaseScreen
 			float far = MathUtils.lerp(GameConfig.FOG_FAR, GameConfig.FOG_FAR, fogTime);
 			float exp = MathUtils.lerp(GameConfig.FOG_EXP, .1f, fogTime);
 			sceneManager.environment.get(FogAttribute.class, FogAttribute.FogEquation).set(near, far, exp);
+		
+			// XXX
+			sceneManager.environment.get(FogAttribute.class, FogAttribute.FogEquation).set(.1f, level.camera.far, .2f); // .1f is good
 		}
+		
+
 		
 		// rendering
 		
@@ -210,5 +237,12 @@ public class GameScreen extends BaseScreen
 				DL9Game.i().gotoWinScreen();
 			}
 		}
+		
+		if(GameConfig.DEBUG){
+			if(Gdx.input.isKeyJustPressed(Input.Keys.B)){
+				DL9Game.i().gotoGame();
+			}
+		}
 	}
+	
 }

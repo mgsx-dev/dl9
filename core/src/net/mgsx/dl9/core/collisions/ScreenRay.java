@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g3d.model.NodePart;
 import com.badlogic.gdx.graphics.g3d.utils.ShaderProvider;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -27,7 +28,7 @@ import net.mgsx.gltf.scene3d.scene.Scene;
  * @author mgsx
  *
  */
-public class ScreenRay {
+public class ScreenRay implements Disposable {
 
 	public static class ScreenRayResult {
 		public float depth;
@@ -81,6 +82,14 @@ public class ScreenRay {
 		this.depth = depth;
 		shaderProvider = new ScreenRayShaderProvider(maxBones, depth);
 		batch = new ModelBatch(shaderProvider);
+	}
+	
+	@Override
+	public void dispose() {
+		batch.dispose();
+		if(fbo != null){
+			fbo.dispose();
+		}
 	}
 	
 	public void set(int id, Node object){

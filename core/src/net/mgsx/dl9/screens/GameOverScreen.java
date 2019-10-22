@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 import net.mgsx.dl9.DL9Game;
 import net.mgsx.dl9.GameConfig;
+import net.mgsx.dl9.assets.GameAssets;
 import net.mgsx.gltf.loaders.gltf.GLTFLoader;
 import net.mgsx.gltf.scene3d.attributes.FogAttribute;
 import net.mgsx.gltf.scene3d.attributes.PBRCubemapAttribute;
@@ -50,6 +51,15 @@ public class GameOverScreen extends BaseScreen
 				scene.animations.loopAll();
 				
 				root.addAction(Actions.sequence(
+						Actions.delay(1.8f), // delay in animation to spawn sound
+						Actions.run(new Runnable() {
+							@Override
+							public void run() {
+								GameAssets.i.sfxDeath.play();
+							}
+						})));
+				
+				root.addAction(Actions.sequence(
 						Actions.delay(4f),
 						Actions.run(new Runnable() {
 							@Override
@@ -58,6 +68,8 @@ public class GameOverScreen extends BaseScreen
 									@Override
 									public void run() {
 										DL9Game.i().gotoStats();
+										// use this to test sync: 
+										// DL9Game.i().gotoDieScreen();
 									}
 								});
 							}
