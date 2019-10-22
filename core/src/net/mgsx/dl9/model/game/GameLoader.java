@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
 
 import net.mgsx.dl9.GameConfig;
+import net.mgsx.dl9.utils.AssetUtils;
 import net.mgsx.gltf.loaders.gltf.GLTFLoader;
 import net.mgsx.gltf.scene3d.scene.Scene;
 import net.mgsx.gltf.scene3d.scene.SceneAsset;
@@ -17,6 +18,7 @@ public class GameLoader {
 
 	private Node loadMob(){
 		SceneAsset asset = new GLTFLoader().load(Gdx.files.internal("models/mob/mob.gltf"), true);
+		AssetUtils.checkAsset(asset);
 		return asset.scene.model.nodes.first();
 	}
 	
@@ -25,6 +27,7 @@ public class GameLoader {
 		GameLevel gameLevel = new GameLevel();
 		
 		SceneAsset asset = new GLTFLoader().load(file, true);
+		AssetUtils.checkAsset(asset);
 		
 		gameLevel.asset = asset;
 		

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import net.mgsx.dl9.audio.SoundSet;
+import net.mgsx.dl9.utils.AssetUtils;
 import net.mgsx.gltf.loaders.gltf.GLTFLoader;
 import net.mgsx.gltf.scene3d.scene.SceneAsset;
 
@@ -77,7 +78,8 @@ public class GameAssets {
 		musicCinematic2 = Gdx.audio.newMusic(Gdx.files.internal("music/themecinematic-2.mp3"));
 
 		
-		assetPotiron = new GLTFLoader().load(Gdx.files.internal("models/potiron/potiron.gltf"));
+		assetPotiron = new GLTFLoader().load(Gdx.files.internal("models/potiron/potiron.gltf"), true);
+		AssetUtils.checkAsset(assetPotiron);
 		
 		soundSetRandomThings = loadSoundSet("baby-1", "dog-1", "dog-2", "church-shot", "strangefx", "wolf-1", "wolf-2");
 		soundSetRandomThings.durations.add(1f);

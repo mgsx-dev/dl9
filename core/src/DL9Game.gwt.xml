@@ -5,4 +5,14 @@
 	<inherits name="space.earlygrey.shapedrawer"/>
 	<inherits name='PieMenu' />
 	<source path="net/mgsx/dl9" />
+	
+	<extend-configuration-property name="gdx.files.classpath" value="net/mgsx/dl9/shaders/beam-dark.fs" />
+	<extend-configuration-property name="gdx.files.classpath" value="net/mgsx/dl9/shaders/beam.fs" />
+	<extend-configuration-property name="gdx.files.classpath" value="net/mgsx/dl9/shaders/beam.vs" />
+	<extend-configuration-property name="gdx.files.classpath" value="net/mgsx/dl9/shaders/burst-dark.fs" />
+	<extend-configuration-property name="gdx.files.classpath" value="net/mgsx/dl9/shaders/burst.fs" />
+	<extend-configuration-property name="gdx.files.classpath" value="net/mgsx/dl9/shaders/burst.vs" />
+	<extend-configuration-property name="gdx.files.classpath" value="net/mgsx/dl9/shaders/gdx-pbr.fs.glsl" />
+	<extend-configuration-property name="gdx.files.classpath" value="net/mgsx/dl9/shaders/screen-ray-frag.glsl" />
+	
 </module>
