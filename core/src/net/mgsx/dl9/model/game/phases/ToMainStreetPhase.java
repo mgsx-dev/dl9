@@ -9,4 +9,9 @@ public class ToMainStreetPhase extends BaseCinematicPhase {
 		cameraAnimID = "Camera to main street";
 	}
 
+	@Override
+	public void started() {
+		super.started();
+		level.animations.play("to main street sign");
+	}
 }

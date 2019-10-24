@@ -6,11 +6,11 @@ import net.mgsx.dl9.model.game.GameLevel;
 import net.mgsx.dl9.model.game.GameMob;
 import net.mgsx.dl9.model.game.mobs.MobInFront;
 
-public class TutoEndPhase extends BaseActionPhase {
+public class MainStreetSurprisePhase extends BaseActionPhase {
 
 	private GameMob mob;
 
-	public TutoEndPhase(GameLevel level) {
+	public MainStreetSurprisePhase(GameLevel level) {
 		super(level);
 	}
 	

@@ -2,6 +2,8 @@ package net.mgsx.dl9.audio;
 
 import com.badlogic.gdx.math.MathUtils;
 
+import net.mgsx.dl9.GameConfig;
+
 public class SoundPlayer {
 	private SoundSet soundSet;
 	
@@ -16,6 +18,7 @@ public class SoundPlayer {
 	}
 
 	public void sequence(float delta, float freq) {
+		if(!GameConfig.AUDIO_ENABLED) return;
 		time += delta * freq;
 		int i = MathUtils.floor(time) % soundSet.sounds.size;
 		if(i != index){
@@ -25,6 +28,7 @@ public class SoundPlayer {
 	}
 
 	public void pwm(float delta, float freq, float pwm) {
+		if(!GameConfig.AUDIO_ENABLED) return;
 		time += delta * freq;
 		if(time > 1 && index == 1){
 			time = time % 1f;
@@ -39,6 +43,7 @@ public class SoundPlayer {
 	}
 
 	public void random(float delta, float freq, float randomness) {
+		if(!GameConfig.AUDIO_ENABLED) return;
 		time += delta * (1 + randomness * (MathUtils.random() * 2 - 1)) * freq;
 		int i = MathUtils.floor(time) % soundSet.sounds.size;
 		if(i != index){
@@ -48,6 +53,7 @@ public class SoundPlayer {
 	}
 
 	public void random() {
+		if(!GameConfig.AUDIO_ENABLED) return;
 		soundSet.sounds.get(MathUtils.random(soundSet.sounds.size-1)).play(volume);
 	}
 	

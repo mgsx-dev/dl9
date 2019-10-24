@@ -3,6 +3,7 @@ package net.mgsx.dl9.audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 
+import net.mgsx.dl9.GameConfig;
 import net.mgsx.dl9.assets.GameAssets;
 
 public class GameAudio {
@@ -35,6 +36,8 @@ public class GameAudio {
 	}
 	
 	public void update(){
+		if(!GameConfig.AUDIO_ENABLED) return;
+		
 		float delta = Gdx.graphics.getDeltaTime();
 		
 		playerHeartBeat.volume = .6f;
@@ -45,15 +48,18 @@ public class GameAudio {
 	}
 	
 	public void playGunShot(){
+		if(!GameConfig.AUDIO_ENABLED) return;
 		playerGunShots.random();
 	}
 
 	public void playGunReload() {
+		if(!GameConfig.AUDIO_ENABLED) return;
 		playerGunReload.random();
 	}
 
 	public void playMusic(Music music) 
 	{
+		if(!GameConfig.AUDIO_ENABLED) return;
 		if(currentMusic != music){
 			// TODO cross fade
 			if(currentMusic != null){

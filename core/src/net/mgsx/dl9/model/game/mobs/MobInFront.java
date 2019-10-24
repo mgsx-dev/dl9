@@ -43,7 +43,12 @@ public class MobInFront extends MobLogic
 				level.camera.position.x + level.camera.direction.x * deltaLook - mob.position.x, 
 				level.camera.position.z + level.camera.direction.z * deltaLook - mob.position.z).nor().angle();
 		
-		mob.node.rotation.mul(new Quaternion().setFromAxis(Vector3.Y, angle));
+		
+		// TODO this mob should have origin at head center
+		
+		// mob.node.rotation.mul(new Quaternion().setFromAxis(Vector3.Y, angle));
+		
+		mob.node.rotation.mul(level.camera.view.cpy().inv().getRotation(new Quaternion())).mul(new Quaternion(Vector3.Y, 90));
 		
 		mob.node.calculateLocalTransform();
 		mob.node.calculateWorldTransform();

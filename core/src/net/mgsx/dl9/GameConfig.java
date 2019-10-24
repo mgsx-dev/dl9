@@ -9,6 +9,8 @@ public class GameConfig {
 	public static boolean DEBUG_INVINCIBLE = true;
 	public static boolean DEBUG_MODELS = true;
 	
+	// Audio options
+	public static boolean AUDIO_ENABLED = true;
 	
 	// Gameplay
 	public static int MAX_BULLETS = 6;
@@ -24,7 +26,7 @@ public class GameConfig {
 	
 	// GPU options
 	public static boolean GPU_FOG = true;
-	public static boolean GPU_NO_LIGHTS = true;
+	public static boolean GPU_LIGHTS = true;
 	
 	// Fog settings
 	public static float FOG_NEAR = .1f;

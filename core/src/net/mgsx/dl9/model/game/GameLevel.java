@@ -18,8 +18,13 @@ import net.mgsx.dl9.model.game.phases.BossIntroPhase;
 import net.mgsx.dl9.model.game.phases.BossPhase;
 import net.mgsx.dl9.model.game.phases.ChurchPhase;
 import net.mgsx.dl9.model.game.phases.HousePhase;
+import net.mgsx.dl9.model.game.phases.IntroPhase;
+import net.mgsx.dl9.model.game.phases.MainStreetActionPhase;
 import net.mgsx.dl9.model.game.phases.MainStreetPhase;
+import net.mgsx.dl9.model.game.phases.MainStreetSurprisePhase;
+import net.mgsx.dl9.model.game.phases.MenuPhase;
 import net.mgsx.dl9.model.game.phases.PlacePhase;
+import net.mgsx.dl9.model.game.phases.PreIntroPhase;
 import net.mgsx.dl9.model.game.phases.ToBossPhase;
 import net.mgsx.dl9.model.game.phases.ToChurchPhase;
 import net.mgsx.dl9.model.game.phases.ToHousePhase;
@@ -29,6 +34,7 @@ import net.mgsx.dl9.model.game.phases.ToTutoPhase;
 import net.mgsx.dl9.model.game.phases.TutoEndPhase;
 import net.mgsx.dl9.model.game.phases.TutoPhase;
 import net.mgsx.dl9.model.game.phases.WinPhase;
+import net.mgsx.dl9.utils.CustomAnimationsPlayer;
 import net.mgsx.dl9.vfx.CameraTrauma;
 import net.mgsx.gltf.scene3d.scene.Scene;
 import net.mgsx.gltf.scene3d.scene.SceneAsset;
@@ -43,6 +49,7 @@ public class GameLevel implements Disposable {
 	public final Array<GameMob> mobs = new Array<GameMob>();
 	public Node mobNode;
 	public Scene scene;
+	public CustomAnimationsPlayer animations;
 	
 	/** real camera used for rendering (can be modified during animations) */
 	public Camera camera;
@@ -68,10 +75,16 @@ public class GameLevel implements Disposable {
 	
 	private CameraTrauma trauma = new CameraTrauma();
 
+	private boolean firstSequence = true;
+	
 	public GameLevel() {
 		input = new InputLogic(this);
 		mobManager = new MobsManager(this);
 		screenRay = new ScreenRay(true, 4); // TODO max bones ?
+	}
+	
+	public boolean isFirstSequence() {
+		return firstSequence;
 	}
 	
 	public void start(){
@@ -88,19 +101,27 @@ public class GameLevel implements Disposable {
 		// build main sequences
 		queue = new QueueSequence();
 		
-		// TODO queue.add(new IntroPhase(this));
-		// TODO queue.add(new MenuPhase(this));
+		queue.add(new PreIntroPhase(this));
+		queue.add(new IntroPhase(this));
+		queue.add(new MenuPhase(this));
+		
 		queue.add(new ToTutoPhase(this));
 		queue.add(new TutoPhase(this));
 		queue.add(new TutoEndPhase(this));
+		
 		queue.add(new ToMainStreetPhase(this));
 		queue.add(new MainStreetPhase(this));
+		queue.add(new MainStreetSurprisePhase(this));
+		queue.add(new MainStreetActionPhase(this));
+		
 		queue.add(new ToHousePhase(this));
 		queue.add(new HousePhase(this));
+		
 		queue.add(new ToPlacePhase(this));
 		queue.add(new PlacePhase(this));
 		queue.add(new ToChurchPhase(this));
 		queue.add(new ChurchPhase(this));
+		
 		queue.add(new ToBossPhase(this));
 		queue.add(new BossIntroPhase(this));
 		queue.add(new BossPhase(this));
@@ -128,12 +149,17 @@ public class GameLevel implements Disposable {
 			l.onCinematicPhase();
 		}
 	}
+	
+	public void next() {
+		firstSequence = false;
+		if(queue != null) queue.next();
+	}
 
 	public void update(float delta){
 		
 		if(GameConfig.DEBUG){
 			if(Gdx.input.isKeyJustPressed(Input.Keys.N)){
-				if(queue != null) queue.next();
+				next();
 			}
 			if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
 				setDead();
@@ -154,6 +180,8 @@ public class GameLevel implements Disposable {
 		for(GameMob mob : mobs){
 			mob.update(this, delta);
 		}
+		
+		animations.update(delta);
 		
 		// XXX required for windows when camera is not animated
 		scene.modelInstance.calculateTransforms();
@@ -273,5 +301,11 @@ public class GameLevel implements Disposable {
 	public boolean isGameover(){
 		return sequencer.isEmpty();
 	}
-	
+
+	public void triggerMenu() {
+		for(GameListener l : listeners){
+			l.onMenuShow();
+		}
+	}
+
 }

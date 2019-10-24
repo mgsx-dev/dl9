@@ -23,13 +23,22 @@ public class SettingsStatic {
 	
 	public static void create(Stage stage, Skin skin){
 		
-		createMenu(stage, skin, -1, DL9Game.i().settings.quality, false, "Quality");
-		createMenu(stage, skin, 0, DL9Game.i().settings.luminosity, true, "Luminosity");
-		createMenu(stage, skin, 1, DL9Game.i().settings.spookiness, false, "Spookiness");
+		createMenu(stage, skin, 0, -2, DL9Game.i().settings.quality, false, "Quality");
+		createMenu(stage, skin, 0, -1, DL9Game.i().settings.quality, false, "Quality");
+		createMenu(stage, skin, 0, 0, DL9Game.i().settings.luminosity, true, "Luminosity");
+		createMenu(stage, skin, 0, 1, DL9Game.i().settings.spookiness, false, "Spookiness");
+		createMenu(stage, skin, 0, 2, DL9Game.i().settings.quality, false, "Quality");
+
+		createMenu(stage, skin, 1, -2, DL9Game.i().settings.quality, false, "Quality");
+		createMenu(stage, skin, 1, -1, DL9Game.i().settings.quality, false, "Quality");
+		createMenu(stage, skin, 1, 0, DL9Game.i().settings.luminosity, true, "Luminosity");
+		createMenu(stage, skin, 1, 1, DL9Game.i().settings.spookiness, false, "Spookiness");
+		createMenu(stage, skin, 1, 2, DL9Game.i().settings.quality, false, "Quality");
+
 		
 		TextButton bt = new TextButton("Back", skin);
 		bt.pack();
-		bt.setPosition(stage.getWidth()/2,bt.getHeight() + 10, Align.center);
+		bt.setPosition(stage.getWidth()/2,10, Align.bottom);
 		stage.addActor(bt);
 		
 		bt.addListener(new ChangeListener() {
@@ -40,7 +49,7 @@ public class SettingsStatic {
 		});
 	}
 	
-	private static PieMenu createMenu(Stage stage, Skin skin, int id, final Setting setting, boolean halfCircle, String title){
+	private static PieMenu createMenu(Stage stage, Skin skin, int row, int id, final Setting setting, boolean halfCircle, String title){
 		
 		float distance = RADIUS * 2 + SPACE;
 		
@@ -70,8 +79,12 @@ public class SettingsStatic {
 		
 		menu.setSelectedIndex(setting.value);
 		
-		menu.setPosition(stage.getWidth()/2 + distance * id, stage.getHeight()/2, Align.center);
-		label.setPosition(stage.getWidth()/2 + distance * id, stage.getHeight()/2 + RADIUS + SPACE * 4, Align.center);
+		float hDistance = 450;
+		float hOffset = stage.getHeight()/2 - row * hDistance - 300;
+		
+		
+		menu.setPosition(stage.getWidth()/2 + distance * id, stage.getHeight()/2 + hOffset, Align.center);
+		label.setPosition(stage.getWidth()/2 + distance * id, stage.getHeight()/2 + hOffset + RADIUS + SPACE * 4 - 50, Align.center);
 		
 		menu.addListener(new ChangeListener() {
 			@Override

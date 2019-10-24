@@ -515,12 +515,12 @@ void main() {
 #endif
     perceptualRoughness = clamp(perceptualRoughness, c_MinRoughness, 1.0);
 
-    perceptualRoughness = sqrt(perceptualRoughness); // XXX
+    perceptualRoughness = perceptualRoughness; // XXX
 
     metallic = clamp(metallic, 0.0, 1.0);
     // Roughness is authored as perceptual roughness; as is convention,
     // convert to material roughness by squaring the perceptual roughness [2].
-    float alphaRoughness = perceptualRoughness; // XXX * perceptualRoughness;
+    float alphaRoughness = perceptualRoughness * perceptualRoughness;
 
     // The albedo may be defined from a base texture or a flat color
 #ifdef diffuseTextureFlag
@@ -627,9 +627,6 @@ void main() {
     vec3 emissive = u_emissiveColor.rgb;
 #endif
 
-#if defined(emissiveTextureFlag) || defined(emissiveColorFlag)
-    color += emissive;
-#endif
 
     
     // final frag color
@@ -649,6 +646,13 @@ void main() {
 #endif
 	out_FragColor.rgb = mix(out_FragColor.rgb, u_fogColor.rgb, fog);
 #endif
+
+// XXX Emissive ofter fog for better FX
+
+#if defined(emissiveTextureFlag) || defined(emissiveColorFlag)
+	out_FragColor.rgb += emissive.rgb;
+#endif
+
 
     // Blending and Alpha Test
 #ifdef blendedFlag

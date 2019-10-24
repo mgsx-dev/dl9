@@ -3,6 +3,8 @@ package net.mgsx.dl9.audio;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Array;
 
+import net.mgsx.dl9.GameConfig;
+
 public class SoundPlayerQueue {
 	
 	private final SoundSet soundSet;
@@ -23,6 +25,7 @@ public class SoundPlayerQueue {
 	}
 
 	public void update(float delta){
+		if(!GameConfig.AUDIO_ENABLED) return;
 		timeout -= delta;
 		if(timeout < 0){
 			if(soundsToPlay.size == 0){

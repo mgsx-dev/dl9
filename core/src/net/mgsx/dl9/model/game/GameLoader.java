@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.ObjectMap.Entry;
 
 import net.mgsx.dl9.GameConfig;
 import net.mgsx.dl9.utils.AssetUtils;
+import net.mgsx.dl9.utils.CustomAnimationsPlayer;
 import net.mgsx.gltf.loaders.gltf.GLTFLoader;
 import net.mgsx.gltf.scene3d.scene.Scene;
 import net.mgsx.gltf.scene3d.scene.SceneAsset;
@@ -78,6 +79,8 @@ public class GameLoader {
 		}else{
 			gameLevel.camera = scene.createCamera(gameLevel.nativeCamera);
 		}
+		
+		gameLevel.animations = new CustomAnimationsPlayer(scene);
 		
 		return gameLevel;
 	}

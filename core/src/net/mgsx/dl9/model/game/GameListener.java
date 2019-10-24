@@ -21,4 +21,6 @@ public class GameListener {
 	public void onHeroDead() {}
 
 	public void onHeroWin() {}
+
+	public void onMenuShow() {}
 }

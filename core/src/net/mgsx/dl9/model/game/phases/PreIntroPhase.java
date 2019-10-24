@@ -4,23 +4,24 @@ import net.mgsx.dl9.assets.GameAssets;
 import net.mgsx.dl9.audio.GameAudio;
 import net.mgsx.dl9.model.game.GameLevel;
 
-public class MenuPhase extends BaseCinematicPhase {
+public class PreIntroPhase extends BaseCinematicPhase {
 
-	public MenuPhase(GameLevel level) {
+	public PreIntroPhase(GameLevel level) {
 		super(level);
-		// TODO Auto-generated constructor stub
+		this.cameraAnimID = "Camera init";
 	}
 	
 	@Override
 	public void started() {
 		level.scene.animationController.animate(cameraAnimID, 0);
 		GameAudio.i.playMusic(GameAssets.i.musicCinematic1);
-		level.triggerMenu();
+		level.cameraAnimator.disable();
 	}
 	
+	
 	@Override
-	public void finished() {
-		super.finished();
-		level.cameraAnimator.enable();
+	public boolean isFinished(float time) {
+		return false; // killed by game screen when fade is ok
 	}
+	
 }

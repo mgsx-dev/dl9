@@ -25,6 +25,7 @@ public abstract class BaseScreen extends UIScreen {
 		overScreen.clearActions();
 		stage.addActor(overScreen);
 		overScreen.setColor(color);
+		overScreen.setSize(stage.getWidth(), stage.getHeight());
 		overScreen.addAction(Actions.sequence(Actions.alpha(0, duration), Actions.run(callback), Actions.removeActor()));
 	}
 	
