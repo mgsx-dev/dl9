@@ -16,14 +16,12 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import net.mgsx.dl9.DL9Game;
 import net.mgsx.dl9.GameConfig;
 import net.mgsx.dl9.assets.GameAssets;
-import net.mgsx.dl9.utils.AssetUtils;
-import net.mgsx.gltf.loaders.gltf.GLTFLoader;
+import net.mgsx.dl9.audio.GameAudio;
 import net.mgsx.gltf.scene3d.attributes.FogAttribute;
 import net.mgsx.gltf.scene3d.attributes.PBRCubemapAttribute;
 import net.mgsx.gltf.scene3d.attributes.PBRTextureAttribute;
 import net.mgsx.gltf.scene3d.lights.DirectionalLightEx;
 import net.mgsx.gltf.scene3d.scene.Scene;
-import net.mgsx.gltf.scene3d.scene.SceneAsset;
 import net.mgsx.gltf.scene3d.scene.SceneManager;
 import net.mgsx.gltf.scene3d.utils.EnvironmentUtil;
 
@@ -46,13 +44,15 @@ public class GameOverScreen extends BaseScreen
 
 	public GameOverScreen() {
 		
+		GameAudio.i.playMusic(GameAssets.i.musicCinematic2);
+		
 		fadeIn(Color.RED, GameConfig.DEFAULT_FADE_DURATION, new Runnable() {
 			@Override
 			public void run() {
 				scene.animations.loopAll();
 				
 				root.addAction(Actions.sequence(
-						Actions.delay(1.8f), // delay in animation to spawn sound
+						Actions.delay(1.5f), // delay in animation to spawn sound
 						Actions.run(new Runnable() {
 							@Override
 							public void run() {
@@ -78,10 +78,7 @@ public class GameOverScreen extends BaseScreen
 			}
 		});
 		
-		SceneAsset asset = new GLTFLoader().load(Gdx.files.internal("models/ending-poc/ending-poc.gltf"), true);
-		AssetUtils.checkAsset(asset);
-		
-		scene = new Scene(asset.scene);
+		scene = new Scene(GameAssets.i.assetEndGame.scene);
 		
 		Camera camera = scene.getCamera("Camera_Orientation");
 		

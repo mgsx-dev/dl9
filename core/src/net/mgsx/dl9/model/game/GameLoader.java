@@ -1,7 +1,5 @@
 package net.mgsx.dl9.model.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.math.Vector3;
@@ -9,26 +7,16 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
 
 import net.mgsx.dl9.GameConfig;
-import net.mgsx.dl9.utils.AssetUtils;
+import net.mgsx.dl9.assets.GameAssets;
 import net.mgsx.dl9.utils.CustomAnimationsPlayer;
-import net.mgsx.gltf.loaders.gltf.GLTFLoader;
 import net.mgsx.gltf.scene3d.scene.Scene;
 import net.mgsx.gltf.scene3d.scene.SceneAsset;
 
 public class GameLoader {
 
-	private Node loadMob(){
-		SceneAsset asset = new GLTFLoader().load(Gdx.files.internal("models/mob/mob.gltf"), true);
-		AssetUtils.checkAsset(asset);
-		return asset.scene.model.nodes.first();
-	}
-	
-	public GameLevel load(FileHandle file){
+	public GameLevel load(SceneAsset asset){
 		
 		GameLevel gameLevel = new GameLevel();
-		
-		SceneAsset asset = new GLTFLoader().load(file, true);
-		AssetUtils.checkAsset(asset);
 		
 		gameLevel.asset = asset;
 		
@@ -60,7 +48,9 @@ public class GameLoader {
 		// remove empties from scene
 		scene.modelInstance.nodes.removeAll(toRemove, true);
 		
-		gameLevel.mobNode = loadMob();
+		gameLevel.mobNode = GameAssets.i.mobModel.scene.model.nodes.first();
+		
+		gameLevel.witchScene = new Scene(GameAssets.i.witchModel.scene);
 		
 		scene.modelInstance.nodes.removeValue(gameLevel.mobNode, true);
 		

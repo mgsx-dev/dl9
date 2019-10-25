@@ -12,11 +12,8 @@ public class MainStreetPhase extends BaseCinematicPhase {
 	@Override
 	public void started() {
 		super.started();
-		
 		level.animations.play("StreetMobIntro");
 		level.animations.play("StreetMob2");
-		
-		
 	}
 
 }

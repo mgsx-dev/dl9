@@ -33,12 +33,7 @@ public class QueueSequence extends SceneSequence {
 		if(sequences.size > 0){
 			SceneSequence s = sequences.first();
 			if(s.isFinished(time)){
-				s.finished();
-				sequences.removeIndex(0);
-				if(sequences.size > 0){
-					s = sequences.first();
-					s.started();
-				}
+				next();
 			}
 			s.update(time, delta);
 		}
@@ -57,6 +52,9 @@ public class QueueSequence extends SceneSequence {
 				s = sequences.first();
 				s.started();
 			}
+		}
+		if(sequences.size > 0){
+			System.out.println("Sequence " + sequences.first().toString());
 		}
 	}
 

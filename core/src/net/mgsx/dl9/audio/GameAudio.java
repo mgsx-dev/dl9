@@ -1,6 +1,5 @@
 package net.mgsx.dl9.audio;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 
 import net.mgsx.dl9.GameConfig;
@@ -19,7 +18,7 @@ public class GameAudio {
 	public final SoundPlayerQueue playerRandomThings;
 	
 	private Music currentMusic;
-
+	
 	public GameAudio() {
 		playerGunShots = new SoundPlayer(GameAssets.i.soundSetGunShots);
 		playerGunReload = new SoundPlayer(GameAssets.i.soundSetGunShotsReload);
@@ -37,14 +36,7 @@ public class GameAudio {
 	
 	public void update(){
 		if(!GameConfig.AUDIO_ENABLED) return;
-		
-		float delta = Gdx.graphics.getDeltaTime();
-		
-		playerHeartBeat.volume = .6f;
-		playerHeartBeat.pwm(delta, 1.2f, .66f);
-		
-		playerSteps.volume = .5f;
-		playerSteps.random(delta, 1f, .33f);
+		// TODO fade in fade out music if necessary ?
 	}
 	
 	public void playGunShot(){

@@ -6,9 +6,8 @@ import com.badlogic.gdx.math.Vector3;
 
 import net.mgsx.dl9.model.game.GameLevel;
 import net.mgsx.dl9.model.game.GameMob;
-import net.mgsx.dl9.model.game.MobLogic;
 
-public class MobVertical extends MobLogic
+public class MobVertical extends MobBase
 {
 	public float shootWait = 3f; // TODO config per enemy
 	private float shootTimeout;

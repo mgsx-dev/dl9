@@ -22,7 +22,7 @@ public class StatsScreen extends BaseScreen {
 			public void changed(ChangeEvent event, Actor actor) {
 				fadeOut(Color.BLACK, GameConfig.DEFAULT_FADE_DURATION, new Runnable() {
 					public void run() {
-						DL9Game.i().gotoIntro();
+						DL9Game.i().gotoGame();
 					}
 				});
 			}

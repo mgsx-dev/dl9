@@ -5,7 +5,7 @@ font.italic=false
 font.gamma=1.0
 font.mono=false
 
-font2.file=src/skins/game-skin/fonts/october-crow/October Crow.ttf
+font2.file=src/skins/game-skin/fonts/judges.sc.ttf
 font2.use=true
 
 pad.top=1

@@ -30,7 +30,9 @@ public class MobPotiron extends MobLogic
 	}
 	
 	@Override
-	public void onShooted() {
+	public void onShooted(GameLevel level, GameMob mob) {
+		super.onShooted(level, mob);
+		mob.dead = true;
 		// no sounds
 	}
 }

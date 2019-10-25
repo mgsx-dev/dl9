@@ -2,10 +2,9 @@ package net.mgsx.dl9.model.game.mobs;
 
 import net.mgsx.dl9.model.game.GameLevel;
 import net.mgsx.dl9.model.game.GameMob;
-import net.mgsx.dl9.model.game.MobLogic;
 
 // TODO not sure about this..
-public class MobCloseAttack extends MobLogic
+public class MobCloseAttack extends MobBase
 {
 
 	@Override

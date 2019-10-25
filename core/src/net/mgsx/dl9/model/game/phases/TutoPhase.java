@@ -3,11 +3,11 @@ package net.mgsx.dl9.model.game.phases;
 import com.badlogic.gdx.utils.Array;
 
 import net.mgsx.dl9.assets.GameAssets;
-import net.mgsx.dl9.audio.GameAudio;
 import net.mgsx.dl9.model.game.GameLevel;
 import net.mgsx.dl9.model.game.GameMob;
 import net.mgsx.dl9.model.game.MobEmitter;
 import net.mgsx.dl9.model.game.mobs.MobPotiron;
+import net.mgsx.dl9.ui.GUIUtils;
 
 public class TutoPhase extends BaseActionPhase {
 
@@ -15,13 +15,17 @@ public class TutoPhase extends BaseActionPhase {
 
 	public TutoPhase(GameLevel level) {
 		super(level);
+		music = GameAssets.i.musicCinematic2;
 	}
 	
 	@Override
 	public void started() {
 		super.started();
 		
-		GameAudio.i.playMusic(GameAssets.i.musicCinematic2);
+		GUIUtils.queueFade(level.stage, 0f, .5f, 3f, .5f, 1f,
+				GUIUtils.message("Let's try with some Halloween heads")
+				);
+
 		
 		// TODO spawn some pumkins at emitters
 		Array<MobEmitter> emitters = level.mobManager.findEmitters("Empty.tuto");

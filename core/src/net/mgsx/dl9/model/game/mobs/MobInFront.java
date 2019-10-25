@@ -8,9 +8,8 @@ import com.badlogic.gdx.math.Vector3;
 import net.mgsx.dl9.assets.GameAssets;
 import net.mgsx.dl9.model.game.GameLevel;
 import net.mgsx.dl9.model.game.GameMob;
-import net.mgsx.dl9.model.game.MobLogic;
 
-public class MobInFront extends MobLogic
+public class MobInFront extends MobBase
 {
 	private float time;
 	private float t;
@@ -61,7 +60,8 @@ public class MobInFront extends MobLogic
 	}
 	
 	@Override
-	public void shooting() {
+	public void shooting(GameLevel level, GameMob mob) {
+		super.shooting(level, mob);
 		GameAssets.i.sfxZombiAttack.play();
 	}
 }

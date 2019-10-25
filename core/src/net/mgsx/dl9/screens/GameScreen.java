@@ -19,6 +19,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -26,7 +27,7 @@ import com.badlogic.gdx.utils.ObjectMap.Entry;
 
 import net.mgsx.dl9.DL9Game;
 import net.mgsx.dl9.GameConfig;
-import net.mgsx.dl9.audio.GameAudio;
+import net.mgsx.dl9.assets.GameAssets;
 import net.mgsx.dl9.events.GotoMenuEvent;
 import net.mgsx.dl9.model.game.GameLevel;
 import net.mgsx.dl9.model.game.GameListener;
@@ -45,17 +46,6 @@ import net.mgsx.gltf.scene3d.shaders.PBRShaderConfig;
 import net.mgsx.gltf.scene3d.shaders.PBRShaderProvider;
 import net.mgsx.gltf.scene3d.utils.EnvironmentUtil;
 
-/**
- * TODO 
- * load level file
- * entites : 
- * - bg
- * - mob empty
- * - camera (and animations)
- * - 
- * 
- * 
- */
 public class GameScreen extends BaseScreen
 {
 	private static final float pointLightFactor = 10;
@@ -82,17 +72,17 @@ public class GameScreen extends BaseScreen
 		
 		bgColor.set(Color.BLACK);
 		
-		level = new GameLoader().load(Gdx.files.internal("models/main-scene/main-scene.gltf"));
+		level = new GameLoader().load(GameAssets.i.mainModel);
+		
+		level.stage = stage;
 		
 		beam = new Beam();
 		
 		level.cameraAnimator = new SimpleCameraAnimator(level);
-		// level.cameraAnimator = new SplineCameraAnimator(level);
-		
-		int maxBones = 12; // TODO config
 		
 		PBRShaderConfig cfg = PBRShaderProvider.defaultConfig();
 		
+		cfg.numBones = GameConfig.MAX_BONES;
 		cfg.numSpotLights = 0;
 		cfg.numPointLights = 12;
 		cfg.numDirectionalLights = 3;
@@ -101,9 +91,10 @@ public class GameScreen extends BaseScreen
 		
 		sceneManager = new SceneManager(
 				new PBRShaderProvider(cfg), 
-				PBRShaderProvider.createDepthShaderProvider(maxBones));
+				PBRShaderProvider.createDepthShaderProvider(GameConfig.MAX_BONES));
 		
 		sceneManager.addScene(level.scene);
+		sceneManager.addScene(level.witchScene);
 		sceneManager.setCamera(level.camera);
 		sceneManager.setAmbientLight(ambient);
 		
@@ -163,7 +154,7 @@ public class GameScreen extends BaseScreen
 		}
 		*/
 		
-		stage.addActor(hud = new GameHUD(level, skin));
+		hud = new GameHUD(level, skin);
 		
 		level.listeners.add(new GameListener(){
 			@Override
@@ -182,7 +173,7 @@ public class GameScreen extends BaseScreen
 			}
 			@Override
 			public void onMenuShow() {
-				showMenu();
+				showMenu(false);
 			}
 		});
 		
@@ -191,7 +182,7 @@ public class GameScreen extends BaseScreen
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
 				if(event instanceof GotoMenuEvent){
-					showMenu();
+					showMenu(true);
 				}
 			}
 		});
@@ -208,13 +199,13 @@ public class GameScreen extends BaseScreen
 		
 	}
 	
-	protected void showMenu() {
+	protected void showMenu(final boolean backFromSettings) {
 		
 		stage.getRoot().clearChildren();
 		
 		menu = new Table(skin);
 		
-		TextButton btPlay = new TextButton("Play", skin);
+		TextButton btPlay = new TextButton("Start", skin);
 		btPlay.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
@@ -239,18 +230,19 @@ public class GameScreen extends BaseScreen
 		
 		
 		menu.setFillParent(true);
-		menu.add("LANDIGASTEL").row();
+		menu.add(new Label(GameConfig.GAME_TITLE, skin, "stylized")).row();
 		menu.add().height(100).row();
 		menu.add(btPlay).row();
 		menu.add(btSettings).row();
 		
 		menu.getColor().a = 0;
-		menu.addAction(Actions.sequence(Actions.alpha(1, 3f)));
+		menu.addAction(Actions.sequence(Actions.alpha(1, backFromSettings ? .5f : 3f)));
 		
 		stage.addActor(menu);
 	}
 
 	protected void launchGame() {
+		stage.addActor(hud);
 		level.next();
 	}
 
@@ -293,9 +285,6 @@ public class GameScreen extends BaseScreen
 	
 	@Override
 	public void render(float delta) {
-		
-		// audio
-		GameAudio.i.playerRandomThings.update(delta);
 		
 		// updates
 		time += delta;
@@ -369,5 +358,5 @@ public class GameScreen extends BaseScreen
 			}
 		}
 	}
-	
+
 }

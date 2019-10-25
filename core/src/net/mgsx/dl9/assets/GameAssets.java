@@ -3,6 +3,7 @@ package net.mgsx.dl9.assets;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -43,6 +44,22 @@ public class GameAssets {
 
 	public SoundSet soundSetRandomThings;
 
+	public Sound sfxBossHitted;
+
+	public Music musicCinematicBoss;
+
+	public Music musicBoss1;
+
+	public Music musicBoss2;
+
+	public SceneAsset mainModel;
+
+	public SceneAsset mobModel;
+
+	public SceneAsset assetEndGame;
+
+	public SceneAsset witchModel;
+
 	public GameAssets(){
 		
 		skin = new Skin(Gdx.files.internal("skins/game-skin.json"));
@@ -77,11 +94,13 @@ public class GameAssets {
 		musicCinematic1 = Gdx.audio.newMusic(Gdx.files.internal("music/themecinematic-1.mp3"));
 		musicCinematic2 = Gdx.audio.newMusic(Gdx.files.internal("music/themecinematic-2.mp3"));
 
+		musicCinematicBoss = Gdx.audio.newMusic(Gdx.files.internal("music/cinematicboss.mp3"));
+		musicBoss1 = Gdx.audio.newMusic(Gdx.files.internal("music/boss-1.mp3"));
+		musicBoss2 = Gdx.audio.newMusic(Gdx.files.internal("music/boss-2.mp3"));
 		
-		assetPotiron = new GLTFLoader().load(Gdx.files.internal("models/potiron/potiron.gltf"), true);
-		AssetUtils.checkAsset(assetPotiron);
+		assetPotiron = loadGLTF(Gdx.files.internal("models/potiron/potiron.gltf"));
 		
-		soundSetRandomThings = loadSoundSet("baby-1", "dog-1", "dog-2", "church-shot", "strangefx", "wolf-1", "wolf-2");
+		soundSetRandomThings = loadSoundSet("baby-1", "dog-1", "dog-2", "church-shot", "strangefx", "wolf-1", "wolf-2", "dog-3", "wolf-3");
 		soundSetRandomThings.durations.add(1f);
 		soundSetRandomThings.durations.add(3f);
 		soundSetRandomThings.durations.add(4f);
@@ -89,8 +108,23 @@ public class GameAssets {
 		soundSetRandomThings.durations.add(9f);
 		soundSetRandomThings.durations.add(8f);
 		soundSetRandomThings.durations.add(6f);
+		soundSetRandomThings.durations.add(3f);
+		soundSetRandomThings.durations.add(10f);
+		
+		sfxBossHitted = Gdx.audio.newSound(Gdx.files.internal("sfx/hitthewitch.wav"));
+		
+		witchModel = loadGLTF(Gdx.files.internal("models/witch/witch.gltf"));
+		assetEndGame = loadGLTF(Gdx.files.internal("models/ending-poc/ending-poc.gltf"));
+		mobModel = loadGLTF(Gdx.files.internal("models/mob/mob.gltf"));
+		mainModel = loadGLTF(Gdx.files.internal("models/main-scene/main-scene.gltf"));
 	}
 	
+	private SceneAsset loadGLTF(FileHandle file) {
+		SceneAsset asset = new GLTFLoader().load(file, true);
+		AssetUtils.checkAsset(asset);
+		return asset;
+	}
+
 	private SoundSet loadSoundSet(String ... names) {
 		SoundSet set = new SoundSet();
 		for(String name : names){

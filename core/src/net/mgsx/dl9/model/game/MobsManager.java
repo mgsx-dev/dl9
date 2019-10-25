@@ -63,6 +63,16 @@ public class MobsManager {
 		return emitters;
 	}
 	
+	public MobEmitter findEmitter(String name) {
+		for(int i=0 ; i<level.emitters.size ; i++){
+			MobEmitter emitter = level.emitters.get(i);
+			if(emitter.node.id.equals(name)){
+				return emitter;
+			}
+		}
+		return null;
+	}
+	
 	private void makeEmitters(){
 		// select emitters near to camera
 		emitterInView.clear();
@@ -89,6 +99,21 @@ public class MobsManager {
 		level.scene.modelInstance.nodes.add(mob.node);
 		level.mobs.add(mob);
 		mob.emitter = emitter;
+		return mob;
+	}
+	
+	public GameMob spawnWitch(MobEmitter emitter) {
+		// Node with mesh parts to be shooted
+		Node witchNode = level.witchScene.modelInstance.getNode("Witch");
+		
+		GameMob mob = new GameMob(witchNode);
+		level.mobs.add(mob);
+		if(emitter != null){
+			mob.position.set(emitter.position);
+			mob.direction.set(emitter.direction);
+			mob.up.set(emitter.up);
+			mob.emitter = emitter;
+		}
 		return mob;
 	}
 

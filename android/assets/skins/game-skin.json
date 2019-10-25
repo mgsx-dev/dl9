@@ -1,6 +1,8 @@
 {
 com.badlogic.gdx.graphics.g2d.BitmapFont: { 
-	default: { file: default.fnt } 
+	default: { file: default.fnt },
+	stylized: { file: stylized.fnt },
+	horror: { file: horror.fnt }
 },
 com.badlogic.gdx.graphics.Color: {
 	white: { a: 1, b: 1, g: 1, r: 1 },
@@ -45,7 +47,9 @@ com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle: {
 	default-vertical: { background: default-slider, knob: default-round }
 },
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
-	default: { font: default, fontColor: white }
+	default: { font: default, fontColor: white },
+	stylized: { font: stylized, fontColor: white },
+	horror: { font: horror, fontColor: white },
 },
 com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
 	default: { selection: selection, background: default-rect, font: default, fontColor: white, cursor: cursor }

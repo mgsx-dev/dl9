@@ -7,9 +7,8 @@ import com.badlogic.gdx.math.Vector3;
 
 import net.mgsx.dl9.model.game.GameLevel;
 import net.mgsx.dl9.model.game.GameMob;
-import net.mgsx.dl9.model.game.MobLogic;
 
-public class MobDefault extends MobLogic
+public class MobDefault extends MobBase
 {
 	private float time;
 	private float rtime;

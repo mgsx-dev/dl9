@@ -5,17 +5,20 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
 import net.mgsx.dl9.GameConfig;
+import net.mgsx.dl9.audio.GameAudio;
 import net.mgsx.dl9.core.QueueSequence;
 import net.mgsx.dl9.core.SceneSequencer;
 import net.mgsx.dl9.core.collisions.ScreenRay;
 import net.mgsx.dl9.core.collisions.ScreenRay.ScreenRayResult;
 import net.mgsx.dl9.model.game.camera.CameraAnimator;
+import net.mgsx.dl9.model.game.phases.Boss1Phase;
+import net.mgsx.dl9.model.game.phases.Boss2Phase;
 import net.mgsx.dl9.model.game.phases.BossIntroPhase;
-import net.mgsx.dl9.model.game.phases.BossPhase;
 import net.mgsx.dl9.model.game.phases.ChurchPhase;
 import net.mgsx.dl9.model.game.phases.HousePhase;
 import net.mgsx.dl9.model.game.phases.IntroPhase;
@@ -49,7 +52,10 @@ public class GameLevel implements Disposable {
 	public final Array<GameMob> mobs = new Array<GameMob>();
 	public Node mobNode;
 	public Scene scene;
+	public Scene witchScene;
 	public CustomAnimationsPlayer animations;
+	
+	public Stage stage;
 	
 	/** real camera used for rendering (can be modified during animations) */
 	public Camera camera;
@@ -77,10 +83,12 @@ public class GameLevel implements Disposable {
 
 	private boolean firstSequence = true;
 	
+	public boolean atmoSFXEnabled = false;
+	
 	public GameLevel() {
 		input = new InputLogic(this);
 		mobManager = new MobsManager(this);
-		screenRay = new ScreenRay(true, 4); // TODO max bones ?
+		screenRay = new ScreenRay(true, GameConfig.MAX_BONES);
 	}
 	
 	public boolean isFirstSequence() {
@@ -101,30 +109,35 @@ public class GameLevel implements Disposable {
 		// build main sequences
 		queue = new QueueSequence();
 		
-		queue.add(new PreIntroPhase(this));
-		queue.add(new IntroPhase(this));
-		queue.add(new MenuPhase(this));
-		
-		queue.add(new ToTutoPhase(this));
-		queue.add(new TutoPhase(this));
-		queue.add(new TutoEndPhase(this));
-		
-		queue.add(new ToMainStreetPhase(this));
-		queue.add(new MainStreetPhase(this));
-		queue.add(new MainStreetSurprisePhase(this));
-		queue.add(new MainStreetActionPhase(this));
-		
-		queue.add(new ToHousePhase(this));
-		queue.add(new HousePhase(this));
-		
-		queue.add(new ToPlacePhase(this));
-		queue.add(new PlacePhase(this));
-		queue.add(new ToChurchPhase(this));
+		if(!GameConfig.DEBUG_BOSS){
+			queue.add(new PreIntroPhase(this));
+			queue.add(new IntroPhase(this));
+			queue.add(new MenuPhase(this));
+			
+			queue.add(new ToTutoPhase(this));
+			queue.add(new TutoPhase(this));
+			queue.add(new TutoEndPhase(this));
+			
+			queue.add(new ToMainStreetPhase(this));
+			queue.add(new MainStreetPhase(this));
+			queue.add(new MainStreetSurprisePhase(this));
+			queue.add(new MainStreetActionPhase(this));
+			
+			queue.add(new ToHousePhase(this));
+			queue.add(new HousePhase(this));
+			
+			queue.add(new ToPlacePhase(this));
+			queue.add(new PlacePhase(this));
+			queue.add(new ToChurchPhase(this));
+		}
 		queue.add(new ChurchPhase(this));
+		
 		
 		queue.add(new ToBossPhase(this));
 		queue.add(new BossIntroPhase(this));
-		queue.add(new BossPhase(this));
+		queue.add(new Boss1Phase(this));
+		queue.add(new Boss2Phase(this));
+		
 		queue.add(new WinPhase(this));
 		
 		sequencer.add(queue);
@@ -132,7 +145,6 @@ public class GameLevel implements Disposable {
 	
 	@Override
 	public void dispose() {
-		asset.dispose();
 		screenRay.dispose();
 	}
 	
@@ -152,7 +164,9 @@ public class GameLevel implements Disposable {
 	
 	public void next() {
 		firstSequence = false;
-		if(queue != null) queue.next();
+		if(queue != null){
+			queue.next();
+		}
 	}
 
 	public void update(float delta){
@@ -168,6 +182,21 @@ public class GameLevel implements Disposable {
 				setWin();
 			}
 		}
+		
+		// audio
+		if(atmoSFXEnabled){
+			GameAudio.i.playerRandomThings.update(delta);
+			
+			// TODO hearth beat based on life
+			GameAudio.i.playerHeartBeat.volume = .6f;
+			GameAudio.i.playerHeartBeat.pwm(delta, 1.2f, .66f);
+			
+			// TODO steps based on camera !
+			GameAudio.i.playerSteps.volume = .5f;
+			GameAudio.i.playerSteps.random(delta, 1f, .33f);
+
+		}
+
 		
 		sequencer.update(delta);
 		
@@ -224,6 +253,7 @@ public class GameLevel implements Disposable {
 		screenRay.begin(false);
 		screenRay.renderBegin(camera, true);
 		screenRay.render(scene);
+		screenRay.render(witchScene);
 		screenRay.renderEnd();
 		ScreenRayResult r = screenRay.getPick(camera);
 		screenRay.end(false);
@@ -252,15 +282,17 @@ public class GameLevel implements Disposable {
 	private void mobShooted(GameMob mob, float depth) {
 		// TODO anim and such
 		mob.shooted = true;
-		mob.logic.onShooted();
-		mobManager.removeMob(mob);
+		mob.logic.onShooted(this, mob);
+		if(mob.dead){
+			mobManager.removeMob(mob);
+		}
 	}
 
 	public void mobShoot(GameMob mob) {
 		// TODO ensure one shoot at a time
 		Vector3 p = new Vector3(mob.position).add(0, .5f, 0); // TODO eye position
 		
-		mob.logic.shooting();
+		mob.logic.shooting(this, mob);
 		
 		trauma.traumatize();
 		
@@ -290,7 +322,7 @@ public class GameLevel implements Disposable {
 		}
 	}
 	
-	private void setWin() {
+	public void setWin() {
 		sequencer.clear();
 		setCinematicPhase();
 		for(GameListener l : listeners){

@@ -2,6 +2,7 @@ package net.mgsx.dl9.model.game;
 
 import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 
 public class GameMob {
 
@@ -12,11 +13,14 @@ public class GameMob {
 	
 	public MobLogic logic;
 	
+	public final Array<MobLogic> logicQueue = new Array<MobLogic>();
+	
 	/** emitter from which mob as been spawn (may be null in case of free spawn) */
 	public MobEmitter emitter;
 	
 	/** if dead (still on screen) */
 	public boolean shooted;
+	public boolean dead;
 	
 	public GameMob(Node node) {
 		this.node = node;
