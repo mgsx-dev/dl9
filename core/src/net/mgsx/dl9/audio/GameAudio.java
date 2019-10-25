@@ -1,6 +1,7 @@
 package net.mgsx.dl9.audio;
 
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.math.MathUtils;
 
 import net.mgsx.dl9.GameConfig;
 import net.mgsx.dl9.assets.GameAssets;
@@ -14,7 +15,6 @@ public class GameAudio {
 	public final SoundPlayer playerHeartBeat;
 	public final SoundPlayer playerGunReload;
 	public final SoundPlayer playerLaser;
-	public final SoundPlayer playerMobShooted;
 	public final SoundPlayerQueue playerRandomThings;
 	
 	private Music currentMusic;
@@ -25,7 +25,6 @@ public class GameAudio {
 		playerSteps = new SoundPlayer(GameAssets.i.soundSetSteps);
 		playerHeartBeat = new SoundPlayer(GameAssets.i.soundSetHeartBeat);
 		playerLaser = new SoundPlayer(GameAssets.i.soundSetLaser);
-		playerMobShooted = new SoundPlayer(GameAssets.i.soundSetMobShooted);
 		playerRandomThings = new SoundPlayerQueue(GameAssets.i.soundSetRandomThings);
 		
 		playerRandomThings.volume.set(.5f, 1f);
@@ -63,6 +62,16 @@ public class GameAudio {
 				currentMusic.play();
 			}
 		}
+	}
+
+	public void sfxButton() {
+		GameAssets.i.sfxButton.play();
+	}
+	
+	public void sfxZombiDead(float distance){
+		float volume = MathUtils.map(1f, 20f, 1f, 0.5f, distance);
+		volume = MathUtils.clamp(volume, 0, 1);
+		GameAssets.i.soundSetZombieDie.sounds.get(1).play(volume);
 	}
 	
 }

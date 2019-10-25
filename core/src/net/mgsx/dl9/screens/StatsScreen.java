@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import net.mgsx.dl9.DL9Game;
 import net.mgsx.dl9.GameConfig;
+import net.mgsx.dl9.audio.GameAudio;
 
 public class StatsScreen extends BaseScreen {
 
@@ -20,6 +21,7 @@ public class StatsScreen extends BaseScreen {
 		btOK.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
+				GameAudio.i.sfxButton();
 				fadeOut(Color.BLACK, GameConfig.DEFAULT_FADE_DURATION, new Runnable() {
 					public void run() {
 						DL9Game.i().gotoGame();

@@ -36,7 +36,6 @@ public class GameAssets {
 	public SoundSet soundSetGunShots;
 	public SoundSet soundSetGunShotsReload;
 	public SoundSet soundSetLaser;
-	public SoundSet soundSetMobShooted;
 	
 	public Music musicWitchIntro, musicWitch, musicAction, musicAction2, musicCinematic1, musicCinematic2;
 	
@@ -44,13 +43,12 @@ public class GameAssets {
 
 	public SoundSet soundSetRandomThings;
 
-	public Sound sfxBossHitted;
-
 	public Music musicCinematicBoss;
 
 	public Music musicBoss1;
-
 	public Music musicBoss2;
+	public Music musicMenu1;
+	public Music musicMenu2;
 
 	public SceneAsset mainModel;
 
@@ -59,6 +57,16 @@ public class GameAssets {
 	public SceneAsset assetEndGame;
 
 	public SceneAsset witchModel;
+
+	public Sound sfxButton;
+
+	public SoundSet soundSetZombieDie;
+
+	public SoundSet soundSetWitchLaugh;
+
+	public SoundSet soundSetPumpkin;
+
+	public SoundSet soundSetWitchHit;
 
 	public GameAssets(){
 		
@@ -78,13 +86,18 @@ public class GameAssets {
 		sfxZombiAttack = Gdx.audio.newSound(Gdx.files.internal("sfx/zombieattack.wav"));
 		sfxChurch = Gdx.audio.newSound(Gdx.files.internal("sfx/church.wav"));
 		
+		sfxButton = Gdx.audio.newSound(Gdx.files.internal("sfx/button.wav"));
+		
 		soundSetSteps = loadSoundSet("foot-steps", 8);
 		soundSetHeartBeat = loadSoundSet("heart-beat", 2);
 		soundSetGunShots = loadSoundSet("gun-shot", 6);
 		soundSetGunShotsReload = loadSoundSet("gun-reload");
 		
+		soundSetZombieDie = loadSoundSet("zombie", 3);
+		soundSetWitchLaugh = loadSoundSet("witchlaught", 4);
+		soundSetPumpkin = loadSoundSet("pumpkin", 2);
+		
 		soundSetLaser = loadSoundSet("laser", 3);
-		soundSetMobShooted = loadSoundSet("baby", 2); // XXX
 		
 		musicWitchIntro = Gdx.audio.newMusic(Gdx.files.internal("music/introwitchtheme.mp3"));
 		musicWitch = Gdx.audio.newMusic(Gdx.files.internal("music/witchtheme.mp3"));
@@ -97,6 +110,8 @@ public class GameAssets {
 		musicCinematicBoss = Gdx.audio.newMusic(Gdx.files.internal("music/cinematicboss.mp3"));
 		musicBoss1 = Gdx.audio.newMusic(Gdx.files.internal("music/boss-1.mp3"));
 		musicBoss2 = Gdx.audio.newMusic(Gdx.files.internal("music/boss-2.mp3"));
+		musicMenu1 = Gdx.audio.newMusic(Gdx.files.internal("music/menu-1.mp3"));
+		musicMenu2 = Gdx.audio.newMusic(Gdx.files.internal("music/menu-2.mp3"));
 		
 		assetPotiron = loadGLTF(Gdx.files.internal("models/potiron/potiron.gltf"));
 		
@@ -111,7 +126,7 @@ public class GameAssets {
 		soundSetRandomThings.durations.add(3f);
 		soundSetRandomThings.durations.add(10f);
 		
-		sfxBossHitted = Gdx.audio.newSound(Gdx.files.internal("sfx/hitthewitch.wav"));
+		soundSetWitchHit = loadSoundSet("hitthewitch", 3);
 		
 		witchModel = loadGLTF(Gdx.files.internal("models/witch/witch.gltf"));
 		assetEndGame = loadGLTF(Gdx.files.internal("models/ending-poc/ending-poc.gltf"));

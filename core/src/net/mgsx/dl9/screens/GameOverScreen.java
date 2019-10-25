@@ -44,7 +44,7 @@ public class GameOverScreen extends BaseScreen
 
 	public GameOverScreen() {
 		
-		GameAudio.i.playMusic(GameAssets.i.musicCinematic2);
+		GameAudio.i.playMusic(GameAssets.i.musicMenu1);
 		
 		fadeIn(Color.RED, GameConfig.DEFAULT_FADE_DURATION, new Runnable() {
 			@Override

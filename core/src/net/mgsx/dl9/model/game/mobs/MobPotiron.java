@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import net.mgsx.dl9.assets.GameAssets;
 import net.mgsx.dl9.model.game.GameLevel;
 import net.mgsx.dl9.model.game.GameMob;
 import net.mgsx.dl9.model.game.MobLogic;
@@ -31,7 +32,7 @@ public class MobPotiron extends MobLogic
 	
 	@Override
 	public void onShooted(GameLevel level, GameMob mob) {
-		super.onShooted(level, mob);
+		GameAssets.i.soundSetPumpkin.sounds.random().play();
 		mob.dead = true;
 		// no sounds
 	}

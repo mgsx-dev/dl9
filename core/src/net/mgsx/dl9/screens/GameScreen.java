@@ -28,6 +28,7 @@ import com.badlogic.gdx.utils.ObjectMap.Entry;
 import net.mgsx.dl9.DL9Game;
 import net.mgsx.dl9.GameConfig;
 import net.mgsx.dl9.assets.GameAssets;
+import net.mgsx.dl9.audio.GameAudio;
 import net.mgsx.dl9.events.GotoMenuEvent;
 import net.mgsx.dl9.model.game.GameLevel;
 import net.mgsx.dl9.model.game.GameListener;
@@ -209,6 +210,7 @@ public class GameScreen extends BaseScreen
 		btPlay.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
+				GameAudio.i.sfxButton();
 				menu.addAction(Actions.sequence(
 						Actions.alpha(0, 1),
 						Actions.removeActor()
@@ -221,6 +223,7 @@ public class GameScreen extends BaseScreen
 		btSettings.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
+				GameAudio.i.sfxButton();
 				menu.addAction(Actions.sequence(
 						Actions.alpha(0, .2f),
 						Actions.removeActor()));

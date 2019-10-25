@@ -85,6 +85,10 @@ public class Boss1Phase extends BaseActionPhase
 			if(mob.logicQueue.size > 0){
 				mob.logic = mob.logicQueue.removeIndex(0);
 			}else{
+				if(mob.shooted == false){
+					GameAssets.i.soundSetWitchLaugh.sounds.random().play();
+				}
+				
 				mob.shooted = false;
 				if(MathUtils.randomBoolean()){
 					spawnShowHide();

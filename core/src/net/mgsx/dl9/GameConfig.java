@@ -17,7 +17,7 @@ public class GameConfig {
 	
 	// Debug (should be always false)
 	public static boolean DEBUG_BOSS = false;
-	public static boolean DEBUG_SKIP_INTRO = true;
+	public static boolean DEBUG_SKIP_INTRO = false;
 	
 	// Audio options
 	public static boolean AUDIO_ENABLED = true;

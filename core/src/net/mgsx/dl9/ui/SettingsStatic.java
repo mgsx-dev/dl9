@@ -12,6 +12,7 @@ import com.payne.games.piemenu.PieMenu;
 import com.payne.games.piemenu.PieMenu.PieMenuStyle;
 
 import net.mgsx.dl9.DL9Game;
+import net.mgsx.dl9.audio.GameAudio;
 import net.mgsx.dl9.events.GotoMenuEvent;
 import net.mgsx.dl9.model.settings.Setting;
 import space.earlygrey.shapedrawer.ShapeDrawer;
@@ -44,6 +45,7 @@ public class SettingsStatic {
 		bt.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
+				GameAudio.i.sfxButton();
 				event.getStage().getRoot().fire(new GotoMenuEvent());
 			}
 		});
@@ -90,6 +92,7 @@ public class SettingsStatic {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
 				setting.value = menu.getSelectedIndex();
+				GameAudio.i.sfxButton();
 			}
 		});
 		

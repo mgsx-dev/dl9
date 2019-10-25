@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import net.mgsx.dl9.DL9Game;
 import net.mgsx.dl9.GameConfig;
+import net.mgsx.dl9.assets.GameAssets;
 import net.mgsx.dl9.audio.GameAudio;
 import net.mgsx.dl9.utils.FullscreenUtils;
 
@@ -45,6 +46,7 @@ public class IntroScreen extends BaseScreen
 		btPlay.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
+				GameAudio.i.sfxButton();
 				fadeOut(Color.BLACK, GameConfig.DEFAULT_FADE_DURATION, new Runnable() {
 					@Override
 					public void run() {
@@ -57,9 +59,16 @@ public class IntroScreen extends BaseScreen
 		btFullscreen.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
+				GameAudio.i.sfxButton();
 				FullscreenUtils.toggle();
 			}
 		});
+	}
+	
+	@Override
+	public void show() {
+		super.show();
+		GameAudio.i.playMusic(GameAssets.i.musicMenu2);
 	}
 	
 	@Override
