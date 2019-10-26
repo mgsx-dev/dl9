@@ -126,7 +126,7 @@ public class GameAssets {
 		soundSetRandomThings.durations.add(3f);
 		soundSetRandomThings.durations.add(10f);
 		
-		soundSetWitchHit = loadSoundSet("hitthewitch", 3);
+		soundSetWitchHit = loadSoundSet("witch", 1);
 		
 		witchModel = loadGLTF(Gdx.files.internal("models/witch/witch.gltf"));
 		assetEndGame = loadGLTF(Gdx.files.internal("models/ending-poc/ending-poc.gltf"));

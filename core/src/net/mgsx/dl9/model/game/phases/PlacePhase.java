@@ -39,7 +39,7 @@ public class PlacePhase extends BaseActionPhase {
 	
 	@Override
 	public boolean isFinished(float time) {
-		return noMoreSpawn() && mobInFront == null && mobs.size == 0;
+		return noMoreSpawn() && mobInFront == null && !level.mobManager.hasMobs();
 	}
 	
 	private boolean noMoreSpawn(){

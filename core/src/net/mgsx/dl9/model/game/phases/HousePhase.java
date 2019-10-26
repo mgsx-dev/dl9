@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
+import net.mgsx.dl9.GameConfig;
 import net.mgsx.dl9.assets.GameAssets;
 import net.mgsx.dl9.model.game.GameLevel;
 import net.mgsx.dl9.model.game.GameMob;
@@ -104,6 +105,10 @@ public class HousePhase extends BaseActionPhase {
 	private final Array<WindowSpawn> windows = new Array<WindowSpawn>();
 
 	private float time;
+
+	private int nbMobSpawn;
+
+	private boolean allClosed;
 	
 	public HousePhase(GameLevel level) {
 		super(level);
@@ -130,6 +135,15 @@ public class HousePhase extends BaseActionPhase {
 	}
 	
 	@Override
+	public boolean isFinished(float time) {
+		return isEnding() && allClosed;
+	}
+	
+	private boolean isEnding(){
+		return nbMobSpawn >= GameConfig.HOUSE_SPAWNS && !level.mobManager.hasMobs();
+	}
+	
+	@Override
 	public void finished() {
 		super.finished();
 		// cleanup 
@@ -145,7 +159,7 @@ public class HousePhase extends BaseActionPhase {
 	public void update(float utime, float delta) {
 		this.time += delta;
 		
-		if(this.time > MathUtils.random(.1f, 1f) * 5){
+		if(this.time > MathUtils.random(.1f, 1f) * 5 && nbMobSpawn < GameConfig.HOUSE_SPAWNS){
 			this.time = 0;
 			WindowSpawn ws = windows.random();
 			
@@ -156,11 +170,27 @@ public class HousePhase extends BaseActionPhase {
 						
 						ws.mob = level.mobManager.spawnMobAt(ws.spawnPos);
 						ws.mob.logic = new MobWindow();
+						
+						nbMobSpawn++;
 					}
 				}
 				ws.toggle();
 			}else{
 				// TODO ?
+			}
+		}
+		
+		if(isEnding() && this.time > .1f){
+			this.time = 0;
+			allClosed = true;
+			for(WindowSpawn ws : windows){
+				if(!ws.closed){
+					allClosed = false;
+				}
+				if(!ws.closed && !ws.closing && !ws.opening){
+					ws.close();
+					break;
+				}
 			}
 		}
 		

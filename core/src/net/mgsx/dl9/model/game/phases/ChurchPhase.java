@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
+import net.mgsx.dl9.GameConfig;
 import net.mgsx.dl9.model.game.GameLevel;
 import net.mgsx.dl9.model.game.GameMob;
 import net.mgsx.dl9.model.game.MobEmitter;
@@ -38,11 +39,11 @@ public class ChurchPhase extends BaseActionPhase {
 	
 	@Override
 	public boolean isFinished(float time) {
-		return noMoreSpawn() && mobInFront == null && mobs.size == 0;
+		return noMoreSpawn() && mobInFront == null && !level.mobManager.hasMobs();
 	}
 	
 	private boolean noMoreSpawn(){
-		return nbSpawn >= 10; // TODO more
+		return nbSpawn >= GameConfig.CHURCH_SPAWNS;
 	}
 	
 	@Override

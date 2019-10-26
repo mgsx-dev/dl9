@@ -17,7 +17,7 @@ public class MobWitchVerticalHide extends MobWitchBase {
 		
 		witchPosition.set(mob.position).mulAdd(Vector3.Y,t * -2f);
 		
-		updateTransform(level);
+		updateTransform(level, 0);
 	}
 	
 	@Override

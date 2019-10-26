@@ -21,6 +21,7 @@ public class GameMob {
 	/** if dead (still on screen) */
 	public boolean shooted;
 	public boolean dead;
+	public MobEmitter emitter2;
 	
 	public GameMob(Node node) {
 		this.node = node;

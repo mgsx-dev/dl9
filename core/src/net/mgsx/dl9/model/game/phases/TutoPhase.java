@@ -36,6 +36,14 @@ public class TutoPhase extends BaseActionPhase {
 	}
 	
 	@Override
+	public void finished() {
+		for(GameMob mob : mobs){
+			level.mobManager.removeMob(mob);
+		}
+		super.finished();
+	}
+	
+	@Override
 	public boolean isFinished(float time) {
 		// TODO check how many pumpins shooted
 		int count = 0;

@@ -4,11 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g3d.model.Node;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
+import net.mgsx.dl9.DL9Game;
 import net.mgsx.dl9.GameConfig;
 import net.mgsx.dl9.audio.GameAudio;
 import net.mgsx.dl9.core.QueueSequence;
@@ -19,6 +21,7 @@ import net.mgsx.dl9.model.game.camera.CameraAnimator;
 import net.mgsx.dl9.model.game.phases.Boss1Phase;
 import net.mgsx.dl9.model.game.phases.Boss2Phase;
 import net.mgsx.dl9.model.game.phases.BossIntroPhase;
+import net.mgsx.dl9.model.game.phases.BossMidPhase;
 import net.mgsx.dl9.model.game.phases.ChurchPhase;
 import net.mgsx.dl9.model.game.phases.HousePhase;
 import net.mgsx.dl9.model.game.phases.IntroPhase;
@@ -39,6 +42,7 @@ import net.mgsx.dl9.model.game.phases.TutoPhase;
 import net.mgsx.dl9.model.game.phases.WinPhase;
 import net.mgsx.dl9.utils.CustomAnimationsPlayer;
 import net.mgsx.dl9.vfx.CameraTrauma;
+import net.mgsx.gltf.scene3d.model.WeightVector;
 import net.mgsx.gltf.scene3d.scene.Scene;
 import net.mgsx.gltf.scene3d.scene.SceneAsset;
 
@@ -68,7 +72,7 @@ public class GameLevel implements Disposable {
 	
 	public int bullets;
 	
-	public int heroLife = GameConfig.HERO_LIFE_MAX;
+	public int heroLife;
 	
 	public final InputLogic input;
 	public boolean actionPhase = false;
@@ -84,6 +88,28 @@ public class GameLevel implements Disposable {
 	private boolean firstSequence = true;
 	
 	public boolean atmoSFXEnabled = false;
+	
+	public float globalLight = 1;
+	
+	public float globalLightTarget = 1;
+
+	public Node witchNode;
+
+	public Node witchBalaiNode;
+
+	public WitchCommon witchCommon;
+
+	public float globalLightFX = 0;
+
+	public WeightVector witchShapeKeys;
+
+	public int heroLifeMax;
+
+	public int nbBulletUsed;
+
+	public int nbZombiKilled;
+
+	public int nbLazerGet;
 	
 	public GameLevel() {
 		input = new InputLogic(this);
@@ -136,11 +162,27 @@ public class GameLevel implements Disposable {
 		queue.add(new ToBossPhase(this));
 		queue.add(new BossIntroPhase(this));
 		queue.add(new Boss1Phase(this));
+		queue.add(new BossMidPhase(this));
 		queue.add(new Boss2Phase(this));
 		
 		queue.add(new WinPhase(this));
 		
 		sequencer.add(queue);
+	}
+	
+	public void initStats() {
+		int difficulty = DL9Game.i().settings.difficulty.value;
+		int life;
+		if(difficulty == 0){
+			life = 30;
+		}else if(difficulty == 1){
+			life = 10;
+		}else{
+			life = 3;
+		}
+		
+		heroLifeMax = heroLife = life;
+		
 	}
 	
 	@Override
@@ -182,6 +224,8 @@ public class GameLevel implements Disposable {
 				setWin();
 			}
 		}
+		
+		globalLight = MathUtils.lerp(globalLight, globalLightTarget, delta);
 		
 		// audio
 		if(atmoSFXEnabled){
@@ -233,6 +277,8 @@ public class GameLevel implements Disposable {
 				l.onBulletChanged();
 			}
 			checkCollision();
+			
+			nbBulletUsed++;
 		}
 	}
 
@@ -285,6 +331,7 @@ public class GameLevel implements Disposable {
 		mob.logic.onShooted(this, mob);
 		if(mob.dead){
 			mobManager.removeMob(mob);
+			nbZombiKilled++;
 		}
 	}
 
@@ -293,6 +340,8 @@ public class GameLevel implements Disposable {
 		Vector3 p = new Vector3(mob.position).add(0, .5f, 0); // TODO eye position
 		
 		mob.logic.shooting(this, mob);
+		
+		nbLazerGet++;
 		
 		trauma.traumatize();
 		

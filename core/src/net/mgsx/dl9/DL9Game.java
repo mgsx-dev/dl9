@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Collections;
 
 import net.mgsx.dl9.assets.GameAssets;
 import net.mgsx.dl9.audio.GameAudio;
+import net.mgsx.dl9.model.game.GameLevel;
 import net.mgsx.dl9.model.settings.Settings;
 import net.mgsx.dl9.screens.GameOverScreen;
 import net.mgsx.dl9.screens.GameScreen;
@@ -26,6 +27,8 @@ public class DL9Game extends Game {
 	private boolean paused = false;
 	
 	private Stats stats;
+	
+	public GameLevel lastLevel;
 
 	public static DL9Game i() {
 		return (DL9Game)Gdx.app.getApplicationListener();

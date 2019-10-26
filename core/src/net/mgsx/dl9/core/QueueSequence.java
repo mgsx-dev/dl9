@@ -32,10 +32,10 @@ public class QueueSequence extends SceneSequence {
 	public void update(float time, float delta) {
 		if(sequences.size > 0){
 			SceneSequence s = sequences.first();
+			s.update(time, delta);
 			if(s.isFinished(time)){
 				next();
 			}
-			s.update(time, delta);
 		}
 	}
 

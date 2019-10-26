@@ -6,14 +6,14 @@ public class GameConfig {
 	public static final String GAME_TITLE = "LENDIGASTEL";
 
 	public static final int MAX_BONES = 22;
-	
+
 	// Runtime
 	
 	public static boolean DEBUG = true;
-	public static boolean ALLOW_PAUSE = DEBUG;
+	public static boolean ALLOW_PAUSE = true;
 	public static boolean DEBUG_NATIVE_CAMERA = false;
-	public static boolean DEBUG_INVINCIBLE = true;
-	public static boolean DEBUG_MODELS = true;
+	public static boolean DEBUG_INVINCIBLE = false;
+	public static boolean DEBUG_MODELS = false;
 	
 	// Debug (should be always false)
 	public static boolean DEBUG_BOSS = false;
@@ -25,7 +25,15 @@ public class GameConfig {
 	// Gameplay
 	public static int MAX_BULLETS = 6;
 	public static float RELOAD_DURATION = 1f;
-	public static int HERO_LIFE_MAX = 8;
+
+	// PHASES
+	public static int HOUSE_SPAWNS = 13;
+	public static int CHURCH_SPAWNS = 13;
+	
+	// BOSS
+	public static int BOSS_PHASE_1_LIFE = 10;
+	public static int BOSS_PHASE_2_LIFE = 20;
+
 	
 	// Display
 	public static float HUD_SCALE = 0.5f;

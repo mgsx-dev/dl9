@@ -17,7 +17,7 @@ public class MobWitchVerticalShow extends MobWitchBase {
 		
 		witchPosition.set(mob.position).mulAdd(Vector3.Y,(1 - t) * -2f);
 		
-		updateTransform(level);
+		updateTransform(level, 0);
 	}
 	
 	@Override

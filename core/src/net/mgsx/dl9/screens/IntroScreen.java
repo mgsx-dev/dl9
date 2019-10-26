@@ -41,12 +41,11 @@ public class IntroScreen extends BaseScreen
 		root.add("Warning, this game may kill you").row();
 		root.add().height(sep).row();
 		
-		root.add(btPlay = new TextButton("I fully understand and I'm Ready to Play", skin)).row(); // TODO or Die see at 3PM
+		root.add(btPlay = new TextButton("I fully understand and I'm Ready to Die", skin)).row();
 		
 		btPlay.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				GameAudio.i.sfxButton();
 				fadeOut(Color.BLACK, GameConfig.DEFAULT_FADE_DURATION, new Runnable() {
 					@Override
 					public void run() {
@@ -59,7 +58,6 @@ public class IntroScreen extends BaseScreen
 		btFullscreen.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				GameAudio.i.sfxButton();
 				FullscreenUtils.toggle();
 			}
 		});

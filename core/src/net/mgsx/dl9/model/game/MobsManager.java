@@ -136,6 +136,9 @@ public class MobsManager {
 			// XXX mob.emitter.mob = null;
 		}
 	}
+	public void removeWitchMob(GameMob mob){
+		level.mobs.removeValue(mob, true);
+	}
 	public void removeMobs(Array<GameMob> mobs) {
 		for(GameMob mob : mobs) removeMob(mob);
 	}
@@ -146,6 +149,17 @@ public class MobsManager {
 		level.scene.modelInstance.nodes.add(mob.node);
 		level.mobs.add(mob);
 		return mob;
+	}
+
+	public boolean hasMobs() {
+		return level.mobs.size > 0;
+	}
+
+	public void clear() {
+		for(GameMob mob : level.mobs){
+			level.scene.modelInstance.nodes.removeValue(mob.node, true);
+		}
+		level.mobs.clear();
 	}
 
 	

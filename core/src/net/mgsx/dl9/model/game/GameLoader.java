@@ -9,6 +9,8 @@ import com.badlogic.gdx.utils.ObjectMap.Entry;
 import net.mgsx.dl9.GameConfig;
 import net.mgsx.dl9.assets.GameAssets;
 import net.mgsx.dl9.utils.CustomAnimationsPlayer;
+import net.mgsx.dl9.utils.NodeUtils;
+import net.mgsx.gltf.scene3d.model.NodePartPlus;
 import net.mgsx.gltf.scene3d.scene.Scene;
 import net.mgsx.gltf.scene3d.scene.SceneAsset;
 
@@ -52,6 +54,14 @@ public class GameLoader {
 		
 		gameLevel.witchScene = new Scene(GameAssets.i.witchModel.scene);
 		
+		gameLevel.witchNode = gameLevel.witchScene.modelInstance.getNode("Armature");
+		gameLevel.witchBalaiNode = gameLevel.witchScene.modelInstance.getNode("Balai");
+		
+		gameLevel.witchShapeKeys = ((NodePartPlus) gameLevel.witchScene.modelInstance.getNode("Witch").parts.first()).morphTargets;
+		
+		NodeUtils.enable(gameLevel.witchNode, false);
+		NodeUtils.enable(gameLevel.witchBalaiNode, false);
+		
 		scene.modelInstance.nodes.removeValue(gameLevel.mobNode, true);
 		
 		gameLevel.nativeCamera = scene.getCamera("Camera_Orientation");
@@ -71,6 +81,8 @@ public class GameLoader {
 		}
 		
 		gameLevel.animations = new CustomAnimationsPlayer(scene);
+		
+		gameLevel.witchCommon = new WitchCommon(gameLevel);
 		
 		return gameLevel;
 	}

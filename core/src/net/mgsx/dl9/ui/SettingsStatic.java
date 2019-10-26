@@ -24,7 +24,7 @@ public class SettingsStatic {
 	
 	public static void create(Stage stage, Skin skin){
 		
-		createMenu(stage, skin, 0, -2, DL9Game.i().settings.quality, false, "Quality");
+		createMenu(stage, skin, 0, -2, DL9Game.i().settings.difficulty, false, "Difficulty");
 		createMenu(stage, skin, 0, -1, DL9Game.i().settings.quality, false, "Quality");
 		createMenu(stage, skin, 0, 0, DL9Game.i().settings.luminosity, true, "Luminosity");
 		createMenu(stage, skin, 0, 1, DL9Game.i().settings.spookiness, false, "Spookiness");
@@ -45,7 +45,6 @@ public class SettingsStatic {
 		bt.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				GameAudio.i.sfxButton();
 				event.getStage().getRoot().fire(new GotoMenuEvent());
 			}
 		});

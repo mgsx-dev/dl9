@@ -69,9 +69,17 @@ public class GameAudio {
 	}
 	
 	public void sfxZombiDead(float distance){
-		float volume = MathUtils.map(1f, 20f, 1f, 0.5f, distance);
+		float volume = MathUtils.map(1f, 20f, 1f, 0.8f, distance);
 		volume = MathUtils.clamp(volume, 0, 1);
-		GameAssets.i.soundSetZombieDie.sounds.get(1).play(volume);
+		if(distance < 10){
+			GameAssets.i.soundSetZombieDie.sounds.get(0).play(volume);
+		}else if(distance < 30){
+			GameAssets.i.soundSetZombieDie.sounds.get(1).play(volume);
+		}else{
+			GameAssets.i.soundSetZombieDie.sounds.get(2).play(volume);
+		}
+		
+		
 	}
 	
 }

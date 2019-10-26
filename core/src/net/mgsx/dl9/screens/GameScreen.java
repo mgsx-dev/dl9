@@ -28,7 +28,6 @@ import com.badlogic.gdx.utils.ObjectMap.Entry;
 import net.mgsx.dl9.DL9Game;
 import net.mgsx.dl9.GameConfig;
 import net.mgsx.dl9.assets.GameAssets;
-import net.mgsx.dl9.audio.GameAudio;
 import net.mgsx.dl9.events.GotoMenuEvent;
 import net.mgsx.dl9.model.game.GameLevel;
 import net.mgsx.dl9.model.game.GameListener;
@@ -73,7 +72,7 @@ public class GameScreen extends BaseScreen
 		
 		bgColor.set(Color.BLACK);
 		
-		level = new GameLoader().load(GameAssets.i.mainModel);
+		DL9Game.i().lastLevel = level = new GameLoader().load(GameAssets.i.mainModel);
 		
 		level.stage = stage;
 		
@@ -97,7 +96,6 @@ public class GameScreen extends BaseScreen
 		sceneManager.addScene(level.scene);
 		sceneManager.addScene(level.witchScene);
 		sceneManager.setCamera(level.camera);
-		sceneManager.setAmbientLight(ambient);
 		
 		if(!GameConfig.GPU_LIGHTS){
 			sceneManager.environment.remove(DirectionalLightsAttribute.Type);
@@ -210,7 +208,6 @@ public class GameScreen extends BaseScreen
 		btPlay.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				GameAudio.i.sfxButton();
 				menu.addAction(Actions.sequence(
 						Actions.alpha(0, 1),
 						Actions.removeActor()
@@ -223,7 +220,6 @@ public class GameScreen extends BaseScreen
 		btSettings.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				GameAudio.i.sfxButton();
 				menu.addAction(Actions.sequence(
 						Actions.alpha(0, .2f),
 						Actions.removeActor()));
@@ -245,6 +241,9 @@ public class GameScreen extends BaseScreen
 	}
 
 	protected void launchGame() {
+		
+		level.initStats();
+		
 		stage.addActor(hud);
 		level.next();
 	}
@@ -296,7 +295,7 @@ public class GameScreen extends BaseScreen
 		sceneManager.update(delta);
 		beam.update(delta);
 		
-		hud.setLife((float)level.heroLife / (float)GameConfig.HERO_LIFE_MAX);
+		hud.setLife((float)level.heroLife / (float)level.heroLifeMax);
 		
 		// full fog effect
 		fogTime = MathUtils.clamp(fogTime + delta * fogTransition, 0, 1);
@@ -320,14 +319,16 @@ public class GameScreen extends BaseScreen
 			sceneManager.environment.get(FogAttribute.class, FogAttribute.FogEquation).set(.1f, level.camera.far, fogExp); // .1f is good
 		}
 		
-
-		// animate lights
+		// update lights
+		sceneManager.setAmbientLight(ambient * level.globalLight);
+		
 		for(Entry<Node, BaseLight> e : level.scene.lights){
 			BaseLight light = e.value;
+			float lightFactorFX = level.globalLightFX * (MathUtils.sin(time * 50) * .5f + .5f) * 1;
 			if(light instanceof PointLight){
-				((PointLight) light).intensity = (MathUtils.sin(time * .12f * (1 + MathUtils.sin(time * 1.9f))) + 1.5f) * 40 + 200;
+				((PointLight) light).intensity = ((MathUtils.sin(time * .12f * (1 + MathUtils.sin(time * 1.9f))) + 1.5f) * 40 + 200) * (level.globalLight + lightFactorFX);
 			}else if(light instanceof DirectionalLightEx){
-				((DirectionalLightEx) light).intensity = dirLightFactor;
+				((DirectionalLightEx) light).intensity = dirLightFactor * (level.globalLight + lightFactorFX);
 			}
 		}
 		
