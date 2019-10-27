@@ -12,6 +12,9 @@ import net.mgsx.dl9.model.game.GameLevel;
 public class StatsScreen extends BaseScreen {
 
 	public StatsScreen() {
+		
+		// GameAudio.i.playMusic(GameAssets.i.musicAction);
+		
 		root.add("Game Over").row();
 		
 		GameLevel level = DL9Game.i().lastLevel;

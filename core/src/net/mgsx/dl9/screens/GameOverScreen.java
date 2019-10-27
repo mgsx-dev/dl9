@@ -148,6 +148,6 @@ public class GameOverScreen extends BaseScreen
 		sceneManager.render();
 		
 		stage.act();
-		stage.draw();
+		if(stage != null) stage.draw();
 	}
 }

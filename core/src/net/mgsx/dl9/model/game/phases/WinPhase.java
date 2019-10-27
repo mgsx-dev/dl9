@@ -25,7 +25,9 @@ public class WinPhase extends BaseCinematicPhase
 		
 		level.witchScene.animationController.animate("Witch Die", 0);
 		
-		level.globalLight = 1;
+		GameAssets.i.sfxWitchDie.play();
+		
+		level.globalLightTarget = 100; // XXX
 	}
 	
 	@Override

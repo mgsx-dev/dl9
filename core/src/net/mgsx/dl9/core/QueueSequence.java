@@ -53,9 +53,6 @@ public class QueueSequence extends SceneSequence {
 				s.started();
 			}
 		}
-		if(sequences.size > 0){
-			System.out.println("Sequence " + sequences.first().toString());
-		}
 	}
 
 }

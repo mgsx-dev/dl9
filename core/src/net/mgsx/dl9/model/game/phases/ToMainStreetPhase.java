@@ -13,5 +13,6 @@ public class ToMainStreetPhase extends BaseCinematicPhase {
 	public void started() {
 		super.started();
 		level.animations.play("to main street sign");
+		level.animations.play("StreetMobIntro");
 	}
 }

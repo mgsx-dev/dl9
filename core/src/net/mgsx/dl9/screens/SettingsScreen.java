@@ -23,7 +23,7 @@ public class SettingsScreen extends UIScreen
 //		settings.setFillParent(true);
 //		stage.addActor(settings);
 		
-		SettingsStatic.create(stage, skin);
+		SettingsStatic.create(stage, skin, false);
 		
 		stage.addListener(new ChangeListener() {
 			@Override

@@ -2,6 +2,9 @@ package net.mgsx.dl9;
 
 public class GameConfig {
 	
+	// MASTER CONST
+	public static final boolean DEV_MODE = false;
+	
 	// Const.
 	public static final String GAME_TITLE = "LENDIGASTEL";
 
@@ -9,11 +12,12 @@ public class GameConfig {
 
 	// Runtime
 	
-	public static boolean DEBUG = true;
-	public static boolean ALLOW_PAUSE = true;
+	public static boolean DEBUG = DEV_MODE;
+	public static boolean ALLOW_PAUSE = DEV_MODE;
 	public static boolean DEBUG_NATIVE_CAMERA = false;
 	public static boolean DEBUG_INVINCIBLE = false;
-	public static boolean DEBUG_MODELS = false;
+	public static boolean DEBUG_MODELS = DEV_MODE;
+	public static boolean DEBUG_SETTINGS = true && ALLOW_PAUSE;
 	
 	// Debug (should be always false)
 	public static boolean DEBUG_BOSS = false;
@@ -56,7 +60,16 @@ public class GameConfig {
 	public static int WINDOW_WIDTH = 1024;
 	public static int WINDOW_HEIGHT = 768;
 	public static boolean DEFAULT_FULLSCREEN = false;
-	public static boolean USE_VSYNC = false;
-	public static boolean FORCE_VSYNC = true;
 	
+	// LOGS
+	public static boolean LOG_SHADERS = true;
+	
+	// Startup options (configurable later)
+	public static final boolean STARTUP_USE_VSYNC = !DEV_MODE;
+	public static final boolean STARTUP_FORCE_VSYNC = DEV_MODE;
+
+	public static final float INTRO_LIGHT_POWER = .2f;
+	public static final float INTRO_LIGHT_SPEED = .5f;
+
+	public static final float CAMERA_WALK_HEIGHT = .02f;
 }

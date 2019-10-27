@@ -19,14 +19,26 @@ public class PreIntroPhase extends BaseCinematicPhase {
 		level.scene.animationController.animate(cameraAnimID, 0);
 		level.cameraAnimator.disable();
 		
+		level.globalLightTarget = level.globalLight = GameConfig.INTRO_LIGHT_POWER;
+		
 		GUIUtils.queueFade(level.stage, 1.5f, 1.5f, 2.7f, .3f, 1f,
 				GUIUtils.message("MGSX Network Production"),
-				GUIUtils.message("sound design & musics\nToonguila"),
-				GUIUtils.message("graphics & programming\nMgsx"),
+				GUIUtils.message("sound design & music\nToonguila"),
+				GUIUtils.message("programming & graphics\nMgsx"),
 				GUIUtils.message(GameConfig.GAME_TITLE, "stylized")
 				);
 	}
 	
+	@Override
+	public void update(float time, float delta) {
+		super.update(time, delta);
+	}
+	
+	@Override
+	public void finished() {
+		super.finished();
+		
+	}
 	
 	@Override
 	public boolean isFinished(float time) {

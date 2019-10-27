@@ -25,6 +25,7 @@ public class UIScreen extends StageScreen
 	
 	@Override
 	public void render(float delta) {
+		bgColor.clamp();
 		Gdx.gl.glClearColor(bgColor.r, bgColor.g, bgColor.b, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 

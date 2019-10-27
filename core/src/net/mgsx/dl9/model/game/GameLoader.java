@@ -32,7 +32,6 @@ public class GameLoader {
 			}
 			
 			if(node.id.startsWith("Empty")){
-				// System.out.println("Empty: " + node.id);
 				
 				node.calculateTransforms(true);
 				

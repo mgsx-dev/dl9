@@ -33,7 +33,7 @@ public class DesktopLauncher {
 		}else{
 			config.setWindowedMode(GameConfig.WINDOW_WIDTH, GameConfig.WINDOW_HEIGHT);
 		}
-		config.useVsync(GameConfig.USE_VSYNC);
+		config.useVsync(GameConfig.STARTUP_USE_VSYNC);
 		new Lwjgl3Application(new DL9Game(){
 			private Sync sync = new Sync();
 			@Override
@@ -46,7 +46,7 @@ public class DesktopLauncher {
 			@Override
 			public void render() {
 				super.render();
-				if(GameConfig.FORCE_VSYNC) sync.sync(60);
+				if(settings.isVSyncForced()) sync.sync(60);
 			}
 		}, config);
 	}

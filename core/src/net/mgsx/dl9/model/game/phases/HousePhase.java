@@ -166,7 +166,7 @@ public class HousePhase extends BaseActionPhase {
 			if(!ws.opening && !ws.closing){
 				if(ws.closed && ws.mob == null){
 					// add a mob TODO or not
-					if(MathUtils.randomBoolean()){
+					if(MathUtils.randomBoolean(.8f)){
 						
 						ws.mob = level.mobManager.spawnMobAt(ws.spawnPos);
 						ws.mob.logic = new MobWindow();

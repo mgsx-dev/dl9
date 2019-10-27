@@ -11,4 +11,5 @@ public abstract class MobBase extends MobLogic {
 		super.onShooted(level, mob);
 		mob.dead = true;
 	}
+	
 }

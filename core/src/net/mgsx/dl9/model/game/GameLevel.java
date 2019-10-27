@@ -114,7 +114,7 @@ public class GameLevel implements Disposable {
 	public GameLevel() {
 		input = new InputLogic(this);
 		mobManager = new MobsManager(this);
-		screenRay = new ScreenRay(true, GameConfig.MAX_BONES);
+		screenRay = new ScreenRay(false, GameConfig.MAX_BONES);
 	}
 	
 	public boolean isFirstSequence() {
@@ -232,13 +232,9 @@ public class GameLevel implements Disposable {
 			GameAudio.i.playerRandomThings.update(delta);
 			
 			// TODO hearth beat based on life
-			GameAudio.i.playerHeartBeat.volume = .6f;
+			GameAudio.i.playerHeartBeat.volume = heroLifeMax <= 0 ? 0 : 1f - (float)heroLife / (float)heroLifeMax;
 			GameAudio.i.playerHeartBeat.pwm(delta, 1.2f, .66f);
 			
-			// TODO steps based on camera !
-			GameAudio.i.playerSteps.volume = .5f;
-			GameAudio.i.playerSteps.random(delta, 1f, .33f);
-
 		}
 
 		

@@ -33,11 +33,9 @@ public class SoundPlayer {
 		if(time > 1 && index == 1){
 			time = time % 1f;
 			index = 0;
-			//System.out.println("A");
 			soundSet.sounds.get(index).play(volume);
 		}else if(time > pwm && index == 0){
 			index = 1;
-			//System.out.println("B");
 			soundSet.sounds.get(index).play(volume);
 		}
 	}

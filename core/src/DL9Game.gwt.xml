@@ -14,5 +14,6 @@
 	<extend-configuration-property name="gdx.files.classpath" value="net/mgsx/dl9/shaders/burst.vs" />
 	<extend-configuration-property name="gdx.files.classpath" value="net/mgsx/dl9/shaders/gdx-pbr.fs.glsl" />
 	<extend-configuration-property name="gdx.files.classpath" value="net/mgsx/dl9/shaders/screen-ray-frag.glsl" />
+	<extend-configuration-property name="gdx.files.classpath" value="net/mgsx/dl9/shaders/screen-ray-vert.glsl" />
 	
 </module>

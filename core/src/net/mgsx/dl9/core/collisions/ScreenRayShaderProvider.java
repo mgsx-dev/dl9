@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
+import net.mgsx.dl9.utils.ShaderUtils;
 import net.mgsx.gltf.scene3d.shaders.PBRShader;
 import net.mgsx.gltf.scene3d.shaders.PBRShaderConfig;
 import net.mgsx.gltf.scene3d.shaders.PBRShaderProvider;
@@ -124,10 +125,12 @@ public class ScreenRayShaderProvider extends BaseShaderProvider
 		config.numDirectionalLights = 0;
 		config.numPointLights= 0;
 		config.numSpotLights = 0;
-		config.vertexShader = vsPrefix + Gdx.files.classpath("net/mgsx/gltf/shaders/depth.vs.glsl").readString();
+		config.vertexShader = vsPrefix + Gdx.files.classpath("net/mgsx/dl9/shaders/screen-ray-vert.glsl").readString();
 		config.fragmentShader = fsPrefix + Gdx.files.classpath("net/mgsx/dl9/shaders/screen-ray-frag.glsl").readString();
 		config.numBones = this.config.numBones;
 		PBRShader shader = new DepthIDShader(renderable, config, prefix);
+		
+		ShaderUtils.log("DepthIDShader", shader.program);
 		
 		if(!shader.canRender(renderable)) throw new GdxRuntimeException("oops! recursive GPU create shader!");
 		

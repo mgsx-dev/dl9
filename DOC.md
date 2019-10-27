@@ -19,3 +19,4 @@ P - pause
 K - insta depth
 W - insta win
 
+Q - edit ingame settings (and pause)

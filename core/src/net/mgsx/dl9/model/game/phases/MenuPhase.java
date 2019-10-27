@@ -26,6 +26,8 @@ public class MenuPhase extends BaseCinematicPhase {
 		super.started();
 		level.triggerMenu();
 		level.atmoSFXEnabled = true;
+		
+		level.globalLightTarget = level.globalLight = 1;
 	}
 	
 	@Override

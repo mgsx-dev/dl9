@@ -59,6 +59,8 @@ public class GameAssets {
 	public SceneAsset witchModel;
 
 	public Sound sfxButton;
+	public Sound sfxWitchDie;
+	
 
 	public SoundSet soundSetZombieDie;
 
@@ -87,6 +89,8 @@ public class GameAssets {
 		sfxChurch = Gdx.audio.newSound(Gdx.files.internal("sfx/church.wav"));
 		
 		sfxButton = Gdx.audio.newSound(Gdx.files.internal("sfx/button.wav"));
+		sfxWitchDie = Gdx.audio.newSound(Gdx.files.internal("sfx/witchdie.wav"));
+		
 		
 		soundSetSteps = loadSoundSet("foot-steps", 8);
 		soundSetHeartBeat = loadSoundSet("heart-beat", 2);

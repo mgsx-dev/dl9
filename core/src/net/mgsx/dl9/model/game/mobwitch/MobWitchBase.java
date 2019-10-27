@@ -33,8 +33,6 @@ public abstract class MobWitchBase extends MobLogic {
 	@Override
 	public void onShooted(GameLevel level, GameMob mob) {
 		GameAssets.i.soundSetWitchHit.sounds.random().play();
-		// and not dead (never)
-		System.out.println("witch shooted");
 	}
 	
 	public void begin(GameLevel level) {

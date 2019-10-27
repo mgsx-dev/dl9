@@ -30,7 +30,9 @@ abstract public class StageScreen extends ScreenAdapter
 	@Override
 	public void render(float delta) {
 		stage.act();
-		stage.draw();
+		if(stage != null){ // prevent stage disposed during act (eg. screen changed when pressed on button)
+			stage.draw();
+		}
 	}
 	
 	@Override
@@ -41,5 +43,6 @@ abstract public class StageScreen extends ScreenAdapter
 	@Override
 	public void dispose() {
 		stage.dispose();
+		stage = null;
 	}
 }

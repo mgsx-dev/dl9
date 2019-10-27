@@ -8,7 +8,8 @@ import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.GdxRuntimeException;
+
+import net.mgsx.dl9.utils.ShaderUtils;
 
 public class Beam implements Disposable {
 
@@ -33,16 +34,14 @@ public class Beam implements Disposable {
 	
 	public Beam() {
 		beamShaderLight = new ShaderProgram(Gdx.files.classpath("net/mgsx/dl9/shaders/beam.vs"), Gdx.files.internal("net/mgsx/dl9/shaders/beam.fs"));
-		if(!beamShaderLight.isCompiled()) throw new GdxRuntimeException(beamShaderLight.getLog());
-		
 		beamShaderDark = new ShaderProgram(Gdx.files.internal("net/mgsx/dl9/shaders/beam.vs"), Gdx.files.internal("net/mgsx/dl9/shaders/beam-dark.fs"));
-		if(!beamShaderDark.isCompiled()) throw new GdxRuntimeException(beamShaderDark.getLog());
-		
 		burstShaderLight = new ShaderProgram(Gdx.files.internal("net/mgsx/dl9/shaders/burst.vs"), Gdx.files.internal("net/mgsx/dl9/shaders/burst.fs"));
-		if(!burstShaderLight.isCompiled()) throw new GdxRuntimeException(burstShaderLight.getLog());
-		
 		burstShaderDark = new ShaderProgram(Gdx.files.internal("net/mgsx/dl9/shaders/burst.vs"), Gdx.files.internal("net/mgsx/dl9/shaders/burst-dark.fs"));
-		if(!burstShaderDark.isCompiled()) throw new GdxRuntimeException(burstShaderDark.getLog());
+		
+		ShaderUtils.log("beamShaderLight", beamShaderLight);
+		ShaderUtils.log("beamShaderDark", beamShaderDark);
+		ShaderUtils.log("burstShaderLight", burstShaderLight);
+		ShaderUtils.log("burstShaderDark", burstShaderDark);
 		
 		shapeRenderer = new ImmediateModeRenderer20(4, false, true, 1, beamShaderLight);
 	}

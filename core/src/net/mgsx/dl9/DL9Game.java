@@ -51,6 +51,10 @@ public class DL9Game extends Game {
 		}
 	}
 	
+	public void setGamePaused(boolean pause){
+		this.paused = pause;
+	}
+	
 	@Override
 	public void render() {
 		float delta = paused ? 0 : Gdx.graphics.getDeltaTime();

@@ -17,7 +17,7 @@ public class BossMidPhase extends BaseCinematicPhase
 	public void started() {
 		super.started();
 		
-		level.globalLightTarget = 10; // XXX
+		level.globalLightTarget = 100; // XXX
 		
 		level.witchScene.modelInstance.transform.setToTranslation(level.witchCommon.emit_corridorCenter.position);
 		level.witchScene.modelInstance.transform.rotate(Vector3.Y, 180);

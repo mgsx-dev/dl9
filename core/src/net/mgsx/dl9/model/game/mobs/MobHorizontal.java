@@ -1,9 +1,5 @@
 package net.mgsx.dl9.model.game.mobs;
 
-import com.badlogic.gdx.math.Quaternion;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-
 import net.mgsx.dl9.model.game.GameLevel;
 import net.mgsx.dl9.model.game.GameMob;
 
@@ -38,6 +34,7 @@ public class MobHorizontal extends MobBase
 		
 		mob.node.translation.set(mob.position);
 		
+		/*
 		mob.node.rotation.idt();
 		
 		// orientation to camera
@@ -47,6 +44,9 @@ public class MobHorizontal extends MobBase
 				level.camera.position.z + level.camera.direction.z * deltaLook - mob.position.z).nor().angle();
 		
 		mob.node.rotation.mul(new Quaternion().setFromAxis(Vector3.Y, -angle + 180));
+		*/
+		
+		lootAtCam(level, mob);
 		
 		mob.node.calculateLocalTransform();
 		mob.node.calculateWorldTransform();

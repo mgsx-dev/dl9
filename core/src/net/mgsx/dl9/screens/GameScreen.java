@@ -13,10 +13,12 @@ import com.badlogic.gdx.graphics.g3d.attributes.DirectionalLightsAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.PointLightsAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.SpotLightsAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.BaseLight;
+import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.environment.PointLight;
 import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -36,13 +38,16 @@ import net.mgsx.dl9.model.game.camera.SimpleCameraAnimator;
 import net.mgsx.dl9.model.settings.Settings;
 import net.mgsx.dl9.ui.GameHUD;
 import net.mgsx.dl9.ui.SettingsStatic;
+import net.mgsx.dl9.utils.SceneUtils;
 import net.mgsx.dl9.vfx.Beam;
 import net.mgsx.gltf.scene3d.attributes.FogAttribute;
 import net.mgsx.gltf.scene3d.attributes.PBRCubemapAttribute;
 import net.mgsx.gltf.scene3d.lights.DirectionalLightEx;
+import net.mgsx.gltf.scene3d.lights.DirectionalShadowLight;
 import net.mgsx.gltf.scene3d.scene.SceneManager;
 import net.mgsx.gltf.scene3d.scene.SceneSkybox;
 import net.mgsx.gltf.scene3d.shaders.PBRShaderConfig;
+import net.mgsx.gltf.scene3d.shaders.PBRShaderConfig.SRGB;
 import net.mgsx.gltf.scene3d.shaders.PBRShaderProvider;
 import net.mgsx.gltf.scene3d.utils.EnvironmentUtil;
 
@@ -65,6 +70,12 @@ public class GameScreen extends BaseScreen
 	private Table menu;
 	
 	private final Settings settings;
+	private DirectionalLight moonLight;
+	private PBRShaderConfig cfg;
+	private final BoundingBox shadowBox = new BoundingBox();
+	private PointLightsAttribute pointLights;
+	private BaseLight camLight;
+	private PointLight frontLight, churchLight;
 	
 	public GameScreen() {
 		
@@ -80,8 +91,8 @@ public class GameScreen extends BaseScreen
 		
 		level.cameraAnimator = new SimpleCameraAnimator(level);
 		
-		PBRShaderConfig cfg = PBRShaderProvider.defaultConfig();
-		
+		cfg = PBRShaderProvider.defaultConfig();
+		cfg.manualSRGB = SRGB.FAST;
 		cfg.numBones = GameConfig.MAX_BONES;
 		cfg.numSpotLights = 0;
 		cfg.numPointLights = 12;
@@ -130,6 +141,13 @@ public class GameScreen extends BaseScreen
 			}
 		}
 		
+		moonLight = (DirectionalLight)level.scene.getLight("MoonLight_Orientation");
+		
+		camLight = (PointLight)level.scene.getLight("light to keep ??_Orientation");
+		frontLight = (PointLight)level.scene.getLight("sun-face-light_Orientation");
+		churchLight = (PointLight)level.scene.getLight("church light_Orientation");
+		
+		pointLights = sceneManager.environment.get(PointLightsAttribute.class, PointLightsAttribute.Type);
 		
 		/*
 		PointLight pLight = ((PointLight)level.scene.getLight("Light_Orientation"));
@@ -198,6 +216,24 @@ public class GameScreen extends BaseScreen
 		
 	}
 	
+	private void reloadShaders(){
+//		if(settings.quality.value == 0){
+//
+////			Config c = new DefaultShader.Config();
+////			c.numBones = cfg.numBones;
+////			c.numPointLights = cfg.numPointLights;
+////			c.numDirectionalLights = cfg.numDirectionalLights;
+////			c.numSpotLights = cfg.numSpotLights;
+//			
+////			sceneManager.setShaderProvider(new DefaultShaderProvider(cfg));
+//		}else{
+//		}
+//		
+		sceneManager.setShaderProvider(new PBRShaderProvider(cfg));
+		// not be necessary i think...
+		// sceneManager.setDepthShaderProvider(PBRShaderProvider.createDepthShaderProvider(GameConfig.MAX_BONES)); 
+	}
+	
 	protected void showMenu(final boolean backFromSettings) {
 		
 		stage.getRoot().clearChildren();
@@ -223,7 +259,7 @@ public class GameScreen extends BaseScreen
 				menu.addAction(Actions.sequence(
 						Actions.alpha(0, .2f),
 						Actions.removeActor()));
-				SettingsStatic.create(stage, skin);
+				SettingsStatic.create(stage, skin, false);
 			}
 		});
 		
@@ -239,7 +275,7 @@ public class GameScreen extends BaseScreen
 		
 		stage.addActor(menu);
 	}
-
+	
 	protected void launchGame() {
 		
 		level.initStats();
@@ -288,6 +324,30 @@ public class GameScreen extends BaseScreen
 	@Override
 	public void render(float delta) {
 		
+		if(GameConfig.DEBUG_SETTINGS){
+			if(Gdx.input.isKeyJustPressed(Input.Keys.Q)){
+				boolean opened = SettingsStatic.create(stage, skin, true);
+				DL9Game.i().setGamePaused(opened);
+			}
+		}
+		
+		boolean shadersValid = true;
+		
+		if(settings.checkQualty(cfg)){
+			shadersValid = false;
+		}
+		DirectionalLight newMoonLight = SceneUtils.convertLight(sceneManager, moonLight, settings.isShadowEnabled());
+		if(newMoonLight != moonLight){
+			moonLight = newMoonLight;
+			shadersValid = false;
+			reloadShaders();
+		}
+		settings.checkPointLights(sceneManager.environment, pointLights );
+
+		if(!shadersValid){
+			reloadShaders();
+		}
+		
 		// updates
 		time += delta;
 		stage.act(delta);
@@ -300,7 +360,8 @@ public class GameScreen extends BaseScreen
 		// full fog effect
 		fogTime = MathUtils.clamp(fogTime + delta * fogTransition, 0, 1);
 
-		skyBox.getColor().set(Color.WHITE).lerp(fogColorTarget, fogTime);
+		float cb = (settings.luminosity.values.length - settings.luminosity.value + 1) * .1f;
+		skyBox.getColor().set(cb, cb, cb, 1f).lerp(fogColorTarget, fogTime);
 		
 		if(fogTime > 0){
 			fade(fogColorTarget, fogTime);
@@ -313,32 +374,57 @@ public class GameScreen extends BaseScreen
 			float exp = MathUtils.lerp(GameConfig.FOG_EXP, .1f, fogTime);
 			sceneManager.environment.get(FogAttribute.class, FogAttribute.FogEquation).set(near, far, exp);
 		
-			// XXX
-			float [] fogExps = {1f, .1f, .05f, .03f, 0f};
-			float fogExp = fogExps[settings.luminosity.value];
+			float fogExp = settings.fogExps[settings.luminosity.value];
 			sceneManager.environment.get(FogAttribute.class, FogAttribute.FogEquation).set(.1f, level.camera.far, fogExp); // .1f is good
 		}
 		
 		// update lights
+		
 		sceneManager.setAmbientLight(ambient * level.globalLight);
 		
 		for(Entry<Node, BaseLight> e : level.scene.lights){
 			BaseLight light = e.value;
 			float lightFactorFX = level.globalLightFX * (MathUtils.sin(time * 50) * .5f + .5f) * 1;
 			if(light instanceof PointLight){
-				((PointLight) light).intensity = ((MathUtils.sin(time * .12f * (1 + MathUtils.sin(time * 1.9f))) + 1.5f) * 40 + 200) * (level.globalLight + lightFactorFX);
+				if(light == camLight){
+					float plPower = 30  ;
+					((PointLight) light).intensity = (((MathUtils.sin(time * .12f * (1 + MathUtils.sin(time * 1.9f))) + 1.5f) * .2f + .8f) * plPower) * (level.globalLight + lightFactorFX);
+				}else if(light == frontLight){
+					float plPower = 50  ;
+					((PointLight) light).intensity = (((MathUtils.sin(time * .12f * (1 + MathUtils.sin(time * 1.9f))) + 1.5f) * .2f + .8f) * plPower) * (level.globalLight + lightFactorFX);
+				}else if(light == churchLight){
+					float plPower = 200  ;
+					((PointLight) light).intensity = (((MathUtils.sin(time * .12f * (1 + MathUtils.sin(time * 1.9f))) + 1.5f) * .2f + .8f) ) * (MathUtils.clamp(plPower *level.globalLight, 0, plPower) + plPower * lightFactorFX);
+				}else{
+					float plPower = 200  ;
+					((PointLight) light).intensity = (((MathUtils.sin(time * .12f * (1 + MathUtils.sin(time * 1.9f))) + 1.5f) * .2f + .8f) * plPower) * (level.globalLight + lightFactorFX);
+				}
+			
 			}else if(light instanceof DirectionalLightEx){
 				((DirectionalLightEx) light).intensity = dirLightFactor * (level.globalLight + lightFactorFX);
 			}
+		}
+		
+		int v = (settings.luminosity.values.length - settings.luminosity.value + 1);
+		
+		((DirectionalLightEx)moonLight).intensity = v * 2 * level.globalLight;
+		
+		moonLight.direction.set(1, -2, 1); // XXX
+		
+		// update shadows
+		if(moonLight instanceof DirectionalShadowLight){
+			float s = 90; // TODO config
+			((DirectionalShadowLight) moonLight).setViewport(s, s, -s, s);
+			((DirectionalShadowLight) moonLight).setCenter(level.camera.position);
 		}
 		
 		// rendering
 		
 		sceneManager.renderShadows();
 		
-		
+		bgColor.clamp();
 		Gdx.gl.glClearColor(bgColor.r, bgColor.g, bgColor.b, 0);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+		Gdx.gl.glClear(GL20.GL_DEPTH_BUFFER_BIT); // XXX not needed because of SkyBOX : GL20.GL_COLOR_BUFFER_BIT | 
 
 		stage.getViewport().apply(true);
 		
@@ -346,7 +432,7 @@ public class GameScreen extends BaseScreen
 		
 		beam.render(level.camera);
 		
-		stage.draw();
+		if(stage != null) stage.draw();
 		
 		if(level.isGameover() && fogTime >= 1){
 			if(level.heroLife <= 0){
