@@ -1,8 +1,6 @@
 package net.mgsx.dl9.model.settings;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g3d.Environment;
-import com.badlogic.gdx.graphics.g3d.attributes.PointLightsAttribute;
 
 import net.mgsx.dl9.DL9Game;
 import net.mgsx.dl9.GameConfig;
@@ -23,7 +21,7 @@ public class Settings {
 	
 	
 	public final Setting shadows = new Setting(GameConfig.DEV_MODE ? 0 : 6, "off", "6b", "7b", "8b", "9b", "1k", "2k", "4k", "8k");
-	public final Setting pointLights = new Setting(GameConfig.DEV_MODE ? 2 : 11, "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11");
+	public final Setting pointLights = new Setting(GameConfig.DEV_MODE ? 2 : 10, "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
 	
 	
 	
@@ -62,19 +60,6 @@ public class Settings {
 		}
 		*/
 		return false;
-	}
-	
-
-	public void checkPointLights(Environment environment, PointLightsAttribute attrStore) {
-		
-		// TODO culling light
-		
-		PointLightsAttribute attr = environment.get(PointLightsAttribute.class, PointLightsAttribute.Type);
-		if(pointLights.value == 0){
-			if(attr != null) environment.remove(PointLightsAttribute.Type);
-		}else{
-			if(attr == null) environment.set(attrStore);
-		}
 	}
 	
 }

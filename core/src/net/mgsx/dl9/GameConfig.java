@@ -61,6 +61,8 @@ public class GameConfig {
 	public static int WINDOW_HEIGHT = 768;
 	public static boolean DEFAULT_FULLSCREEN = false;
 	
+	public static boolean LIGHT_CULLING = false;
+	
 	// LOGS
 	public static boolean LOG_SHADERS = true;
 	

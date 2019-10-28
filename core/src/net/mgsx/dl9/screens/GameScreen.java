@@ -38,6 +38,7 @@ import net.mgsx.dl9.model.game.camera.SimpleCameraAnimator;
 import net.mgsx.dl9.model.settings.Settings;
 import net.mgsx.dl9.ui.GameHUD;
 import net.mgsx.dl9.ui.SettingsStatic;
+import net.mgsx.dl9.utils.LightCulling;
 import net.mgsx.dl9.utils.SceneUtils;
 import net.mgsx.dl9.vfx.Beam;
 import net.mgsx.gltf.scene3d.attributes.FogAttribute;
@@ -76,6 +77,8 @@ public class GameScreen extends BaseScreen
 	private PointLightsAttribute pointLights;
 	private BaseLight camLight;
 	private PointLight frontLight, churchLight;
+	
+	private final LightCulling lightCulling = new LightCulling();
 	
 	public GameScreen() {
 		
@@ -148,6 +151,8 @@ public class GameScreen extends BaseScreen
 		churchLight = (PointLight)level.scene.getLight("church light_Orientation");
 		
 		pointLights = sceneManager.environment.get(PointLightsAttribute.class, PointLightsAttribute.Type);
+		
+		lightCulling.capture(sceneManager.environment);
 		
 		/*
 		PointLight pLight = ((PointLight)level.scene.getLight("Light_Orientation"));
@@ -342,7 +347,6 @@ public class GameScreen extends BaseScreen
 			shadersValid = false;
 			reloadShaders();
 		}
-		settings.checkPointLights(sceneManager.environment, pointLights );
 
 		if(cfg.numPointLights != settings.pointLights.value){
 			cfg.numPointLights = settings.pointLights.value;
@@ -432,6 +436,10 @@ public class GameScreen extends BaseScreen
 		Gdx.gl.glClear(GL20.GL_DEPTH_BUFFER_BIT); // XXX not needed because of SkyBOX : GL20.GL_COLOR_BUFFER_BIT | 
 
 		stage.getViewport().apply(true);
+		
+		if(GameConfig.LIGHT_CULLING){
+			lightCulling.apply(sceneManager.camera, sceneManager.environment, settings.pointLights.value); // XXX
+		}
 		
 		sceneManager.renderColors();
 		
