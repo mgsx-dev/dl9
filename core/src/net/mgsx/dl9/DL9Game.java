@@ -17,6 +17,7 @@ import net.mgsx.dl9.screens.StatsScreen;
 import net.mgsx.dl9.screens.WinScreen;
 import net.mgsx.dl9.ui.CursorManager;
 import net.mgsx.dl9.utils.FullscreenUtils;
+import net.mgsx.dl9.utils.Perf;
 import net.mgsx.dl9.utils.Stats;
 import net.mgsx.dl9.utils.Stats.Mode;
 
@@ -36,6 +37,9 @@ public class DL9Game extends Game {
 	
 	@Override
 	public void create () {
+		
+		int create = Perf.start("create");
+		
 		Collections.allocateIterators = true;
 		stats = new Stats();
 		
@@ -43,6 +47,10 @@ public class DL9Game extends Game {
 		GameAudio.i = new GameAudio();
 		CursorManager.i = new CursorManager();
 		CursorManager.i.setIdle();
+		
+		Perf.end(create);
+		
+		Perf.flush();
 		
 		if(GameConfig.DEBUG_SKIP_INTRO){
 			gotoGame();
@@ -106,7 +114,10 @@ public class DL9Game extends Game {
 	}
 
 	public void gotoGame() {
+		int game = Perf.start("GameScreen initialize");
 		setScreen(new GameScreen());
+		Perf.end(game);
+		Perf.flush();
 	}
 
 	public void gotoDieScreen() {

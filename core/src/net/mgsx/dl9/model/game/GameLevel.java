@@ -41,6 +41,7 @@ import net.mgsx.dl9.model.game.phases.TutoEndPhase;
 import net.mgsx.dl9.model.game.phases.TutoPhase;
 import net.mgsx.dl9.model.game.phases.WinPhase;
 import net.mgsx.dl9.utils.CustomAnimationsPlayer;
+import net.mgsx.dl9.utils.Perf;
 import net.mgsx.dl9.vfx.CameraTrauma;
 import net.mgsx.gltf.scene3d.model.WeightVector;
 import net.mgsx.gltf.scene3d.scene.Scene;
@@ -292,6 +293,7 @@ public class GameLevel implements Disposable {
 			screenRay.set(i + 1, mob.node);
 		}
 		
+		int perf = Perf.start("check collosion");
 		screenRay.begin(false);
 		screenRay.renderBegin(camera, true);
 		screenRay.render(scene);
@@ -299,6 +301,7 @@ public class GameLevel implements Disposable {
 		screenRay.renderEnd();
 		ScreenRayResult r = screenRay.getPick(camera);
 		screenRay.end(false);
+		Perf.flush(perf);
 		
 		int mobID = r.id-1;
 		if(mobID >= 0 && mobID < mobs.size){

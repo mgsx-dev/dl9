@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import net.mgsx.dl9.audio.SoundSet;
 import net.mgsx.dl9.utils.AssetUtils;
+import net.mgsx.dl9.utils.Perf;
 import net.mgsx.gltf.loaders.gltf.GLTFLoader;
 import net.mgsx.gltf.scene3d.scene.SceneAsset;
 
@@ -72,53 +73,28 @@ public class GameAssets {
 
 	public GameAssets(){
 		
-		skin = new Skin(Gdx.files.internal("skins/game-skin.json"));
+		int audio = Perf.start("audio");
 		
-		cursorShoot = Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("cursors/cursor-shoot.png")), 32, 32);
-		cursorReload = Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("cursors/cursor-reload.png")), 32, 32);
-		cursorWait = Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("cursors/cursor-wait.png")), 32, 32);
-		cursorIdle = Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("cursors/cursor-idle.png")), 32, 32);
-		
+		int sfx = Perf.start("sfx");
 		sfxWindowOpen1 = Gdx.audio.newSound(Gdx.files.internal("sfx/windowopen1.wav"));
 		sfxWindowOpen2 = Gdx.audio.newSound(Gdx.files.internal("sfx/windowopen2.wav"));
 		sfxWindowClose1 = Gdx.audio.newSound(Gdx.files.internal("sfx/windowclose1.wav"));
 		sfxWindowClose2 = Gdx.audio.newSound(Gdx.files.internal("sfx/windowclose2.wav"));
-		
 		sfxDeath = Gdx.audio.newSound(Gdx.files.internal("sfx/youdie.wav"));
 		sfxZombiAttack = Gdx.audio.newSound(Gdx.files.internal("sfx/zombieattack.wav"));
 		sfxChurch = Gdx.audio.newSound(Gdx.files.internal("sfx/church.wav"));
-		
 		sfxButton = Gdx.audio.newSound(Gdx.files.internal("sfx/button.wav"));
 		sfxWitchDie = Gdx.audio.newSound(Gdx.files.internal("sfx/witchdie.wav"));
-		
 		
 		soundSetSteps = loadSoundSet("foot-steps", 8);
 		soundSetHeartBeat = loadSoundSet("heart-beat", 2);
 		soundSetGunShots = loadSoundSet("gun-shot", 6);
 		soundSetGunShotsReload = loadSoundSet("gun-reload");
-		
 		soundSetZombieDie = loadSoundSet("zombie", 3);
 		soundSetWitchLaugh = loadSoundSet("witchlaught", 4);
 		soundSetPumpkin = loadSoundSet("pumpkin", 2);
 		
 		soundSetLaser = loadSoundSet("laser", 3);
-		
-		musicWitchIntro = Gdx.audio.newMusic(Gdx.files.internal("music/introwitchtheme.mp3"));
-		musicWitch = Gdx.audio.newMusic(Gdx.files.internal("music/witchtheme.mp3"));
-		
-		musicAction = Gdx.audio.newMusic(Gdx.files.internal("music/themeaction-1.mp3"));
-		musicAction2 = Gdx.audio.newMusic(Gdx.files.internal("music/themeaction-2.mp3"));
-		musicCinematic1 = Gdx.audio.newMusic(Gdx.files.internal("music/themecinematic-1.mp3"));
-		musicCinematic2 = Gdx.audio.newMusic(Gdx.files.internal("music/themecinematic-2.mp3"));
-
-		musicCinematicBoss = Gdx.audio.newMusic(Gdx.files.internal("music/cinematicboss.mp3"));
-		musicBoss1 = Gdx.audio.newMusic(Gdx.files.internal("music/boss-1.mp3"));
-		musicBoss2 = Gdx.audio.newMusic(Gdx.files.internal("music/boss-2.mp3"));
-		musicMenu1 = Gdx.audio.newMusic(Gdx.files.internal("music/menu-1.mp3"));
-		musicMenu2 = Gdx.audio.newMusic(Gdx.files.internal("music/menu-2.mp3"));
-		
-		assetPotiron = loadGLTF(Gdx.files.internal("models/potiron/potiron.gltf"));
-		
 		soundSetRandomThings = loadSoundSet("baby-1", "dog-1", "dog-2", "church-shot", "strangefx", "wolf-1", "wolf-2", "dog-3", "wolf-3");
 		soundSetRandomThings.durations.add(1f);
 		soundSetRandomThings.durations.add(3f);
@@ -129,18 +105,53 @@ public class GameAssets {
 		soundSetRandomThings.durations.add(6f);
 		soundSetRandomThings.durations.add(3f);
 		soundSetRandomThings.durations.add(10f);
-		
 		soundSetWitchHit = loadSoundSet("witch", 1);
+		Perf.end(sfx);
 		
+		int music = Perf.start("music");
+		musicWitchIntro = Gdx.audio.newMusic(Gdx.files.internal("music/introwitchtheme.mp3"));
+		musicWitch = Gdx.audio.newMusic(Gdx.files.internal("music/witchtheme.mp3"));
+		musicAction = Gdx.audio.newMusic(Gdx.files.internal("music/themeaction-1.mp3"));
+		musicAction2 = Gdx.audio.newMusic(Gdx.files.internal("music/themeaction-2.mp3"));
+		musicCinematic1 = Gdx.audio.newMusic(Gdx.files.internal("music/themecinematic-1.mp3"));
+		musicCinematic2 = Gdx.audio.newMusic(Gdx.files.internal("music/themecinematic-2.mp3"));
+
+		musicCinematicBoss = Gdx.audio.newMusic(Gdx.files.internal("music/cinematicboss.mp3"));
+		musicBoss1 = Gdx.audio.newMusic(Gdx.files.internal("music/boss-1.mp3"));
+		musicBoss2 = Gdx.audio.newMusic(Gdx.files.internal("music/boss-2.mp3"));
+		musicMenu1 = Gdx.audio.newMusic(Gdx.files.internal("music/menu-1.mp3"));
+		musicMenu2 = Gdx.audio.newMusic(Gdx.files.internal("music/menu-2.mp3"));
+		Perf.end(music);
+		
+		Perf.end(audio);
+		
+		int graphics = Perf.start("graphics");
+		
+		int gltf = Perf.start("gltf");
+		assetPotiron = loadGLTF(Gdx.files.internal("models/potiron/potiron.gltf"));
 		witchModel = loadGLTF(Gdx.files.internal("models/witch/witch.gltf"));
 		assetEndGame = loadGLTF(Gdx.files.internal("models/ending-poc/ending-poc.gltf"));
 		mobModel = loadGLTF(Gdx.files.internal("models/mob/mob.gltf"));
 		mainModel = loadGLTF(Gdx.files.internal("models/main-scene/main-scene.gltf"));
+		Perf.end(gltf);
+		
+		Perf.start("skin");
+		skin = new Skin(Gdx.files.internal("skins/game-skin.json"));
+		
+		Perf.start("misc");
+		cursorShoot = Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("cursors/cursor-shoot.png")), 32, 32);
+		cursorReload = Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("cursors/cursor-reload.png")), 32, 32);
+		cursorWait = Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("cursors/cursor-wait.png")), 32, 32);
+		cursorIdle = Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("cursors/cursor-idle.png")), 32, 32);
+
+		Perf.end(graphics);
 	}
 	
 	private SceneAsset loadGLTF(FileHandle file) {
+		int perf = Perf.start("gltf " + file.name());
 		SceneAsset asset = new GLTFLoader().load(file, true);
-		AssetUtils.checkAsset(asset);
+		AssetUtils.checkAsset(file.nameWithoutExtension(), asset);
+		Perf.end(perf);
 		return asset;
 	}
 
