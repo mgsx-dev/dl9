@@ -16,6 +16,9 @@ public class PreIntroPhase extends BaseCinematicPhase {
 	@Override
 	public void started() {
 		super.started();
+		
+		enableMeshes("IntroFlag", "sign main", "mesh.intro.1", "mesh.intro.2");
+		
 		level.scene.animationController.animate(cameraAnimID, 0);
 		level.cameraAnimator.disable();
 		

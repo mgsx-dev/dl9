@@ -31,6 +31,13 @@ public class PlacePhase extends BaseActionPhase {
 	}
 	
 	@Override
+	public void started() {
+		super.started();
+		
+		disableMeshes("mesh.house.1", "mesh.house.2", "mesh.house.3", "mesh.place.1");
+	}
+	
+	@Override
 	public void finished() {
 		super.finished();
 		if(mobInFront != null) level.mobManager.removeMob(mobInFront);

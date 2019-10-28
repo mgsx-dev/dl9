@@ -8,5 +8,13 @@ public class ToHousePhase extends BaseCinematicPhase {
 		super(level);
 		cameraAnimID = "Camera to house";
 	}
+	
+	@Override
+	public void started() {
+		super.started();
+		
+		disableMeshes("StreetMob", "StreetMob2", "decor-base.010", "main street window L", "main street window R",
+				"mesh.intro.2", "mesh.street.1", "mesh.street.2", "mesh.street.3");
+	}
 
 }

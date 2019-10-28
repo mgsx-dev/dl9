@@ -41,6 +41,7 @@ import net.mgsx.dl9.model.game.phases.TutoEndPhase;
 import net.mgsx.dl9.model.game.phases.TutoPhase;
 import net.mgsx.dl9.model.game.phases.WinPhase;
 import net.mgsx.dl9.utils.CustomAnimationsPlayer;
+import net.mgsx.dl9.utils.NodeUtils;
 import net.mgsx.dl9.utils.Perf;
 import net.mgsx.dl9.vfx.CameraTrauma;
 import net.mgsx.gltf.scene3d.model.WeightVector;
@@ -123,6 +124,12 @@ public class GameLevel implements Disposable {
 	}
 	
 	public void start(){
+		
+		// disable all nodes
+		if(GameConfig.MANUAL_MESH_CULLING){
+			NodeUtils.enable(scene.modelInstance.nodes, false);
+		}
+		
 		
 		sequencer.clear();
 		mobs.clear();

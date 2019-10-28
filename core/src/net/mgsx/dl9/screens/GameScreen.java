@@ -18,7 +18,6 @@ import com.badlogic.gdx.graphics.g3d.environment.PointLight;
 import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -74,8 +73,6 @@ public class GameScreen extends BaseScreen
 	private final Settings settings;
 	private DirectionalLight moonLight;
 	private PBRShaderConfig cfg;
-	private final BoundingBox shadowBox = new BoundingBox();
-	private PointLightsAttribute pointLights;
 	private BaseLight camLight;
 	private PointLight frontLight, churchLight;
 	
@@ -147,35 +144,11 @@ public class GameScreen extends BaseScreen
 		
 		moonLight = (DirectionalLight)level.scene.getLight("MoonLight_Orientation");
 		
-		camLight = (PointLight)level.scene.getLight("light to keep ??_Orientation");
-		frontLight = (PointLight)level.scene.getLight("sun-face-light_Orientation");
-		churchLight = (PointLight)level.scene.getLight("church light_Orientation");
-		
-		pointLights = sceneManager.environment.get(PointLightsAttribute.class, PointLightsAttribute.Type);
+		camLight = (PointLight)level.scene.getLight("light.camera.orange_Orientation");
+		frontLight = (PointLight)level.scene.getLight("light.camera.blue_Orientation");
+		churchLight = (PointLight)level.scene.getLight("light.church.1_Orientation");
 		
 		lightCulling.capture(sceneManager.environment);
-		
-		/*
-		PointLight pLight = ((PointLight)level.scene.getLight("Light_Orientation"));
-		if(pLight != null){
-			pLight.intensity *= 2;
-		}
-		
-		
-		DirectionalLightEx dirLight = ((DirectionalLightEx)level.scene.getLight("Sun_Orientation"));
-		if(dirLight != null){
-			
-			DirectionalShadowLight shadowLight = new DirectionalShadowLight(1024, 1024, 1000, 1000, -500, 500);
-			sceneManager.environment.remove(dirLight);
-			// sceneManager.environment.remove(pLight);
-			
-			
-			shadowLight.set(dirLight);
-			shadowLight.intensity = 5;
-			
-			sceneManager.environment.add(shadowLight);
-		}
-		*/
 		
 		hud = new GameHUD(level, skin);
 		
@@ -223,21 +196,7 @@ public class GameScreen extends BaseScreen
 	}
 	
 	private void reloadShaders(){
-//		if(settings.quality.value == 0){
-//
-////			Config c = new DefaultShader.Config();
-////			c.numBones = cfg.numBones;
-////			c.numPointLights = cfg.numPointLights;
-////			c.numDirectionalLights = cfg.numDirectionalLights;
-////			c.numSpotLights = cfg.numSpotLights;
-//			
-////			sceneManager.setShaderProvider(new DefaultShaderProvider(cfg));
-//		}else{
-//		}
-//		
 		sceneManager.setShaderProvider(new PBRShaderProvider(cfg));
-		// not be necessary i think...
-		// sceneManager.setDepthShaderProvider(PBRShaderProvider.createDepthShaderProvider(GameConfig.MAX_BONES)); 
 	}
 	
 	protected void showMenu(final boolean backFromSettings) {
@@ -430,7 +389,7 @@ public class GameScreen extends BaseScreen
 		
 		// rendering
 		
-		if(GameConfig.MESH_CULLING){
+		if(GameConfig.AUTO_MESH_CULLING){
 			MeshCulling.apply(sceneManager);
 		}
 		
@@ -442,7 +401,7 @@ public class GameScreen extends BaseScreen
 
 		stage.getViewport().apply(true);
 		
-		if(GameConfig.LIGHT_CULLING){
+		if(GameConfig.AUTO_LIGHT_CULLING){
 			lightCulling.apply(sceneManager.camera, sceneManager.environment, settings.pointLights.value); // XXX
 		}
 		

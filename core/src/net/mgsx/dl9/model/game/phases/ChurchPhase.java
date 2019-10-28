@@ -31,6 +31,13 @@ public class ChurchPhase extends BaseActionPhase {
 	}
 	
 	@Override
+	public void started() {
+		super.started();
+		
+		disableMeshes("mesh.place.2", "mesh.place.3", "mesh.place.ground");
+	}
+	
+	@Override
 	public void finished() {
 		super.finished();
 		if(mobInFront != null) level.mobManager.removeMob(mobInFront);

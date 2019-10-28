@@ -32,6 +32,9 @@ public class MainStreetActionPhase extends BaseActionPhase {
 	@Override
 	public void started() {
 		super.started();
+		
+		enableMeshes("mesh.house.2");
+		
 		level.animations.play("main street window L");
 		level.animations.play("main street window R");
 		level.animations.play("main street window battant");

@@ -1,10 +1,13 @@
 package net.mgsx.dl9.model.game.phases;
 
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.g3d.model.Node;
 
+import net.mgsx.dl9.GameConfig;
 import net.mgsx.dl9.audio.GameAudio;
 import net.mgsx.dl9.core.SceneSequence;
 import net.mgsx.dl9.model.game.GameLevel;
+import net.mgsx.dl9.utils.NodeUtils;
 
 public abstract class BasePhase extends SceneSequence
 {
@@ -17,6 +20,23 @@ public abstract class BasePhase extends SceneSequence
 	public BasePhase(GameLevel level) {
 		super();
 		this.level = level;
+	}
+	
+	protected void enableMeshes(String...names){
+		if(GameConfig.MANUAL_MESH_CULLING){
+			for(String name : names){
+				Node node = level.scene.modelInstance.getNode(name);
+				NodeUtils.enable(node, true);
+			}
+		}
+	}
+	protected void disableMeshes(String...names){
+		if(GameConfig.MANUAL_MESH_CULLING){
+			for(String name : names){
+				Node node = level.scene.modelInstance.getNode(name);
+				NodeUtils.enable(node, false);
+			}
+		}
 	}
 
 	@Override

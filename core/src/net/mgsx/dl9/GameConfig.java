@@ -61,8 +61,11 @@ public class GameConfig {
 	public static int WINDOW_HEIGHT = 768;
 	public static boolean DEFAULT_FULLSCREEN = false;
 	
-	public static boolean MESH_CULLING = false;
-	public static boolean LIGHT_CULLING = false;
+	public static boolean AUTO_MESH_CULLING = false;
+	public static boolean AUTO_LIGHT_CULLING = true;
+	
+	public static boolean MANUAL_MESH_CULLING = true;
+	public static boolean MANUAL_LIGHT_CULLING = false;
 	
 	// LOGS
 	public static boolean LOG_SHADERS = true;
