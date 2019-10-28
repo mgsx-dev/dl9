@@ -35,6 +35,9 @@ public class MainStreetActionPhase extends BaseActionPhase {
 		
 		enableMeshes("mesh.house.2");
 		
+		disableLights("light.intro.3");
+
+		
 		level.animations.play("main street window L");
 		level.animations.play("main street window R");
 		level.animations.play("main street window battant");

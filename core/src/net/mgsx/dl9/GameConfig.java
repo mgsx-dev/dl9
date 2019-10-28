@@ -62,10 +62,10 @@ public class GameConfig {
 	public static boolean DEFAULT_FULLSCREEN = false;
 	
 	public static boolean AUTO_MESH_CULLING = false;
-	public static boolean AUTO_LIGHT_CULLING = true;
+	public static boolean AUTO_LIGHT_CULLING = false;
 	
 	public static boolean MANUAL_MESH_CULLING = true;
-	public static boolean MANUAL_LIGHT_CULLING = false;
+	public static boolean MANUAL_LIGHT_CULLING = true;
 	
 	// LOGS
 	public static boolean LOGGING = DEV_MODE;

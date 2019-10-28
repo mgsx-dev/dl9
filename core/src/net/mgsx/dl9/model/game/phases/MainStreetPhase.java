@@ -15,6 +15,9 @@ public class MainStreetPhase extends BaseCinematicPhase {
 		
 		disableMeshes("sign main", "mesh.intro.1");
 		
+		disableLights("light.intro.2");
+
+		
 		level.animations.play("StreetMob2");
 	}
 

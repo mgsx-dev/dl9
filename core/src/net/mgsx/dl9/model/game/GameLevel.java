@@ -3,12 +3,17 @@ package net.mgsx.dl9.model.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.g3d.Environment;
+import com.badlogic.gdx.graphics.g3d.attributes.PointLightsAttribute;
+import com.badlogic.gdx.graphics.g3d.environment.PointLight;
 import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectMap.Entry;
 
 import net.mgsx.dl9.DL9Game;
 import net.mgsx.dl9.GameConfig;
@@ -114,6 +119,10 @@ public class GameLevel implements Disposable {
 
 	public int nbLazerGet;
 	
+	public final ObjectMap<String, PointLight> lights = new ObjectMap<String, PointLight>();
+	
+	public Environment env;
+	
 	public GameLevel() {
 		input = new InputLogic(this);
 		mobManager = new MobsManager(this);
@@ -129,6 +138,18 @@ public class GameLevel implements Disposable {
 		// disable all nodes
 		if(GameConfig.MANUAL_MESH_CULLING){
 			NodeUtils.enable(scene.modelInstance.nodes, false);
+		}
+		
+		if(GameConfig.MANUAL_LIGHT_CULLING){
+			PointLightsAttribute pla = env.get(PointLightsAttribute.class, PointLightsAttribute.Type);
+			if(pla != null){
+				for(Entry<String, PointLight> e : lights){
+					env.remove(e.value);
+				}
+			}
+			// XXX blue back light is not really necessary
+			// env.add(lights.get("light.camera.blue"));
+			env.add(lights.get("light.camera.orange"));
 		}
 		
 		
@@ -251,6 +272,7 @@ public class GameLevel implements Disposable {
 		
 		if(GameConfig.LOGGING && LogUtils.isTimeToLog()){
 			LogUtils.logNodes(scene);
+			LogUtils.logLights(env, lights.size);
 		}
 		
 		input.update(delta);

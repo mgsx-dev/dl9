@@ -1,6 +1,8 @@
 package net.mgsx.dl9.utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g3d.Environment;
+import com.badlogic.gdx.graphics.g3d.attributes.PointLightsAttribute;
 import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.graphics.g3d.model.NodePart;
 
@@ -11,6 +13,12 @@ public class LogUtils {
 	private static boolean timeToLog = false;
 	private static int nbTotal;
 	private static int nbEnabled;
+	
+	public static void logLights(Environment env, int total){
+		PointLightsAttribute pla = env.get(PointLightsAttribute.class, PointLightsAttribute.Type);
+		int n = pla == null ? 0 : pla.lights.size;
+		Gdx.app.log("CULLING", "Enabled point lights: " + n + " / " + total);
+	}
 	
 	public static void logNodes(Scene scene){
 		nbEnabled = nbTotal = 0;

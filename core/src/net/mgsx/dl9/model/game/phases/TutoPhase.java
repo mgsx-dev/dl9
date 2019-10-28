@@ -24,6 +24,9 @@ public class TutoPhase extends BaseActionPhase {
 		
 		disableMeshes("IntroFlag");
 		
+		disableLights("light.intro.1");
+
+		
 		GUIUtils.queueFade(level.stage, 0f, .5f, 3f, .5f, 1f,
 				GUIUtils.message("Let's try with some Halloween heads")
 				);

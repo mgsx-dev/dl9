@@ -1,6 +1,8 @@
 package net.mgsx.dl9.model.game.phases;
 
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.g3d.attributes.PointLightsAttribute;
+import com.badlogic.gdx.graphics.g3d.environment.PointLight;
 import com.badlogic.gdx.graphics.g3d.model.Node;
 
 import net.mgsx.dl9.GameConfig;
@@ -35,6 +37,28 @@ public abstract class BasePhase extends SceneSequence
 			for(String name : names){
 				Node node = level.scene.modelInstance.getNode(name);
 				NodeUtils.enable(node, false);
+			}
+		}
+	}
+	protected void enableLights(String...names){
+		if(GameConfig.MANUAL_LIGHT_CULLING){
+			PointLightsAttribute pla = level.env.get(PointLightsAttribute.class, PointLightsAttribute.Type);
+			for(String name : names){
+				PointLight light = level.lights.get(name);
+				if(pla == null || !pla.lights.contains(light, true)){
+					level.env.add(light);
+				}
+			}
+		}
+	}
+	protected void disableLights(String...names){
+		if(GameConfig.MANUAL_LIGHT_CULLING){
+			PointLightsAttribute pla = level.env.get(PointLightsAttribute.class, PointLightsAttribute.Type);
+			if(pla != null){
+				for(String name : names){
+					PointLight light = level.lights.get(name);
+					level.env.remove(light);
+				}
 			}
 		}
 	}

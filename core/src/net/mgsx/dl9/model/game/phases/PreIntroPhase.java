@@ -19,6 +19,8 @@ public class PreIntroPhase extends BaseCinematicPhase {
 		
 		enableMeshes("IntroFlag", "sign main", "mesh.intro.1", "mesh.intro.2");
 		
+		enableLights("light.intro.1", "light.intro.2", "light.intro.3");
+		
 		level.scene.animationController.animate(cameraAnimID, 0);
 		level.cameraAnimator.disable();
 		

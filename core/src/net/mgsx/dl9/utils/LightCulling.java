@@ -33,7 +33,7 @@ public class LightCulling {
 		for(PointLight light : lights){
 			PointLightsAttribute pla = env.get(PointLightsAttribute.class, PointLightsAttribute.Type);
 			if(pla != null){
-				if(light.position.dst(camera.position) > 50 || count >= maxLights){
+				if(count >= maxLights){
 					pla.lights.removeValue(light, true);
 				}else if(!pla.lights.contains(light, true)){
 					pla.lights.add(light);

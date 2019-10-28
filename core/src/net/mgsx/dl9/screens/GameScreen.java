@@ -107,6 +107,8 @@ public class GameScreen extends BaseScreen
 				PBRShaderProvider.createDepthShaderProvider(GameConfig.MAX_BONES),
 				new CustomRenderableSorter());
 		
+		level.env = sceneManager.environment;
+		
 		sceneManager.addScene(level.scene);
 		sceneManager.addScene(level.witchScene);
 		sceneManager.setCamera(level.camera);
@@ -358,7 +360,7 @@ public class GameScreen extends BaseScreen
 			float lightFactorFX = level.globalLightFX * (MathUtils.sin(time * 50) * .5f + .5f) * 1;
 			if(light instanceof PointLight){
 				if(light == camLight){
-					float plPower = 30  ;
+					float plPower = 300  ;
 					((PointLight) light).intensity = (((MathUtils.sin(time * .12f * (1 + MathUtils.sin(time * 1.9f))) + 1.5f) * .2f + .8f) * plPower) * (level.globalLight + lightFactorFX);
 				}else if(light == frontLight){
 					float plPower = 50  ;

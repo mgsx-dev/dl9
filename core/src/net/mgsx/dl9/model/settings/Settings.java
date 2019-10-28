@@ -21,7 +21,7 @@ public class Settings {
 	
 	
 	public final Setting shadows = new Setting(GameConfig.DEV_MODE ? 0 : 6, "off", "6b", "7b", "8b", "9b", "1k", "2k", "4k", "8k");
-	public final Setting pointLights = new Setting(GameConfig.DEV_MODE ? 2 : 10, "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
+	public final Setting pointLights = new Setting(GameConfig.DEV_MODE ? 1 : 5, "0", "1", "2", "3", "4", "5");
 	
 	
 	

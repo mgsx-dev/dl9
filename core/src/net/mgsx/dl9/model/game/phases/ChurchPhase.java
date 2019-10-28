@@ -35,6 +35,8 @@ public class ChurchPhase extends BaseActionPhase {
 		super.started();
 		
 		disableMeshes("mesh.place.2", "mesh.place.3", "mesh.place.ground");
+		
+		disableLights("light.place.1");
 	}
 	
 	@Override

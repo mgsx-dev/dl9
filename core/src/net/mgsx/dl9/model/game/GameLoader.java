@@ -1,6 +1,8 @@
 package net.mgsx.dl9.model.game;
 
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.g3d.environment.BaseLight;
+import com.badlogic.gdx.graphics.g3d.environment.PointLight;
 import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -82,6 +84,17 @@ public class GameLoader {
 		gameLevel.animations = new CustomAnimationsPlayer(scene);
 		
 		gameLevel.witchCommon = new WitchCommon(gameLevel);
+		
+		for(Entry<Node, BaseLight> e : gameLevel.scene.lights){
+			String name = e.key.id;
+			if(name.endsWith("_Orientation")){
+				name = name.substring(0, name.lastIndexOf('_'));
+			}
+			BaseLight light = e.value;
+			if(light instanceof PointLight){
+				gameLevel.lights.put(name, (PointLight)light);
+			}
+		}
 		
 		return gameLevel;
 	}

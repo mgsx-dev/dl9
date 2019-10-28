@@ -17,6 +17,8 @@ public class ToMainStreetPhase extends BaseCinematicPhase {
 				"mesh.street.1", "mesh.street.2", "mesh.street.3", "mesh.street.4",
 				"mesh.house.1");
 		
+		enableLights("point.street.1", "point.street.2");
+		
 		level.animations.play("to main street sign");
 		level.animations.play("StreetMobIntro");
 	}
