@@ -37,6 +37,7 @@ import net.mgsx.dl9.model.game.camera.SimpleCameraAnimator;
 import net.mgsx.dl9.model.settings.Settings;
 import net.mgsx.dl9.ui.GameHUD;
 import net.mgsx.dl9.ui.SettingsStatic;
+import net.mgsx.dl9.utils.CustomRenderableSorter;
 import net.mgsx.dl9.utils.LightCulling;
 import net.mgsx.dl9.utils.MeshCulling;
 import net.mgsx.dl9.utils.SceneUtils;
@@ -103,7 +104,8 @@ public class GameScreen extends BaseScreen
 		
 		sceneManager = new SceneManager(
 				new PBRShaderProvider(cfg), 
-				PBRShaderProvider.createDepthShaderProvider(GameConfig.MAX_BONES));
+				PBRShaderProvider.createDepthShaderProvider(GameConfig.MAX_BONES),
+				new CustomRenderableSorter());
 		
 		sceneManager.addScene(level.scene);
 		sceneManager.addScene(level.witchScene);
