@@ -39,6 +39,7 @@ import net.mgsx.dl9.model.settings.Settings;
 import net.mgsx.dl9.ui.GameHUD;
 import net.mgsx.dl9.ui.SettingsStatic;
 import net.mgsx.dl9.utils.LightCulling;
+import net.mgsx.dl9.utils.MeshCulling;
 import net.mgsx.dl9.utils.SceneUtils;
 import net.mgsx.dl9.vfx.Beam;
 import net.mgsx.gltf.scene3d.attributes.FogAttribute;
@@ -428,6 +429,10 @@ public class GameScreen extends BaseScreen
 		}
 		
 		// rendering
+		
+		if(GameConfig.MESH_CULLING){
+			MeshCulling.apply(sceneManager);
+		}
 		
 		sceneManager.renderShadows();
 		

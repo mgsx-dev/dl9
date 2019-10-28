@@ -61,10 +61,13 @@ public class GameConfig {
 	public static int WINDOW_HEIGHT = 768;
 	public static boolean DEFAULT_FULLSCREEN = false;
 	
+	public static boolean MESH_CULLING = false;
 	public static boolean LIGHT_CULLING = false;
 	
 	// LOGS
 	public static boolean LOG_SHADERS = true;
+
+	public static boolean LOG_CULLING = DEV_MODE;
 	
 	// Startup options (configurable later)
 	public static final boolean STARTUP_USE_VSYNC = !DEV_MODE;
