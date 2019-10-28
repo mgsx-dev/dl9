@@ -41,6 +41,7 @@ import net.mgsx.dl9.model.game.phases.TutoEndPhase;
 import net.mgsx.dl9.model.game.phases.TutoPhase;
 import net.mgsx.dl9.model.game.phases.WinPhase;
 import net.mgsx.dl9.utils.CustomAnimationsPlayer;
+import net.mgsx.dl9.utils.LogUtils;
 import net.mgsx.dl9.utils.NodeUtils;
 import net.mgsx.dl9.utils.Perf;
 import net.mgsx.dl9.vfx.CameraTrauma;
@@ -247,6 +248,10 @@ public class GameLevel implements Disposable {
 
 		
 		sequencer.update(delta);
+		
+		if(GameConfig.LOGGING && LogUtils.isTimeToLog()){
+			LogUtils.logNodes(scene);
+		}
 		
 		input.update(delta);
 		

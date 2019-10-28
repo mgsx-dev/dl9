@@ -68,10 +68,9 @@ public class GameConfig {
 	public static boolean MANUAL_LIGHT_CULLING = false;
 	
 	// LOGS
+	public static boolean LOGGING = DEV_MODE;
 	public static boolean LOG_SHADERS = true;
 
-	public static boolean LOG_CULLING = DEV_MODE;
-	
 	// Startup options (configurable later)
 	public static final boolean STARTUP_USE_VSYNC = !DEV_MODE;
 	public static final boolean STARTUP_FORCE_VSYNC = DEV_MODE;

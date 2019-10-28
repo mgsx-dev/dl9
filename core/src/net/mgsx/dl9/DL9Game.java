@@ -17,6 +17,7 @@ import net.mgsx.dl9.screens.StatsScreen;
 import net.mgsx.dl9.screens.WinScreen;
 import net.mgsx.dl9.ui.CursorManager;
 import net.mgsx.dl9.utils.FullscreenUtils;
+import net.mgsx.dl9.utils.LogUtils;
 import net.mgsx.dl9.utils.Perf;
 import net.mgsx.dl9.utils.Stats;
 import net.mgsx.dl9.utils.Stats.Mode;
@@ -65,6 +66,10 @@ public class DL9Game extends Game {
 	
 	@Override
 	public void render() {
+		if(GameConfig.LOGGING){
+			LogUtils.update();
+		}
+		
 		float delta = paused ? 0 : Gdx.graphics.getDeltaTime();
 		if(FullscreenUtils.isUserToggle()){
 			FullscreenUtils.toggle();
