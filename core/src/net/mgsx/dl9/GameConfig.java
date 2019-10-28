@@ -15,7 +15,7 @@ public class GameConfig {
 	public static boolean DEBUG = DEV_MODE;
 	public static boolean ALLOW_PAUSE = DEV_MODE;
 	public static boolean DEBUG_NATIVE_CAMERA = false;
-	public static boolean DEBUG_INVINCIBLE = false;
+	public static boolean DEBUG_INVINCIBLE = DEV_MODE;
 	public static boolean DEBUG_MODELS = DEV_MODE;
 	public static boolean DEBUG_SETTINGS = true && ALLOW_PAUSE;
 	
