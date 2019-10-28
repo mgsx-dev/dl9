@@ -80,7 +80,7 @@ public class SettingsStatic {
 		pieMenu.setRadius(pieMenu.getRadius() * .8f);
 		
 		pieMenu = createMenu(stage, skin, 1, 0, DL9Game.i().settings.pointLights, true, "Lights");
-		pieMenu.setTotalDegreesDrawn(180);
+		pieMenu.setTotalDegreesDrawn(360);
 		pieMenu.setStartDegreesOffset(0);
 		
 		

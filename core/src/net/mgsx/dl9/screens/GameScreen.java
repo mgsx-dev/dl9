@@ -95,7 +95,7 @@ public class GameScreen extends BaseScreen
 		cfg.manualSRGB = SRGB.FAST;
 		cfg.numBones = GameConfig.MAX_BONES;
 		cfg.numSpotLights = 0;
-		cfg.numPointLights = 12;
+		cfg.numPointLights = settings.pointLights.value;
 		cfg.numDirectionalLights = 3;
 		
 		cfg.fragmentShader = Gdx.files.classpath("net/mgsx/dl9/shaders/gdx-pbr.fs.glsl").readString();
@@ -344,6 +344,11 @@ public class GameScreen extends BaseScreen
 		}
 		settings.checkPointLights(sceneManager.environment, pointLights );
 
+		if(cfg.numPointLights != settings.pointLights.value){
+			cfg.numPointLights = settings.pointLights.value;
+			shadersValid = false;
+		}
+		
 		if(!shadersValid){
 			reloadShaders();
 		}
