@@ -59,10 +59,10 @@ public class Perf {
 	}
 
 	private static void log(String name, Metric m) {
-		if(m.duration < 2000000000L){
-			Log.log(name, m.duration/1000000L + "ms");
+		if(m.duration < 2000L){
+			Log.log(name, m.duration + "ms");
 		}else{
-			Log.log(name, (float)(m.duration / 1000000000L));
+			Log.log(name, (float)(m.duration / 1000L));
 		}
 	}
 
@@ -78,7 +78,7 @@ public class Perf {
 	}
 	
 	private static long getTime() {
-		return System.nanoTime();
+		return System.currentTimeMillis();
 	}
 	
 }
