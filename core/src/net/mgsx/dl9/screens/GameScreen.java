@@ -96,7 +96,7 @@ public class GameScreen extends BaseScreen
 		cfg.numBones = GameConfig.MAX_BONES;
 		cfg.numSpotLights = 0;
 		cfg.numPointLights = settings.pointLights.value;
-		cfg.numDirectionalLights = 3;
+		cfg.numDirectionalLights = 1;
 		
 		cfg.fragmentShader = Gdx.files.classpath("net/mgsx/dl9/shaders/gdx-pbr.fs.glsl").readString();
 		
