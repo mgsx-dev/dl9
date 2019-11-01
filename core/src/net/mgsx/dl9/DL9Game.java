@@ -31,6 +31,8 @@ public class DL9Game extends Game {
 	
 	public GameLevel lastLevel;
 
+	private boolean hidden = false;
+
 	public static DL9Game i() {
 		return (DL9Game)Gdx.app.getApplicationListener();
 	}
@@ -63,7 +65,22 @@ public class DL9Game extends Game {
 	}
 	
 	@Override
+	public void pause() {
+		super.pause();
+		hidden = true;
+	}
+	
+	@Override
+	public void resume() {
+		super.resume();
+		hidden = false;
+	}
+	
+	@Override
 	public void render() {
+		
+		if(hidden) return;
+		
 		if(GameConfig.LOGGING){
 			LogUtils.update();
 		}

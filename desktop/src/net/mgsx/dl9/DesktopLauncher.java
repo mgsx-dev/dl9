@@ -13,6 +13,7 @@ public class DesktopLauncher {
 		config.fullscreen = GameConfig.DEFAULT_FULLSCREEN && GameConfig.ALLOW_FULLSCREEN;
 		config.vSyncEnabled = GameConfig.STARTUP_USE_VSYNC;
 		config.foregroundFPS = GameConfig.STARTUP_FORCE_VSYNC ? 60 : 0;
+		config.pauseWhenBackground = config.pauseWhenMinimized = true;
 		new LwjglApplication(new DL9Game(){
 			@Override
 			public void create() {
