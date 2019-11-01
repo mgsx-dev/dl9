@@ -16,7 +16,8 @@ import net.mgsx.gltf.data.scene.GLTFNode;
 
 public class HousePhase extends BaseActionPhase {
 
-
+	private static final Quaternion rotateX180 = new Quaternion(Vector3.X, 180);
+	
 	private static class WindowSpawn {
 		public Node left, right;
 		private float time;
@@ -77,9 +78,6 @@ public class HousePhase extends BaseActionPhase {
 			}
 			
 			set(ctrl);
-			
-//			left.rotation.setFromAxis(Vector3.Y, MathUtils.lerp(180, 360, ctrl) );
-//			right.rotation.setFromAxis(Vector3.Y, MathUtils.lerp(0, 180, 1.f - ctrl) ).mul(new Quaternion().set(Vector3.X, 180));
 		}
 		public void toggle() {
 			if(closed) open(); else close();
@@ -98,7 +96,7 @@ public class HousePhase extends BaseActionPhase {
 
 		private void set(float ctrl){
 			left.rotation.setFromAxis(Vector3.Y, MathUtils.lerp(180, 360, ctrl) );
-			right.rotation.setFromAxis(Vector3.Y, MathUtils.lerp(0, 180, 1.f - ctrl) ).mul(new Quaternion().set(Vector3.X, 180));
+			right.rotation.setFromAxis(Vector3.Y, MathUtils.lerp(0, 180, 1.f - ctrl) ).mul(rotateX180);
 		}
 	}
 	

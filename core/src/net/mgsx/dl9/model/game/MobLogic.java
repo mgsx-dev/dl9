@@ -9,6 +9,9 @@ import net.mgsx.dl9.audio.GameAudio;
 
 public abstract class MobLogic {
 
+	protected static final Quaternion q = new Quaternion();
+	protected static final Vector2 vec2 = new Vector2();
+	
 	public abstract void update(GameLevel level, GameMob mob, float delta);
 
 	public void onShooted(GameLevel level, GameMob mob) {
@@ -26,20 +29,20 @@ public abstract class MobLogic {
 	protected void lootAtCam(GameLevel level, GameMob mob){
 		// orientation to camera
 		float deltaLook = .5f;
-		float angle = new Vector2(
+		float angle = vec2.set(
 				level.camera.position.x + level.camera.direction.x * deltaLook - mob.position.x, 
 				level.camera.position.z + level.camera.direction.z * deltaLook - mob.position.z).nor().angle();
 		
-		mob.node.rotation.idt().mul(new Quaternion().setFromAxis(Vector3.Y, -angle + 180));
+		mob.node.rotation.idt().mul(q.setFromAxis(Vector3.Y, -angle + 180));
 	}
 	protected void lootAtCamPumkin(GameLevel level, GameMob mob){
 		// orientation to camera
 		float deltaLook = .5f;
-		float angle = new Vector2(
+		float angle = vec2.set(
 				level.camera.position.x + level.camera.direction.x * deltaLook - mob.position.x, 
 				level.camera.position.z + level.camera.direction.z * deltaLook - mob.position.z).nor().angle();
 		
-		mob.node.rotation.idt().mul(new Quaternion().setFromAxis(Vector3.Y, -angle + 90));
+		mob.node.rotation.idt().mul(q.setFromAxis(Vector3.Y, -angle + 90));
 	}
 
 }

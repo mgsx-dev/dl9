@@ -4,6 +4,8 @@ public class GameConfig {
 	
 	// MASTER CONST
 	public static final boolean DEV_MODE = false;
+	public static final boolean PROFILE_MODE = false;
+	
 	
 	// Const.
 	public static final String GAME_TITLE = "LENDIGASTEL";
@@ -68,7 +70,7 @@ public class GameConfig {
 	public static boolean MANUAL_LIGHT_CULLING = true;
 	
 	// LOGS
-	public static boolean LOGGING = DEV_MODE;
+	public static boolean LOGGING = DEV_MODE && !PROFILE_MODE;
 	public static boolean LOG_SHADERS = true;
 
 	// Startup options (configurable later)

@@ -34,18 +34,6 @@ public class MobHorizontal extends MobBase
 		
 		mob.node.translation.set(mob.position);
 		
-		/*
-		mob.node.rotation.idt();
-		
-		// orientation to camera
-		float deltaLook = .5f;
-		float angle = new Vector2(
-				level.camera.position.x + level.camera.direction.x * deltaLook - mob.position.x, 
-				level.camera.position.z + level.camera.direction.z * deltaLook - mob.position.z).nor().angle();
-		
-		mob.node.rotation.mul(new Quaternion().setFromAxis(Vector3.Y, -angle + 180));
-		*/
-		
 		lootAtCam(level, mob);
 		
 		mob.node.calculateLocalTransform();

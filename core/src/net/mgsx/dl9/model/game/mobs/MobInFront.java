@@ -1,8 +1,8 @@
 package net.mgsx.dl9.model.game.mobs;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Quaternion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import net.mgsx.dl9.assets.GameAssets;
@@ -16,6 +16,10 @@ public class MobInFront extends MobBase
 	
 	public float attackTimeout = 2f;
 	private float attackTime = 1f; // first attack happens sooner
+	
+	private static final Quaternion rotateY90 = new Quaternion(Vector3.Y, 90);
+	private static final Matrix4 m = new Matrix4();
+	
 	
 	@Override
 	public void update(GameLevel level, GameMob mob, float delta) {
@@ -37,18 +41,12 @@ public class MobInFront extends MobBase
 		}
 		
 		// orientation to camera
-		float deltaLook = .5f;
-		float angle = new Vector2(
-				level.camera.position.x + level.camera.direction.x * deltaLook - mob.position.x, 
-				level.camera.position.z + level.camera.direction.z * deltaLook - mob.position.z).nor().angle();
 		
+		m.set(level.camera.view).inv().getRotation(q);
 		
-		// TODO this mob should have origin at head center
+		mob.node.rotation.mul(q).mul(rotateY90);
 		
-		// mob.node.rotation.mul(new Quaternion().setFromAxis(Vector3.Y, angle));
-		
-		mob.node.rotation.mul(level.camera.view.cpy().inv().getRotation(new Quaternion())).mul(new Quaternion(Vector3.Y, 90));
-		
+		// TODO necessary ?
 		mob.node.calculateLocalTransform();
 		mob.node.calculateWorldTransform();
 		
