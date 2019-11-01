@@ -9,6 +9,7 @@ import net.mgsx.dl9.DL9Game;
 import net.mgsx.dl9.GameConfig;
 import net.mgsx.dl9.assets.GameAssets;
 import net.mgsx.dl9.audio.GameAudio;
+import net.mgsx.dl9.ui.SettingsPOC;
 import net.mgsx.dl9.utils.FullscreenUtils;
 
 // TODO maybe use it as a pre intro (intro played only once!
@@ -61,6 +62,10 @@ public class IntroScreen extends BaseScreen
 				FullscreenUtils.toggle();
 			}
 		});
+		
+		// XXX for testing
+		stage.clear();
+		stage.addActor(new SettingsPOC(stage, skin));
 	}
 	
 	@Override

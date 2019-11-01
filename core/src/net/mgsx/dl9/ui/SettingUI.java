@@ -1,37 +1,46 @@
 package net.mgsx.dl9.ui;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.payne.games.piemenu.PieMenu;
 import com.payne.games.piemenu.PieMenu.PieMenuStyle;
 
-import space.earlygrey.shapedrawer.ShapeDrawer;
+import net.mgsx.dl9.DL9Game;
+import net.mgsx.dl9.audio.GameAudio;
+import net.mgsx.dl9.model.settings.Setting;
 
 public class SettingUI extends Table
 {
 	private PieMenu menu;
 
-	public SettingUI(Batch batch, String title, Skin skin) {
+	public SettingUI(Batch batch, String title, final Setting setting, float fontScale, Skin skin, PieMenuStyle style, float radius) {
 		super(skin);
 		add(title).expandX().row();
 		
-		PieMenuStyle style = new PieMenuStyle();
-		style.backgroundColor = Color.BROWN;
-		style.selectedChildRegionColor = Color.ORANGE;
-		style.hoveredChildRegionColor = style.backgroundColor.cpy().lerp(style.selectedChildRegionColor, .5f);
-		style.hoveredAndSelectedChildRegionColor = style.hoveredChildRegionColor.cpy().lerp(style.selectedChildRegionColor, .5f);
-		style.highlightedChildRegionColor = style.selectedChildRegionColor.cpy().lerp(Color.WHITE, .5f);
-		style.circumferenceColor = Color.BROWN.cpy().lerp(Color.BLACK, .5f);
-		style.circumferenceWidth = 5f;
-		style.separatorColor = style.circumferenceColor;
-		style.separatorWidth = style.circumferenceWidth;
-		
-		menu = new PieMenu(new ShapeDrawer(batch, skin.getRegion("white")), style, 150);
+		menu = new PieMenu(batch, skin.getRegion("white"), style, 150);
 		menu.setInfiniteSelectionRange(false);
-		menu.setInnerRadius(30);
+		menu.setMinRadius(radius);
+		
+		for(String name : setting.values){
+			Label l = new Label(name, skin);
+			menu.addActor(l);
+			l.setFontScale(fontScale);
+		}
+		
+		menu.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				setting.value = menu.getSelectedIndex();
+				DL9Game.i().settings.apply();
+				GameAudio.i.sfxButton();
+			}
+		});
+		
+		menu.setSelectedIndex(setting.value);
 		
 		add(menu).expandX().center().row();
 	}

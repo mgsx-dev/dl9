@@ -37,7 +37,7 @@ import net.mgsx.dl9.model.game.GameLoader;
 import net.mgsx.dl9.model.game.camera.SimpleCameraAnimator;
 import net.mgsx.dl9.model.settings.Settings;
 import net.mgsx.dl9.ui.GameHUD;
-import net.mgsx.dl9.ui.SettingsStatic;
+import net.mgsx.dl9.ui.SettingsUI;
 import net.mgsx.dl9.utils.CustomRenderableSorter;
 import net.mgsx.dl9.utils.LightCulling;
 import net.mgsx.dl9.utils.MeshCulling;
@@ -79,6 +79,8 @@ public class GameScreen extends BaseScreen
 	private PointLight frontLight, churchLight;
 	
 	private final LightCulling lightCulling = new LightCulling();
+	
+	private SettingsUI settingsUI;
 	
 	public GameScreen() {
 		
@@ -183,6 +185,7 @@ public class GameScreen extends BaseScreen
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
 				if(event instanceof GotoMenuEvent){
+					settingsUI = null;
 					showMenu(true);
 				}
 			}
@@ -231,7 +234,7 @@ public class GameScreen extends BaseScreen
 						Actions.touchable(Touchable.disabled),
 						Actions.alpha(0, .2f),
 						Actions.removeActor()));
-				SettingsStatic.create(stage, skin, false);
+				stage.addActor(settingsUI = new SettingsUI(stage, skin, false));
 			}
 		});
 		
@@ -298,8 +301,15 @@ public class GameScreen extends BaseScreen
 		
 		if(GameConfig.DEBUG_SETTINGS){
 			if(Gdx.input.isKeyJustPressed(Input.Keys.Q)){
-				boolean opened = SettingsStatic.create(stage, skin, true);
-				DL9Game.i().setGamePaused(opened);
+				if(settingsUI != null){
+					settingsUI.remove();
+					settingsUI = null;
+					DL9Game.i().setGamePaused(false);
+				}else{
+					settingsUI = new SettingsUI(stage, skin, true);
+					stage.addActor(settingsUI);
+					DL9Game.i().setGamePaused(true);
+				}
 			}
 		}
 		

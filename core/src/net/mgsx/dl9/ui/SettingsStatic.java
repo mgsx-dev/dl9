@@ -16,7 +16,6 @@ import net.mgsx.dl9.DL9Game;
 import net.mgsx.dl9.audio.GameAudio;
 import net.mgsx.dl9.events.GotoMenuEvent;
 import net.mgsx.dl9.model.settings.Setting;
-import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class SettingsStatic {
 
@@ -41,48 +40,55 @@ public class SettingsStatic {
 		
 		PieMenu pieMenu;
 		
+		
 		fontScale = 1f;
 		pieMenu = createMenu(stage, skin, 0, -2, DL9Game.i().settings.difficulty, false, "Difficulty");
-		pieMenu.setX(pieMenu.getX() +  pieMenu.getRadius() );
-		pieMenu.setRadius(pieMenu.getRadius() * 1.2f);
+		float r = pieMenu.getMinRadius();
+		pieMenu.setX(pieMenu.getX() +  r );
+		pieMenu.setMinRadius(r * 1.2f);
 		pieMenu.setTotalDegreesDrawn(360);
 		pieMenu.setStartDegreesOffset(270);
+		applyPosSize(pieMenu);
 		fontScale = 1;
 		
 		// createMenu(stage, skin, 0, -1, DL9Game.i().settings.quality, false, "Quality");
-		createMenu(stage, skin, 0, 0, DL9Game.i().settings.luminosity, true, "Luminosity");
-		
+		pieMenu = createMenu(stage, skin, 0, 0, DL9Game.i().settings.luminosity, true, "Luminosity");
+		applyPosSize(pieMenu);
 		
 		
 		
 		pieMenu = createMenu(stage, skin, 0, 1, DL9Game.i().settings.spookiness, false, "Spookiness");
-		pieMenu.setX(pieMenu.getX() +  pieMenu.getRadius() );
-		lastLabel.setX(lastLabel.getX() +  pieMenu.getRadius() );
+		pieMenu.setX(pieMenu.getX() +  r );
+		lastLabel.setX(lastLabel.getX() +  r );
 		pieMenu.setTotalDegreesDrawn(180);
 		pieMenu.setStartDegreesOffset(0);
-
+		applyPosSize(pieMenu);
 		
 		
 		
 		pieMenu = createMenu(stage, skin, 0, 2, DL9Game.i().settings.shadows, false, "Shadows");
 
-		lastLabel.setX(lastLabel.getX() - 1.5f * pieMenu.getRadius() );
-		lastLabel.setY(lastLabel.getY() - 3f * pieMenu.getRadius() );
-		pieMenu.setX(pieMenu.getX() - 2 * pieMenu.getRadius() );
-		pieMenu.setY(pieMenu.getY() - 4 * pieMenu.getRadius());
-		pieMenu.setRadius(pieMenu.getRadius() * 1.5f);
+		lastLabel.setX(lastLabel.getX() - 1.5f * r );
+		lastLabel.setY(lastLabel.getY() - 3f * r );
+		pieMenu.setX(pieMenu.getX() - 2 * r );
+		pieMenu.setY(pieMenu.getY() - 4 * r);
+		pieMenu.setMinRadius(r * 1.5f);
 		pieMenu.setTotalDegreesDrawn(36 * 9);
 		pieMenu.setStartDegreesOffset(0);
+		applyPosSize(pieMenu);
 		
 		pieMenu = createMenu(stage, skin, 1, -2, DL9Game.i().settings.vsync, false, "VSYNC");
-		pieMenu.setRadius(pieMenu.getRadius() * .8f);
+		pieMenu.setMinRadius(r * .8f);
+		applyPosSize(pieMenu);
+		
 		pieMenu = createMenu(stage, skin, 1, -1, DL9Game.i().settings.vsyncForced, false, "60 FPS");
-		pieMenu.setRadius(pieMenu.getRadius() * .8f);
+		pieMenu.setMinRadius(r * .8f);
+		applyPosSize(pieMenu);
 		
 		pieMenu = createMenu(stage, skin, 1, 0, DL9Game.i().settings.pointLights, true, "Lights");
 		pieMenu.setTotalDegreesDrawn(360);
 		pieMenu.setStartDegreesOffset(0);
-		
+		applyPosSize(pieMenu);
 		
 		
 		
@@ -111,6 +117,12 @@ public class SettingsStatic {
 		return true;
 	}
 	
+	private static void applyPosSize(PieMenu menu){
+		float r = menu.getMinRadius()*5;
+		menu.setSize(r*2, r*2);
+		menu.setPosition(menu.getX() - r, menu.getY() - r);
+	}
+	
 	private static PieMenu createMenu(Stage stage, Skin skin, int row, int id, final Setting setting, boolean halfCircle, String title){
 		
 		float distance = RADIUS * 2 + SPACE;
@@ -122,18 +134,18 @@ public class SettingsStatic {
 		
 		PieMenuStyle style = new PieMenuStyle();
 		style.backgroundColor = Color.BROWN;
-		style.selectedChildRegionColor = Color.ORANGE;
-		style.hoveredChildRegionColor = style.backgroundColor.cpy().lerp(style.selectedChildRegionColor, .5f);
-		style.hoveredAndSelectedChildRegionColor = style.hoveredChildRegionColor.cpy().lerp(style.selectedChildRegionColor, .5f);
-		style.highlightedChildRegionColor = style.selectedChildRegionColor.cpy().lerp(Color.WHITE, .5f);
+		style.selectedColor = Color.ORANGE;
+		style.hoverColor = style.backgroundColor.cpy().lerp(style.selectedColor, .5f);
+		style.hoverSelectedColor = style.hoverColor.cpy().lerp(style.selectedColor, .5f);
+		// XXX style.highlightedChildRegionColor = style.selectedChildRegionColor.cpy().lerp(Color.WHITE, .5f);
 		style.circumferenceColor = Color.BROWN.cpy().lerp(Color.BLACK, .5f);
 		style.circumferenceWidth = 5f;
 		style.separatorColor = style.circumferenceColor;
 		style.separatorWidth = style.circumferenceWidth;
 		
-		final PieMenu menu = new PieMenu(new ShapeDrawer(stage.getBatch(), skin.getRegion("white")), style, RADIUS);
+		final PieMenu menu = new PieMenu(stage.getBatch(), skin.getRegion("white"), style, RADIUS);
 		menu.setInfiniteSelectionRange(false);
-		menu.setInnerRadius(30);
+		menu.setMinRadius(30);
 		menu.setTotalDegreesDrawn(halfCircle ? 300 : 360);
 		menu.setStartDegreesOffset(halfCircle ? 300 : 0);
 		

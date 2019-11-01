@@ -29,7 +29,7 @@ allprojects {
         aiVersion = '1.8.0'
         junitVersion = '4.12'
         gltfVersion = '20d210aaf1' // 'master-SNAPSHOT'
-        pieMenuVersion = '3.0.0-rc1'
+        pieMenuVersion = '3.0.0'
         shapedrawerVersion = '2.0.1'
     }
 
