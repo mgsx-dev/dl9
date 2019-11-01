@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.utils.Collections;
 
 import net.mgsx.dl9.assets.GameAssets;
 import net.mgsx.dl9.audio.GameAudio;

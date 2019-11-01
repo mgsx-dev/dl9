@@ -4,7 +4,7 @@ canvas {
 }
 
 body {
-    background-color: #222222;
+    background-color: #2d2d2d;
     margin: 0px;
     overflow: hidden;
 }
@@ -42,4 +42,17 @@ body {
 
 .superdev:hover {
     background-color: rgb(100,100,100);
+}
+
+
+.gdx-meter {
+	margin-left: 0px;
+	background: #000 !important;
+}
+
+.gdx-meter.red > span {
+	background-color: #f70 !important;
+	background-image: -moz-linear-gradient(top, #f70, #f70) !important;
+	background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #f70),color-stop(1, #f70)) !important;
+	background-image: -webkit-linear-gradient(#f70, #f70) !important;
 }
