@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -214,6 +215,7 @@ public class GameScreen extends BaseScreen
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
 				menu.addAction(Actions.sequence(
+						Actions.touchable(Touchable.disabled),
 						Actions.alpha(0, 1),
 						Actions.removeActor()
 						));
@@ -226,6 +228,7 @@ public class GameScreen extends BaseScreen
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
 				menu.addAction(Actions.sequence(
+						Actions.touchable(Touchable.disabled),
 						Actions.alpha(0, .2f),
 						Actions.removeActor()));
 				SettingsStatic.create(stage, skin, false);
