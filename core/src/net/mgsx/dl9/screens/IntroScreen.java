@@ -1,5 +1,7 @@
 package net.mgsx.dl9.screens;
 
+import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -25,7 +27,7 @@ public class IntroScreen extends BaseScreen
 		float sep = 30;
 		
 		
-
+		boolean fullScreenOption = Gdx.app.getType() != ApplicationType.WebGL;
 		
 		root.add("For a better experience").row();
 		root.add("- Switch to Fullscreen -").row();
@@ -34,9 +36,10 @@ public class IntroScreen extends BaseScreen
 		root.add("- Lean back and enjoy -").row();
 		root.add().height(sep).row();
 
-		
-		root.add(btFullscreen = new TextButton("Toggle Fullscreen (f11 or alt+enter)", skin)).row();;
-		root.add().height(sep * 3).row();
+		if(fullScreenOption){
+			root.add(btFullscreen = new TextButton("Toggle Fullscreen (f11 or alt+enter)", skin)).row();;
+			root.add().height(sep * 3).row();
+		}
 
 		root.add("Warning, this game may kill you").row();
 		root.add().height(sep).row();
@@ -55,12 +58,14 @@ public class IntroScreen extends BaseScreen
 			}
 		});
 		
-		btFullscreen.addListener(new ChangeListener() {
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				FullscreenUtils.toggle();
-			}
-		});
+		if(fullScreenOption){
+			btFullscreen.addListener(new ChangeListener() {
+				@Override
+				public void changed(ChangeEvent event, Actor actor) {
+					FullscreenUtils.toggle();
+				}
+			});
+		}
 	}
 	
 	@Override
