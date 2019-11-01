@@ -96,11 +96,11 @@ public class SettingsStatic {
 		bt.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
+				for(Actor a : actors){
+					stage.getRoot().removeActor(a);
+				}
+				actors.clear();
 				if(inGame){
-					for(Actor a : actors){
-						stage.getRoot().removeActor(a);
-					}
-					actors.clear();
 					DL9Game.i().setGamePaused(false);
 				}else{
 					event.getStage().getRoot().fire(new GotoMenuEvent());
