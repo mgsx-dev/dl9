@@ -222,15 +222,15 @@ public class GameLevel implements Disposable {
 	
 	public void setActionPhase() {
 		actionPhase = true;
-		for(GameListener l : listeners){
-			l.onActionPhase();
+		for(int i=0 ; i<listeners.size ; i++){
+			listeners.get(i).onActionPhase();
 		}
 	}
 	
 	public void setCinematicPhase() {
 		actionPhase = false;
-		for(GameListener l : listeners){
-			l.onCinematicPhase();
+		for(int i=0 ; i<listeners.size ; i++){
+			listeners.get(i).onCinematicPhase();
 		}
 	}
 	
@@ -304,9 +304,10 @@ public class GameLevel implements Disposable {
 	void shootAt(int x, int y) {
 		if(bullets > 0){
 			bullets--;
-			for(GameListener l : listeners){
-				l.onBulletChanged();
+			for(int i=0 ; i<listeners.size ; i++){
+				listeners.get(i).onBulletChanged();
 			}
+
 			checkCollision();
 			
 			nbBulletUsed++;
@@ -315,8 +316,8 @@ public class GameLevel implements Disposable {
 
 	void reload() {
 		bullets = GameConfig.MAX_BULLETS;
-		for(GameListener l : listeners){
-			l.onBulletChanged();
+		for(int i=0 ; i<listeners.size ; i++){
+			listeners.get(i).onBulletChanged();
 		}
 	}
 	
@@ -385,10 +386,9 @@ public class GameLevel implements Disposable {
 			}
 		}
 		
-		for(GameListener l : listeners){
-			l.onMobShoot(p);
+		for(int i=0 ; i<listeners.size ; i++){
+			listeners.get(i).onMobShoot(p);
 		}
-		
 		
 		if(heroLife <= 0){
 			setDead();
@@ -399,16 +399,16 @@ public class GameLevel implements Disposable {
 		heroLife = 0;
 		sequencer.clear();
 		setCinematicPhase();
-		for(GameListener l : listeners){
-			l.onHeroDead();
+		for(int i=0 ; i<listeners.size ; i++){
+			listeners.get(i).onHeroDead();
 		}
 	}
 	
 	public void setWin() {
 		sequencer.clear();
 		setCinematicPhase();
-		for(GameListener l : listeners){
-			l.onHeroWin();
+		for(int i=0 ; i<listeners.size ; i++){
+			listeners.get(i).onHeroWin();
 		}
 	}
 
@@ -417,8 +417,8 @@ public class GameLevel implements Disposable {
 	}
 
 	public void triggerMenu() {
-		for(GameListener l : listeners){
-			l.onMenuShow();
+		for(int i=0 ; i<listeners.size ; i++){
+			listeners.get(i).onMenuShow();
 		}
 	}
 

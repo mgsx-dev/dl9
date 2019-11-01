@@ -41,7 +41,6 @@ public class DL9Game extends Game {
 		
 		int create = Perf.start("create");
 		
-		Collections.allocateIterators = true;
 		stats = new Stats();
 		
 		GameAssets.i = new GameAssets();
